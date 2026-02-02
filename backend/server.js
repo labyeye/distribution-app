@@ -17,6 +17,8 @@ const advanceRoutes = require("./routes/advanceRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
 const deliveryRoutes = require("./routes/deliveryRoutes");
 const retailerDashboardRoutes = require("./routes/retailerDashboardRoutes");
+const moduleRoutes = require("./routes/moduleRoutes");
+const recordRoutes = require("./routes/recordRoutes");
 
 const app = express();
 app.use(cors());
@@ -46,6 +48,8 @@ app.use("/api/advances", advanceRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/deliveries", deliveryRoutes);
 app.use("/api/retailer", retailerDashboardRoutes);
+app.use("/api/modules", moduleRoutes);
+app.use("/api/records", recordRoutes);
 const PORT = 2500;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 // Set the timezone for the entire application
