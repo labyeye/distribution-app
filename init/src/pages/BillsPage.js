@@ -17,8 +17,16 @@ const BillsPage = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [selectedBill, setSelectedBill] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    billNumber: "",
+    retailer: "",
+    amount: "",
+    dueAmount: "",
+    billDate: "",
+    collectionDay: "",
+    status: "",
+  });  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,12 +70,80 @@ const BillsPage = () => {
     setIsModalOpen(true);
   };
   const handleEditBill = (bill) => {
-    console.log("Edit bill", bill);
+    setSelectedBill(bill);
+    setEditFormData({
+      billNumber: bill.billNumber,
+      retailer: bill.retailer,
+      amount: bill.amount,
+      dueAmount: bill.dueAmount,
+      billDate: bill.billDate ? new Date(bill.billDate).toISOString().split('T')[0] : '',
+      collectionDay: bill.collectionDay || '',
+      status: bill.status,
+    });
+    setIsEditModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedBill(null);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedBill(null);
+    setEditFormData({
+      billNumber: "",
+      retailer: "",
+      amount: "",
+      dueAmount: "",
+      billDate: "",
+      collectionDay: "",
+      status: "",
+    });
+  };
+
+  const handleEditFormChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleUpdateBill = async (e) => {
+    e.preventDefault();
+    
+    if (!selectedBill) return;
+
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:2500/api/bills/${selectedBill._id}`,
+        editFormData,
+        { 
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          } 
+        }
+      );
+
+      setBills((prevBills) =>
+        prevBills.map((bill) =>
+          bill._id === selectedBill._id ? response.data : bill
+        )
+      );
+
+      setMessage("Bill successfully updated");
+      setTimeout(() => setMessage(""), 5000);
+      closeEditModal();
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to update bill. Please try again.");
+      setTimeout(() => setError(""), 5000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAssignStaff = async (e) => {
@@ -247,6 +323,113 @@ const BillsPage = () => {
                     <ButtonGroup>
                       <PrimaryButton type="submit">Assign Staff</PrimaryButton>
                       <SecondaryButton type="button" onClick={closeModal}>
+                        Cancel
+                      </SecondaryButton>
+                    </ButtonGroup>
+                  </Form>
+                </ModalContent>
+              </ModalOverlay>
+            )}
+
+            {/* Modal for Editing Bill */}
+            {isEditModalOpen && selectedBill && (
+              <ModalOverlay>
+                <ModalContent>
+                  <ModalHeader>
+                    <h3>Edit Bill #{selectedBill.billNumber}</h3>
+                    <CloseButton onClick={closeEditModal}>×</CloseButton>
+                  </ModalHeader>
+                  <Form onSubmit={handleUpdateBill}>
+                    <FormGrid>
+                      <FormGroup>
+                        <label>Bill Number</label>
+                        <Input
+                          type="text"
+                          name="billNumber"
+                          value={editFormData.billNumber}
+                          onChange={handleEditFormChange}
+                          required
+                        />
+                      </FormGroup>
+                      <FormGroup>
+                        <label>Retailer</label>
+                        <Input
+                          type="text"
+                          name="retailer"
+                          value={editFormData.retailer}
+                          onChange={handleEditFormChange}
+                          required
+                        />
+                      </FormGroup>
+                      <FormGroup>
+                        <label>Total Amount</label>
+                        <Input
+                          type="number"
+                          step="0.01"
+                          name="amount"
+                          value={editFormData.amount}
+                          onChange={handleEditFormChange}
+                          required
+                        />
+                      </FormGroup>
+                      <FormGroup>
+                        <label>Due Amount</label>
+                        <Input
+                          type="number"
+                          step="0.01"
+                          name="dueAmount"
+                          value={editFormData.dueAmount}
+                          onChange={handleEditFormChange}
+                          required
+                        />
+                      </FormGroup>
+                      <FormGroup>
+                        <label>Bill Date</label>
+                        <Input
+                          type="date"
+                          name="billDate"
+                          value={editFormData.billDate}
+                          onChange={handleEditFormChange}
+                          required
+                        />
+                      </FormGroup>
+                      <FormGroup>
+                        <label>Collection Day</label>
+                        <Select
+                          name="collectionDay"
+                          value={editFormData.collectionDay}
+                          onChange={handleEditFormChange}
+                          required
+                        >
+                          <option value="">Select Day</option>
+                          <option value="Monday">Monday</option>
+                          <option value="Tuesday">Tuesday</option>
+                          <option value="Wednesday">Wednesday</option>
+                          <option value="Thursday">Thursday</option>
+                          <option value="Friday">Friday</option>
+                          <option value="Saturday">Saturday</option>
+                          <option value="Sunday">Sunday</option>
+                        </Select>
+                      </FormGroup>
+                      <FormGroup>
+                        <label>Status</label>
+                        <Select
+                          name="status"
+                          value={editFormData.status}
+                          onChange={handleEditFormChange}
+                          required
+                        >
+                          <option value="Unpaid">Unpaid</option>
+                          <option value="Paid">Paid</option>
+                          <option value="Partially Paid">Partially Paid</option>
+                        </Select>
+                      </FormGroup>
+                    </FormGrid>
+                    <ButtonGroup>
+                      <PrimaryButton type="submit" disabled={loading}>
+                        {loading ? "Updating..." : "Update Bill"}
+                      </PrimaryButton>
+                      <SecondaryButton type="button" onClick={closeEditModal}>
                         Cancel
                       </SecondaryButton>
                     </ButtonGroup>
@@ -533,7 +716,9 @@ const ModalContent = styled.div`
   background: white;
   border-radius: 0.5rem;
   width: 100%;
-  max-width: 500px;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 `;
 
@@ -598,6 +783,36 @@ const FormGroup = styled.div`
 
   @media (min-width: 768px) {
     margin-bottom: 1.5rem;
+  }
+`;
+
+const FormGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+  }
+
+  @media (min-width: 768px) {
+    padding: 0.75rem;
+    font-size: 1rem;
   }
 `;
 

@@ -10,8 +10,8 @@ const BillsAdd = () => {
     retailer: "",
     amount: "",
     dueAmount: "",
-    dueDate: "",
     billDate: "",
+    collectionDay: "",
     status: "Unpaid",
   });
   const [loading, setLoading] = useState(false);
@@ -160,7 +160,6 @@ const BillsAdd = () => {
     if (!manualBill.dueAmount) errors.dueAmount = "Due amount is required";
     if (manualBill.dueAmount && isNaN(parseFloat(manualBill.dueAmount)))
       errors.dueAmount = "Due amount must be a number";
-    if (!manualBill.dueDate) errors.dueDate = "Due date is required";
     if (!manualBill.billDate) errors.billDate = "Bill date is required";
 
     setFieldErrors(errors);
@@ -255,17 +254,37 @@ const BillsAdd = () => {
         retailer: "",
         amount: "",
         dueAmount: "",
-        dueDate: "",
         billDate: "",
+        collectionDay: "",
         status: "Unpaid",
       });
+      setFieldErrors({});
     } catch (error) {
       console.error("Error adding bill:", error);
 
       if (error.response) {
-        if (error.response.data && error.response.data.errors) {
-          const backendErrors = error.response.data.errors;
-          setError(`Failed to add bill: ${backendErrors.join(", ")}`);
+        // Backend validation errors
+        if (error.response.data && error.response.data.error) {
+          const errorMsg = error.response.data.error;
+          
+          // Parse mongoose validation errors
+          if (errorMsg.includes("validation failed")) {
+            const validationErrors = {};
+            if (errorMsg.includes("billNumber")) validationErrors.billNumber = "Bill number is required";
+            if (errorMsg.includes("retailer")) validationErrors.retailer = "Retailer name is required";
+            if (errorMsg.includes("amount")) validationErrors.amount = "Amount is required";
+            if (errorMsg.includes("dueAmount")) validationErrors.dueAmount = "Due amount is required";
+            if (errorMsg.includes("billDate")) validationErrors.billDate = "Bill date is required";
+            if (errorMsg.includes("collectionDay")) validationErrors.collectionDay = "Collection day is required";
+            
+            setFieldErrors(validationErrors);
+            setError("Please fill in all required fields correctly.");
+          } else if (errorMsg.includes("duplicate") || errorMsg.includes("E11000")) {
+            setFieldErrors({ billNumber: "This bill number already exists" });
+            setError("Bill number already exists. Please use a different bill number.");
+          } else {
+            setError(`Failed to add bill: ${errorMsg}`);
+          }
         } else if (error.response.data && error.response.data.message) {
           setError(`Failed to add bill: ${error.response.data.message}`);
         } else {
@@ -302,7 +321,7 @@ const BillsAdd = () => {
               placeholder="Enter bill number"
               value={manualBill.billNumber}
               onChange={handleManualInputChange}
-              hasError={!!fieldErrors.billNumber}
+              $hasError={!!fieldErrors.billNumber}
             />
             {fieldErrors.billNumber && (
               <ErrorText>{fieldErrors.billNumber}</ErrorText>
@@ -318,7 +337,7 @@ const BillsAdd = () => {
               placeholder="Enter retailer name"
               value={manualBill.retailer}
               onChange={handleManualInputChange}
-              hasError={!!fieldErrors.retailer}
+              $hasError={!!fieldErrors.retailer}
             />
             {fieldErrors.retailer && (
               <ErrorText>{fieldErrors.retailer}</ErrorText>
@@ -335,7 +354,7 @@ const BillsAdd = () => {
               placeholder="0.00"
               value={manualBill.amount}
               onChange={handleManualInputChange}
-              hasError={!!fieldErrors.amount}
+              $hasError={!!fieldErrors.amount}
             />
             {fieldErrors.amount && <ErrorText>{fieldErrors.amount}</ErrorText>}
           </FormGroup>
@@ -347,7 +366,7 @@ const BillsAdd = () => {
               name="collectionDay"
               value={manualBill.collectionDay}
               onChange={handleManualInputChange}
-              hasError={!!fieldErrors.collectionDay}
+              $hasError={!!fieldErrors.collectionDay}
             >
               <option value="">Select Day</option>
               <option value="Monday">Monday</option>
@@ -373,25 +392,10 @@ const BillsAdd = () => {
               placeholder="0.00"
               value={manualBill.dueAmount}
               onChange={handleManualInputChange}
-              hasError={!!fieldErrors.dueAmount}
+              $hasError={!!fieldErrors.dueAmount}
             />
             {fieldErrors.dueAmount && (
               <ErrorText>{fieldErrors.dueAmount}</ErrorText>
-            )}
-          </FormGroup>
-
-          <FormGroup>
-            <Label htmlFor="dueDate">Due Date</Label>
-            <Input
-              id="dueDate"
-              type="date"
-              name="dueDate"
-              value={manualBill.dueDate}
-              onChange={handleManualInputChange}
-              hasError={!!fieldErrors.dueDate}
-            />
-            {fieldErrors.dueDate && (
-              <ErrorText>{fieldErrors.dueDate}</ErrorText>
             )}
           </FormGroup>
 
@@ -403,7 +407,7 @@ const BillsAdd = () => {
               name="billDate"
               value={manualBill.billDate}
               onChange={handleManualInputChange}
-              hasError={!!fieldErrors.billDate}
+              $hasError={!!fieldErrors.billDate}
             />
             {fieldErrors.billDate && (
               <ErrorText>{fieldErrors.billDate}</ErrorText>
@@ -426,23 +430,13 @@ const BillsAdd = () => {
         </FormGrid>
 
         <ButtonContainer>
-          <Button type="submit" disabled={loading || !file}>
-            {loading
-              ? importProgress.total > 0
-                ? `Importing ${importProgress.current} of ${importProgress.total} rows`
-                : "Processing..."
-              : "Upload Bills"}
+          <Button type="submit" disabled={loading}>
+            {loading ? "Adding Bill..." : "Add Bill"}
           </Button>
-          {loading && importProgress.total > 0 && (
-            <ProgressBar>
-              <ProgressFill
-                width={`${
-                  (importProgress.current / importProgress.total) * 100
-                }%`}
-              />
-            </ProgressBar>
-          )}
         </ButtonContainer>
+
+        {message && <SuccessMessage>{message}</SuccessMessage>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
       </FormContainer>
 
       {/* Excel File Upload Form */}
@@ -591,7 +585,7 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   padding: 0.625rem 0.75rem;
-  border: 1px solid ${(props) => (props.hasError ? "#e74c3c" : "#ddd")};
+  border: 1px solid ${(props) => (props.$hasError ? "#e74c3c" : "#ddd")};
   border-radius: 0.375rem;
   font-size: 0.875rem;
   transition: all 0.2s ease;
@@ -612,7 +606,7 @@ const Input = styled.input`
 const Select = styled.select`
   width: 100%;
   padding: 0.625rem 0.75rem;
-  border: 1px solid ${(props) => (props.hasError ? "#e74c3c" : "#ddd")};
+  border: 1px solid ${(props) => (props.$hasError ? "#e74c3c" : "#ddd")};
   border-radius: 0.375rem;
   font-size: 0.875rem;
   background-color: white;

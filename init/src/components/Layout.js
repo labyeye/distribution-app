@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
     <Container>
       <Sidebar>
         <LogoContainer>
-          <h2>Laxmi Lube Privated Limited (Admin Panel)</h2>
+          <h2>Distribution CRM</h2>
         </LogoContainer>
         <NavMenu>
           {/* Dashboard */}
@@ -295,7 +295,7 @@ const CategoryHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #6e707e;
+  color: #547792;
   font-weight: 500;
   font-size: 0.95rem;
   transition: all 0.3s ease;
@@ -303,11 +303,12 @@ const CategoryHeader = styled.div`
   margin: 0 3px;
 
   &:hover {
-    background-color: rgba(78, 115, 223, 0.1);
-    color: #4e73df;
+    background: rgba(26, 50, 99, 0.6);
+    color: #FAB95B;
+    transform: translateX(5px);
 
     svg {
-      color: #4e73df;
+      color: #FAB95B;
     }
   }
 
@@ -327,8 +328,9 @@ const CategoryIcon = styled.div`
 
   svg {
     font-size: 1rem;
-    color: #6e707e;
+    color: #547792;
     flex-shrink: 0;
+    transition: all 0.3s ease;
   }
 `;
 
@@ -339,7 +341,8 @@ const ChevronIcon = styled.div`
 
   svg {
     font-size: 0.75rem;
-    color: #6e707e;
+    color: #547792;
+    transition: all 0.3s ease;
   }
 
   @media (max-width: 768px) {
@@ -350,8 +353,10 @@ const ChevronIcon = styled.div`
 const DropdownMenu = styled.div`
   max-height: ${(props) => (props.isOpen ? "500px" : "0")};
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   padding-left: 15px;
+  opacity: ${(props) => (props.isOpen ? "1" : "0")};
+  transform: translateY(${(props) => (props.isOpen ? "0" : "-10px")});
 
   @media (max-width: 768px) {
     padding-left: 0;
@@ -362,16 +367,19 @@ const DropdownMenu = styled.div`
 const Container = styled.div`
   display: flex;
   min-height: 100vh;
+  background: linear-gradient(135deg, #1A3263 0%, #0F1B3D 100%);
+  background-attachment: fixed;
 `;
 
 const Sidebar = styled.div`
   width: 280px;
-  background-color: #fff;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+  background: #0F1B3D;
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   z-index: 10;
   transition: all 0.3s ease;
+  border-right: 1px solid rgba(84, 119, 146, 0.2);
 
   @media (max-width: 768px) {
     width: 80px;
@@ -384,19 +392,33 @@ const Sidebar = styled.div`
 
 const LogoContainer = styled.div`
   padding: 25px 20px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid rgba(84, 119, 146, 0.2);
   text-align: center;
+  background: rgba(26, 50, 99, 0.3);
 
   h2 {
-    color: #4e73df;
+    color: #E8E2DB;
     margin: 0;
     font-size: 1.5rem;
     font-weight: 700;
+    text-shadow: 0 2px 10px rgba(250, 185, 91, 0.2);
+    animation: fadeIn 0.6s ease;
   }
 
   @media (max-width: 768px) {
     h2 {
       display: none;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 `;
@@ -406,6 +428,25 @@ const NavMenu = styled.ul`
   padding: 20px 0;
   margin: 0;
   flex-grow: 1;
+  overflow-y: auto;
+
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(84, 119, 146, 0.3);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(250, 185, 91, 0.5);
+  }
 `;
 
 const NavItem = styled.li`
@@ -413,19 +454,22 @@ const NavItem = styled.li`
   padding: 12px 25px;
   display: flex;
   align-items: center;
-  color: #6e707e;
+  color: ${(props) => (props.active ? "#FAB95B" : "#547792")};
   cursor: pointer;
   transition: all 0.3s ease;
-  border-left: 3px solid transparent;
-  border-left-color: ${(props) => (props.active ? "#4e73df" : "transparent")};
-  background-color: ${(props) =>
-    props.active ? "rgba(78, 115, 223, 0.05)" : "transparent"};
+  border-left: 4px solid ${(props) => (props.active ? "#FAB95B" : "transparent")};
+  background: ${(props) =>
+    props.active
+      ? "rgba(26, 50, 99, 0.8)"
+      : "transparent"};
+  margin: 2px 0;
 
   svg {
     margin-right: 15px;
     font-size: 1rem;
-    color: ${(props) => (props.active ? "#4e73df" : "#6e707e")};
+    color: ${(props) => (props.active ? "#FAB95B" : "#547792")};
     flex-shrink: 0;
+    transition: all 0.3s ease;
   }
 
   span {
@@ -448,11 +492,39 @@ const NavItem = styled.li`
   }
 
   &:hover {
-    background-color: rgba(78, 115, 223, 0.1);
-    color: #4e73df;
+    background: rgba(26, 50, 99, 0.6);
+    color: #FAB95B;
+    transform: translateX(5px);
 
     svg {
-      color: #4e73df;
+      color: #FAB95B;
+      transform: scale(1.1);
+    }
+
+    span {
+      color: #FAB95B;
+    }
+  }
+
+  /* Ripple effect on click */
+  &:active::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(250, 185, 91, 0.3);
+    transform: translate(-50%, -50%);
+    animation: ripple 0.6s ease-out;
+  }
+
+  @keyframes ripple {
+    to {
+      width: 300px;
+      height: 300px;
+      opacity: 0;
     }
   }
 `;
@@ -461,14 +533,28 @@ const UserProfile = styled.div`
   display: flex;
   align-items: center;
   padding: 20px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid rgba(84, 119, 146, 0.2);
   margin-top: auto;
+  background: rgba(26, 50, 99, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(26, 50, 99, 0.5);
+  }
 
   img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 12px;
+    border: 2px solid #FAB95B;
+    box-shadow: 0 0 15px rgba(250, 185, 91, 0.3);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(250, 185, 91, 0.5);
+    }
   }
 
   div {
@@ -481,20 +567,40 @@ const UserProfile = styled.div`
 const UserName = styled.div`
   font-weight: 600;
   font-size: 0.9rem;
-  color: #2e3a59;
+  color: #E8E2DB;
 `;
 
 const UserRole = styled.div`
   font-size: 0.75rem;
-  color: #6e707e;
+  color: #547792;
   margin-top: 2px;
 `;
 
 const MainContent = styled.div`
   flex: 1;
-  background-color: #f8f9fc;
+  background: linear-gradient(135deg, rgba(26, 50, 99, 0.3) 0%, rgba(15, 27, 61, 0.3) 100%);
   padding: 30px;
   overflow-x: hidden;
+  position: relative;
+
+  /* Radial gradient overlay */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(250, 185, 91, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* All children above overlay */
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 
   @media (max-width: 768px) {
     padding: 20px;

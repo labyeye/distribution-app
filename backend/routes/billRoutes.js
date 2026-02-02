@@ -40,20 +40,54 @@ router.post("/", protect, adminOnly, async (req, res) => {
       collectionDay,
     } = req.body;
 
+    // Validate required fields
+    if (!billNumber || !retailer || !amount || !billDate || !collectionDay) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Missing required fields", 
+        error: "Bill number, retailer, amount, bill date, and collection day are required" 
+      });
+    }
+
     const newBill = new Bill({
       billNumber,
       retailer,
-      amount,
-      dueAmount: dueAmount || amount,
+      amount: parseFloat(amount),
+      dueAmount: dueAmount ? parseFloat(dueAmount) : parseFloat(amount),
       billDate,
       collectionDay,
       status: status || "Unpaid",
     });
 
     await newBill.save();
-    res.status(201).json(newBill);
+    res.status(201).json({ success: true, data: newBill });
   } catch (err) {
-    res.status(500).json({ message: "Failed to add bill", error: err.message });
+    console.error("Error creating bill:", err);
+    
+    // Handle duplicate key error
+    if (err.code === 11000) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Bill number already exists", 
+        error: "A bill with this number already exists in the system" 
+      });
+    }
+    
+    // Handle validation errors
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(e => e.message);
+      return res.status(400).json({ 
+        success: false,
+        message: "Validation failed", 
+        error: messages.join(', ') 
+      });
+    }
+    
+    res.status(500).json({ 
+      success: false,
+      message: "Failed to add bill", 
+      error: err.message 
+    });
   }
 });
 router.post("/collections", protect, async (req, res) => {
@@ -73,6 +107,72 @@ router.post("/collections", protect, async (req, res) => {
       .json({ message: "Failed to create collection", error: err.message });
   }
 });
+
+// Update a bill
+router.put("/:billId", protect, adminOnly, async (req, res) => {
+  try {
+    const {
+      billNumber,
+      retailer,
+      amount,
+      dueAmount,
+      billDate,
+      status,
+      collectionDay,
+    } = req.body;
+
+    // Find the bill
+    const bill = await Bill.findById(req.params.billId);
+    
+    if (!bill) {
+      return res.status(404).json({ 
+        success: false,
+        message: "Bill not found" 
+      });
+    }
+
+    // Update fields
+    if (billNumber) bill.billNumber = billNumber;
+    if (retailer) bill.retailer = retailer;
+    if (amount !== undefined) bill.amount = parseFloat(amount);
+    if (dueAmount !== undefined) bill.dueAmount = parseFloat(dueAmount);
+    if (billDate) bill.billDate = billDate;
+    if (status) bill.status = status;
+    if (collectionDay) bill.collectionDay = collectionDay;
+
+    await bill.save();
+
+    res.json(bill);
+  } catch (err) {
+    console.error("Error updating bill:", err);
+    
+    // Handle duplicate key error
+    if (err.code === 11000) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Bill number already exists", 
+        error: "A bill with this number already exists in the system" 
+      });
+    }
+    
+    // Handle validation errors
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(e => e.message);
+      return res.status(400).json({ 
+        success: false,
+        message: "Validation failed", 
+        error: messages.join(', ') 
+      });
+    }
+    
+    res.status(500).json({ 
+      success: false,
+      message: "Failed to update bill", 
+      error: err.message 
+    });
+  }
+});
+
 router.put("/:billId/assign", protect, adminOnly, async (req, res) => {
   try {
     const { staffId } = req.body;

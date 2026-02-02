@@ -1,5 +1,11 @@
+/* Import dark theme */
+@import './dark-theme.css';
+
 .App {
   text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1A3263 0%, #0F1B3D 100%);
+  background-attachment: fixed;
 }
 
 .App-logo {
@@ -14,18 +20,24 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background: linear-gradient(135deg, #1A3263 0%, #0F1B3D 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #E8E2DB;
 }
 
 .App-link {
-  color: #61dafb;
+  color: #FAB95B;
+  transition: all 0.3s ease;
+}
+
+.App-link:hover {
+  color: #547792;
+  text-shadow: 0 0 10px rgba(250, 185, 91, 0.5);
 }
 
 @keyframes App-logo-spin {

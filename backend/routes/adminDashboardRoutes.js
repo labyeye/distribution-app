@@ -5,6 +5,7 @@ const Collection = require('../models/Collection');
 const User = require('../models/User');
 const Retailer = require('../models/Retailer');
 const Product = require('../models/Product');
+const Delivery = require('../models/Delivery');
 const { protect, adminOnly } = require('../middleware/authMiddleware');
 const moment = require('moment');
 
@@ -48,6 +49,14 @@ router.get('/dashboard', protect, adminOnly, async (req, res) => {
     const totalRetailers = await Retailer.countDocuments();
     const totalProducts = await Product.countDocuments();
 
+    // Get delivery vehicle counts
+    const deliveredVehicles = await Delivery.countDocuments({ 
+      deliveryStatus: 'Delivered' 
+    });
+    const pendingVehicles = await Delivery.countDocuments({ 
+      deliveryStatus: { $in: ['Pending', 'In Transit'] } 
+    });
+
     const recentCollections = await Collection.find()
       .sort({ collectedOn: -1 })
       .limit(5)
@@ -58,6 +67,13 @@ router.get('/dashboard', protect, adminOnly, async (req, res) => {
       daily: await getDailyCollectionTrends(),
       weekly: await getWeeklyCollectionTrends(),
       monthly: await getMonthlyCollectionTrends()
+    };
+
+    // Get bill trends
+    const billTrends = {
+      daily: await getDailyBillTrends(),
+      weekly: await getWeeklyBillTrends(),
+      monthly: await getMonthlyBillTrends()
     };
 
     // Get DSR-wise collection data
@@ -75,8 +91,11 @@ router.get('/dashboard', protect, adminOnly, async (req, res) => {
       totalRetailers,
       totalProducts,
       totalStaff,
+      deliveredVehicles,
+      pendingVehicles,
       recentCollections,
       collectionTrends,
+      billTrends,
       dsrCollections,
       outstandingDSRs
     });
@@ -254,6 +273,90 @@ async function getOutstandingDSRs() {
   ]);
 
   return result;
+}
+
+// Helper functions for bill trends
+async function getDailyBillTrends() {
+  const hours = [8, 10, 12, 14, 16, 18]; // 8AM to 6PM in 2-hour intervals
+  const today = moment().startOf('day');
+  const labels = [];
+  const data = [];
+
+  for (const hour of hours) {
+    const start = moment(today).add(hour, 'hours');
+    const end = moment(start).add(2, 'hours');
+    
+    const bills = await Bill.find({
+      createdAt: {
+        $gte: start.toDate(),
+        $lt: end.toDate()
+      },
+      deleted: { $ne: true }
+    });
+
+    const total = bills.reduce((sum, bill) => sum + bill.amount, 0);
+    
+    labels.push(start.format('hA'));
+    data.push(total);
+  }
+
+  return { labels, data };
+}
+
+async function getWeeklyBillTrends() {
+  const labels = [];
+  const data = [];
+  const days = 7;
+
+  // Start from beginning of current week (Sunday)
+  const weekStart = moment().startOf('week');
+  
+  for (let i = 0; i < days; i++) {
+    const day = moment(weekStart).add(i, 'days');
+    const start = day.startOf('day');
+    const end = day.endOf('day');
+    
+    const bills = await Bill.find({
+      createdAt: {
+        $gte: start.toDate(),
+        $lte: end.toDate()
+      },
+      deleted: { $ne: true }
+    });
+
+    const total = bills.reduce((sum, bill) => sum + bill.amount, 0);
+    
+    labels.push(day.format('ddd'));
+    data.push(total);
+  }
+
+  return { labels, data };
+}
+
+async function getMonthlyBillTrends() {
+  const labels = [];
+  const data = [];
+  const weeks = 4;
+
+  for (let i = weeks - 1; i >= 0; i--) {
+    const weekStart = moment().subtract(i, 'weeks').startOf('week');
+    const weekEnd = moment(weekStart).endOf('week');
+    
+    const bills = await Bill.find({
+      createdAt: {
+        $gte: weekStart.toDate(),
+        $lte: weekEnd.toDate()
+      },
+      deleted: { $ne: true }
+    });
+
+    const total = bills.reduce((sum, bill) => sum + bill.amount, 0);
+    
+    labels.push(`Week ${weeks - i}`);
+    data.push(total);
+  }
+
+  return { labels, data };
 }
 
 module.exports = router;

@@ -6,35 +6,46 @@ import {
   FaListAlt,
   FaMoneyBillWave,
   FaChevronRight,
+  FaStore,
+  FaTruck,
+  FaHourglassHalf,
+  FaBoxes,
 } from "react-icons/fa";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
+import { motion } from "framer-motion";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
-import { Doughnut } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 const AdminDashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [timeRange, setTimeRange] = useState("week");
+  const [billTimeRange, setBillTimeRange] = useState("week");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -90,8 +101,21 @@ const AdminDashboard = () => {
     fetchDashboardData();
   }, [navigate]);
 
-  // Prepare chart data based on time range
-  const getChartData = () => {
+  // Helper function to format numbers in Indian format
+  const formatIndianNumber = (num) => {
+    if (!num) return "0";
+    const numStr = num.toString();
+    const [intPart, decPart] = numStr.split('.');
+    const lastThree = intPart.substring(intPart.length - 3);
+    const otherNumbers = intPart.substring(0, intPart.length - 3);
+    const formatted = otherNumbers !== '' 
+      ? otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree
+      : lastThree;
+    return decPart ? formatted + "." + decPart : formatted;
+  };
+
+  // Prepare collection chart data based on time range
+  const getCollectionChartData = () => {
     if (!dashboardData?.collectionTrends) {
       return {
         labels: [],
@@ -124,18 +148,93 @@ const AdminDashboard = () => {
         {
           label: "Collection Amount (₹)",
           data,
-          backgroundColor: "#4e73df",
-          borderRadius: 4,
+          backgroundColor: "rgba(250, 185, 91, 0.8)",
+          borderColor: "#FAB95B",
+          borderWidth: 2,
+          borderRadius: 8,
+          hoverBackgroundColor: "#FAB95B",
+          hoverBorderColor: "#E8E2DB",
         },
       ],
     };
   };
 
-  const chartOptions = {
+  // Prepare bill chart data based on time range
+  const getBillChartData = () => {
+    if (!dashboardData?.billTrends) {
+      return {
+        labels: [],
+        datasets: [],
+      };
+    }
+
+    let labels = [];
+    let data = [];
+
+    switch (billTimeRange) {
+      case "day":
+        labels = dashboardData.billTrends.daily.labels;
+        data = dashboardData.billTrends.daily.data;
+        break;
+      case "week":
+        labels = dashboardData.billTrends.weekly.labels;
+        data = dashboardData.billTrends.weekly.data;
+        break;
+      case "month":
+      default:
+        labels = dashboardData.billTrends.monthly.labels;
+        data = dashboardData.billTrends.monthly.data;
+        break;
+    }
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: "Bill Amount (₹)",
+          data,
+          fill: true,
+          backgroundColor: "rgba(84, 119, 146, 0.2)",
+          borderColor: "#547792",
+          borderWidth: 3,
+          tension: 0.4,
+          pointBackgroundColor: "#547792",
+          pointBorderColor: "#E8E2DB",
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointHoverBackgroundColor: "#FAB95B",
+          pointHoverBorderColor: "#E8E2DB",
+        },
+      ],
+    };
+  };
+
+  const collectionChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 2000,
+      easing: 'easeInOutQuart',
+      delay: (context) => {
+        let delay = 0;
+        if (context.type === 'data' && context.mode === 'default') {
+          delay = context.dataIndex * 150;
+        }
+        return delay;
+      },
+    },
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          color: "#E8E2DB",
+          font: {
+            size: 13,
+            weight: "500",
+          },
+          padding: 15,
+        },
       },
       title: {
         display: true,
@@ -146,14 +245,24 @@ const AdminDashboard = () => {
             ? "Weekly"
             : "Monthly"
         })`,
+        color: "#FAB95B",
+        font: {
+          size: 16,
+          weight: "600",
+        },
+        padding: {
+          top: 10,
+          bottom: 20,
+        },
       },
       datalabels: {
         anchor: "end",
         align: "top",
-        formatter: (value) => "₹" + value.toLocaleString(),
-        color: "#2e3a59",
+        formatter: (value) => value > 0 ? "₹" + formatIndianNumber(value) : "",
+        color: "#FAB95B",
         font: {
           weight: "bold",
+          size: 11,
         },
       },
     },
@@ -162,8 +271,109 @@ const AdminDashboard = () => {
         beginAtZero: true,
         ticks: {
           callback: function (value) {
-            return "₹" + value.toLocaleString();
+            return "₹" + formatIndianNumber(value);
           },
+          color: "#E8E2DB",
+          font: {
+            size: 11,
+          },
+        },
+        grid: {
+          color: "rgba(84, 119, 146, 0.1)",
+          drawBorder: false,
+        },
+      },
+      x: {
+        ticks: {
+          color: "#E8E2DB",
+          font: {
+            size: 11,
+          },
+        },
+        grid: {
+          color: "rgba(84, 119, 146, 0.1)",
+          drawBorder: false,
+        },
+      },
+    },
+  };
+
+  const billChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 2000,
+      easing: 'easeInOutQuart',
+      delay: (context) => {
+        let delay = 0;
+        if (context.type === 'data' && context.mode === 'default') {
+          delay = context.dataIndex * 150;
+        }
+        return delay;
+      },
+    },
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          color: "#E8E2DB",
+          font: {
+            size: 13,
+            weight: "500",
+          },
+          padding: 15,
+        },
+      },
+      title: {
+        display: true,
+        text: `Bill Trend (${
+          billTimeRange === "day"
+            ? "Daily"
+            : billTimeRange === "week"
+            ? "Weekly"
+            : "Monthly"
+        })`,
+        color: "#547792",
+        font: {
+          size: 16,
+          weight: "600",
+        },
+        padding: {
+          top: 10,
+          bottom: 20,
+        },
+      },
+      datalabels: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function (value) {
+            return "₹" + formatIndianNumber(value);
+          },
+          color: "#E8E2DB",
+          font: {
+            size: 11,
+          },
+        },
+        grid: {
+          color: "rgba(84, 119, 146, 0.1)",
+          drawBorder: false,
+        },
+      },
+      x: {
+        ticks: {
+          color: "#E8E2DB",
+          font: {
+            size: 11,
+          },
+        },
+        grid: {
+          color: "rgba(84, 119, 146, 0.1)",
+          drawBorder: false,
         },
       },
     },
@@ -196,78 +406,159 @@ const AdminDashboard = () => {
         ) : (
           <>
             <MetricsGrid>
-              <MetricCard color="#4e73df">
+              <MetricCard color="#547792">
                 <div className="icon-container">
                   <FaFileInvoiceDollar size={20} />
                 </div>
                 <div className="metric-content">
                   <h3>Total Bill Amount</h3>
-                  <p>₹{dashboardData?.totalBillAmount?.toFixed(2) || "0.00"}</p>
+                  <p>₹{formatIndianNumber(dashboardData?.totalBillAmount?.toFixed(2))}</p>
                 </div>
               </MetricCard>
 
-              <MetricCard color="#1cc88a">
+              <MetricCard color="#FAB95B">
                 <div className="icon-container">
                   <FaMoneyBillWave size={20} />
                 </div>
                 <div className="metric-content">
                   <h3>Total Paid Today</h3>
-                  <p>₹{dashboardData?.totalPaidAmount?.toFixed(2) || "0.00"}</p>
+                  <p>₹{formatIndianNumber(dashboardData?.totalPaidAmount?.toFixed(2))}</p>
                 </div>
               </MetricCard>
 
-              <MetricCard color="#f6c23e">
+              <MetricCard color="#FAB95B">
                 <div className="icon-container">
                   <FaListAlt size={20} />
                 </div>
                 <div className="metric-content">
                   <h3>Remaining Today</h3>
-                  <p>
-                    ₹{dashboardData?.totalRemainingAmount?.toFixed(2) || "0.00"}
-                  </p>
+                  <p>₹{formatIndianNumber(dashboardData?.totalRemainingAmount?.toFixed(2))}</p>
                 </div>
               </MetricCard>
 
-              <MetricCard color="#36b9cc">
+              <MetricCard color="#547792">
                 <div className="icon-container">
                   <FaUserTie size={20} />
                 </div>
                 <div className="metric-content">
                   <h3>Total Staff</h3>
-                  <p>{dashboardData?.totalStaff?.toLocaleString() || "0"}</p>
+                  <p>{formatIndianNumber(dashboardData?.totalStaff)}</p>
+                </div>
+              </MetricCard>
+
+              <MetricCard color="#4CAF50">
+                <div className="icon-container">
+                  <FaStore size={20} />
+                </div>
+                <div className="metric-content">
+                  <h3>Total Retailers</h3>
+                  <p>{formatIndianNumber(dashboardData?.totalRetailers)}</p>
+                </div>
+              </MetricCard>
+
+              <MetricCard color="#2196F3">
+                <div className="icon-container">
+                  <FaTruck size={20} />
+                </div>
+                <div className="metric-content">
+                  <h3>Delivered Vehicles</h3>
+                  <p>{formatIndianNumber(dashboardData?.deliveredVehicles)}</p>
+                </div>
+              </MetricCard>
+
+              <MetricCard color="#FF9800">
+                <div className="icon-container">
+                  <FaHourglassHalf size={20} />
+                </div>
+                <div className="metric-content">
+                  <h3>Pending Vehicles</h3>
+                  <p>{formatIndianNumber(dashboardData?.pendingVehicles)}</p>
+                </div>
+              </MetricCard>
+
+              <MetricCard color="#9C27B0">
+                <div className="icon-container">
+                  <FaBoxes size={20} />
+                </div>
+                <div className="metric-content">
+                  <h3>Total Products</h3>
+                  <p>{formatIndianNumber(dashboardData?.totalProducts)}</p>
                 </div>
               </MetricCard>
             </MetricsGrid>
 
-            {/* Collection Trend Graph Section */}
-            <ContentSection>
-              <SectionHeader>
-                <h2>Collection Trend</h2>
-                <TimeRangeSelector>
-                  <TimeRangeButton
-                    active={timeRange === "day"}
-                    onClick={() => setTimeRange("day")}
-                  >
-                    Day
-                  </TimeRangeButton>
-                  <TimeRangeButton
-                    active={timeRange === "week"}
-                    onClick={() => setTimeRange("week")}
-                  >
-                    Week
-                  </TimeRangeButton>
-                  <TimeRangeButton
-                    active={timeRange === "month"}
-                    onClick={() => setTimeRange("month")}
-                  >
-                    Month
-                  </TimeRangeButton>
-                </TimeRangeSelector>
-              </SectionHeader>
-              <ChartContainer>
-                <Bar data={getChartData()} options={chartOptions} />
-              </ChartContainer>
-            </ContentSection>
+            {/* Graphs Grid - Collection and Bill Trends */}
+            <ChartsGrid>
+              <ContentSection>
+                <SectionHeader>
+                  <h2>Collection Trend</h2>
+                  <TimeRangeSelector>
+                    <TimeRangeButton
+                      active={timeRange === "day"}
+                      onClick={() => setTimeRange("day")}
+                    >
+                      Day
+                    </TimeRangeButton>
+                    <TimeRangeButton
+                      active={timeRange === "week"}
+                      onClick={() => setTimeRange("week")}
+                    >
+                      Week
+                    </TimeRangeButton>
+                    <TimeRangeButton
+                      active={timeRange === "month"}
+                      onClick={() => setTimeRange("month")}
+                    >
+                      Month
+                    </TimeRangeButton>
+                  </TimeRangeSelector>
+                </SectionHeader>
+                <ChartContainer
+                  as={motion.div}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  key={`collection-${timeRange}`}
+                >
+                  <Bar data={getCollectionChartData()} options={collectionChartOptions} />
+                </ChartContainer>
+              </ContentSection>
+
+              <ContentSection>
+                <SectionHeader>
+                  <h2>Bill Trend</h2>
+                  <TimeRangeSelector>
+                    <TimeRangeButton
+                      active={billTimeRange === "day"}
+                      onClick={() => setBillTimeRange("day")}
+                    >
+                      Day
+                    </TimeRangeButton>
+                    <TimeRangeButton
+                      active={billTimeRange === "week"}
+                      onClick={() => setBillTimeRange("week")}
+                    >
+                      Week
+                    </TimeRangeButton>
+                    <TimeRangeButton
+                      active={billTimeRange === "month"}
+                      onClick={() => setBillTimeRange("month")}
+                    >
+                      Month
+                    </TimeRangeButton>
+                  </TimeRangeSelector>
+                </SectionHeader>
+                <ChartContainer
+                  as={motion.div}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                  key={`bill-${billTimeRange}`}
+                >
+                  <Line data={getBillChartData()} options={billChartOptions} />
+                </ChartContainer>
+              </ContentSection>
+            </ChartsGrid>
             <ContentSection>
               <SectionHeader>
                 <h2>DSR Performance</h2>
@@ -368,7 +659,16 @@ const MainContent = styled.div`
   flex: 1;
   padding: 1rem;
   overflow-x: hidden;
-  background-color: #f8f9fc;
+  animation: fadeIn 0.6s ease;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
   @media (min-width: 768px) {
     padding: 1.5rem;
@@ -382,22 +682,95 @@ const ChartContainer = styled.div`
   width: 100%;
   height: 400px;
   margin-top: 1rem;
+  padding: 1.5rem;
+  background: rgba(26, 50, 99, 0.6);
+  border-radius: 1rem;
+  border: 1px solid rgba(84, 119, 146, 0.3);
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.8s ease;
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
+const ChartsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  > div {
+    &:nth-child(1) {
+      animation: slideRight 0.8s ease 0.2s backwards;
+    }
+
+    &:nth-child(2) {
+      animation: slideRight 0.8s ease 0.4s backwards;
+    }
+  }
+
+  @keyframes slideRight {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 `;
 
 const TimeRangeSelector = styled.div`
   display: flex;
   gap: 0.5rem;
+  animation: slideRight 0.6s ease;
+
+  @keyframes slideRight {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 `;
 
 const TimeRangeButton = styled.button`
   padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.5rem;
-  background-color: ${(props) => (props.active ? "#4e73df" : "#f8f9fa")};
-  color: ${(props) => (props.active ? "#fff" : "#6e707e")};
+  border: 1px solid ${(props) => (props.active ? "#FAB95B" : "rgba(84, 119, 146, 0.3)")};
+  border-radius: 20px;
+  background: ${(props) => (props.active ? "#FAB95B" : "rgba(26, 50, 99, 0.4)")};
+  color: ${(props) => (props.active ? "#1A3263" : "#E8E2DB")};
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: ${(props) => (props.active ? "0 0 15px rgba(250, 185, 91, 0.4)" : "none")};
+
+  &:hover {
+    transform: scale(1.05);
+    background: ${(props) => (props.active ? "#FAB95B" : "rgba(84, 119, 146, 0.3)")};
+    border-color: #FAB95B;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
   transition: all 0.2s ease;
 
   &:hover {
@@ -409,6 +782,18 @@ const Header = styled.header`
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  animation: slideUp 0.6s ease;
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -417,10 +802,11 @@ const Header = styled.header`
   }
 
   h1 {
-    color: #2e3a59;
+    color: #E8E2DB;
     font-size: 1.5rem;
     margin: 0;
     font-weight: 600;
+    text-shadow: 0 2px 10px rgba(250, 185, 91, 0.3);
 
     @media (min-width: 768px) {
       font-size: 1.8rem;
@@ -438,18 +824,29 @@ const DSRPerformanceGrid = styled.div`
 `;
 
 const DSRPerformanceCard = styled.div`
-  background-color: #fff;
+  background: rgba(15, 27, 61, 0.6);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(84, 119, 146, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    border-color: rgba(250, 185, 91, 0.3);
+  }
 
   h3 {
-    color: #2e3a59;
+    color: #FAB95B;
     font-size: 1rem;
     margin: 0 0 1rem 0;
     font-weight: 600;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba(84, 119, 146, 0.2);
     padding-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 `;
 
@@ -463,30 +860,39 @@ const DSRItem = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.5rem 0;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(84, 119, 146, 0.2);
+    transform: translateX(5px);
+  }
 
   .rank {
-    background-color: #4e73df;
-    color: white;
-    width: 24px;
-    height: 24px;
+    background: linear-gradient(135deg, #547792 0%, #FAB95B 100%);
+    color: #1A3263;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(250, 185, 91, 0.3);
   }
 
   .name {
     flex: 1;
-    color: #2e3a59;
+    color: #E8E2DB;
     font-weight: 500;
   }
 
   .amount {
-    color: #1cc88a;
-    font-weight: 600;
+    color: #FAB95B;
+    font-weight: 700;
+    font-size: 1.05rem;
   }
 `;
 
@@ -494,19 +900,42 @@ const UserProfile = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: #fff;
+  background: rgba(26, 50, 99, 0.6);
   padding: 0.5rem 1rem;
   border-radius: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(84, 119, 146, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  animation: slideRight 0.6s ease 0.2s backwards;
+
+  @keyframes slideRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(250, 185, 91, 0.3);
+    border-color: rgba(250, 185, 91, 0.5);
+  }
 
   img {
     width: 2.25rem;
     height: 2.25rem;
     border-radius: 50%;
+    border: 2px solid #FAB95B;
+    box-shadow: 0 0 10px rgba(250, 185, 91, 0.3);
   }
 
   span {
-    color: #2e3a59;
+    color: #E8E2DB;
     font-weight: 500;
     font-size: 0.9rem;
 
@@ -530,45 +959,147 @@ const MetricsGrid = styled.div`
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
   }
+
+  > div:nth-child(1) {
+    animation: slideUp 0.6s ease 0.1s backwards;
+  }
+
+  > div:nth-child(2) {
+    animation: slideUp 0.6s ease 0.2s backwards;
+  }
+
+  > div:nth-child(3) {
+    animation: slideUp 0.6s ease 0.3s backwards;
+  }
+
+  > div:nth-child(4) {
+    animation: slideUp 0.6s ease 0.4s backwards;
+  }
+
+  > div:nth-child(5) {
+    animation: slideUp 0.6s ease 0.5s backwards;
+  }
+
+  > div:nth-child(6) {
+    animation: slideUp 0.6s ease 0.6s backwards;
+  }
+
+  > div:nth-child(7) {
+    animation: slideUp 0.6s ease 0.7s backwards;
+  }
+
+  > div:nth-child(8) {
+    animation: slideUp 0.6s ease 0.8s backwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;
 
 const MetricCard = styled.div`
-  background-color: #fff;
+  background: rgba(26, 50, 99, 0.8);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   gap: 1rem;
   border-left: 4px solid ${(props) => props.color};
+  border: 1px solid rgba(84, 119, 146, 0.3);
+  border-left: 4px solid ${(props) => props.color};
   transition: all 0.3s ease;
   min-height: 90px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+
+  /* Glow effect on left border */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: ${(props) => props.color};
+    box-shadow: 0 0 15px ${(props) => props.color};
+  }
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px ${(props) => `${props.color}40`};
+    border-color: ${(props) => props.color};
   }
 
   .icon-container {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background-color: ${(props) => `${props.color}15`};
+    background: ${(props) => `${props.color}25`};
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+
+    /* Icon glow */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      background: ${(props) => props.color};
+      opacity: 0;
+      filter: blur(10px);
+      transition: opacity 0.3s ease;
+    }
 
     svg {
       color: ${(props) => props.color};
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+  }
+
+  &:hover .icon-container {
+    transform: scale(1.1);
+
+    &::after {
+      opacity: 0.3;
+      animation: pulse 2s infinite;
+    }
+
+    svg {
+      transform: rotate(5deg);
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.6;
     }
   }
 
   .metric-content {
     h3 {
-      color: #6e707e;
+      color: #547792;
       font-size: 0.85rem;
       margin: 0 0 0.25rem 0;
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
 
       @media (min-width: 768px) {
         font-size: 0.95rem;
@@ -576,25 +1107,57 @@ const MetricCard = styled.div`
     }
 
     p {
-      color: #2e3a59;
+      color: #E8E2DB;
       font-size: 1.25rem;
       margin: 0;
-      font-weight: 700;
+      font-weight: 300;
+      animation: countUp 1s ease;
 
       @media (min-width: 768px) {
         font-size: 1.5rem;
       }
     }
   }
+
+  @keyframes countUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;
 
 const ContentSection = styled.section`
-  background-color: #fff;
+  background: rgba(26, 50, 99, 0.6);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   margin-bottom: 2rem;
+  border: 1px solid rgba(84, 119, 146, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  animation: slideUp 0.8s ease;
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &:hover {
+    border-color: rgba(250, 185, 91, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  }
 
   @media (min-width: 768px) {
     padding: 1.5rem;
@@ -614,10 +1177,11 @@ const SectionHeader = styled.div`
   }
 
   h2 {
-    color: #2e3a59;
+    color: #E8E2DB;
     font-size: 1.25rem;
     margin: 0;
     font-weight: 600;
+    text-shadow: 0 2px 10px rgba(250, 185, 91, 0.2);
 
     @media (min-width: 768px) {
       font-size: 1.4rem;
@@ -626,7 +1190,7 @@ const SectionHeader = styled.div`
 `;
 
 const ViewAllLink = styled(Link)`
-  color: #4e73df;
+  color: #FAB95B;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
@@ -634,19 +1198,25 @@ const ViewAllLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  transition: color 0.2s ease;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: rgba(250, 185, 91, 0.1);
 
   &:hover {
-    color: #2a56c6;
+    color: #E8E2DB;
     text-decoration: none;
+    background: rgba(250, 185, 91, 0.2);
+    transform: translateX(5px);
+    box-shadow: 0 0 15px rgba(250, 185, 91, 0.3);
   }
 
   svg {
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease;
   }
 
   &:hover svg {
-    transform: translateX(2px);
+    transform: translateX(5px);
   }
 
   @media (min-width: 768px) {
@@ -658,8 +1228,9 @@ const TableContainer = styled.div`
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: 0.5rem;
-  background: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: rgba(15, 27, 61, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(84, 119, 146, 0.2);
 `;
 
 const DataTable = styled.table`
@@ -677,17 +1248,17 @@ const DataTable = styled.table`
   td {
     padding: 0.75rem 1rem;
     text-align: left;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba(84, 119, 146, 0.2);
   }
 
   th {
-    color: #6e707e;
+    color: #FAB95B;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-size: 0.75rem;
     white-space: nowrap;
-    background-color: #f9fafc;
+    background: rgba(26, 50, 99, 0.6);
 
     @media (min-width: 768px) {
       font-size: 0.8rem;
@@ -696,16 +1267,23 @@ const DataTable = styled.table`
   }
 
   td {
-    color: #2e3a59;
+    color: #E8E2DB;
     white-space: nowrap;
+    transition: all 0.3s ease;
   }
 
   tr:last-child td {
     border-bottom: none;
   }
 
-  tr:hover {
-    background-color: #f8f9fa;
+  tbody tr {
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(84, 119, 146, 0.2);
+      transform: scale(1.01);
+    }
   }
 
   @media (max-width: 767px) {
@@ -718,10 +1296,11 @@ const DataTable = styled.table`
     tr {
       display: block;
       margin-bottom: 1rem;
-      border: 1px solid #eee;
+      border: 1px solid rgba(84, 119, 146, 0.3);
       border-radius: 0.5rem;
       padding: 0.5rem;
       position: relative;
+      background: rgba(26, 50, 99, 0.4);
     }
 
     td {
@@ -730,7 +1309,7 @@ const DataTable = styled.table`
       align-items: center;
       padding: 0.5rem 0.75rem;
       text-align: right;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid rgba(84, 119, 146, 0.2);
       white-space: normal;
 
       &:last-child {
@@ -741,7 +1320,7 @@ const DataTable = styled.table`
         content: attr(data-label);
         float: left;
         font-weight: 600;
-        color: #6e707e;
+        color: #FAB95B;
         margin-right: 1rem;
         font-size: 0.8rem;
       }
@@ -755,37 +1334,61 @@ const PaymentBadge = styled.span`
   border-radius: 0.5rem;
   font-size: 0.75rem;
   font-weight: 600;
-  background-color: ${(props) =>
+  background: ${(props) =>
     props.mode === "Cash"
-      ? "#e3faf0"
+      ? "rgba(250, 185, 91, 0.2)"
       : props.mode === "Card"
-      ? "#fff8e6"
-      : "#ebf5ff"};
+      ? "rgba(84, 119, 146, 0.2)"
+      : "rgba(250, 185, 91, 0.2)"};
   color: ${(props) =>
     props.mode === "Cash"
-      ? "#20c997"
+      ? "#FAB95B"
       : props.mode === "Card"
-      ? "#ffc107"
-      : "#4e73df"};
+      ? "#547792"
+      : "#FAB95B"};
   text-transform: capitalize;
+  border: 1px solid ${(props) =>
+    props.mode === "Cash"
+      ? "rgba(250, 185, 91, 0.4)"
+      : props.mode === "Card"
+      ? "rgba(84, 119, 146, 0.4)"
+      : "rgba(250, 185, 91, 0.4)"};
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px ${(props) =>
+      props.mode === "Cash" ? "rgba(250, 185, 91, 0.4)" : "rgba(84, 119, 146, 0.4)"};
+  }
 `;
 
 const LoadingIndicator = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #6e707e;
+  color: #E8E2DB;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  animation: fadeIn 0.6s ease;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
   .spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(78, 115, 223, 0.1);
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(84, 119, 146, 0.2);
     border-radius: 50%;
-    border-top-color: #4e73df;
+    border-top-color: #FAB95B;
     animation: spin 1s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(250, 185, 91, 0.3);
   }
 
   @keyframes spin {
@@ -797,28 +1400,49 @@ const LoadingIndicator = styled.div`
   p {
     margin: 0;
     font-size: 0.95rem;
+    color: #547792;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
   }
 `;
 
 const ErrorMessage = styled.div`
   padding: 1.5rem;
-  background-color: #f8d7da;
-  color: #721c24;
-  border-radius: 0.5rem;
+  background: rgba(220, 53, 69, 0.2);
+  color: #FAB95B;
+  border-radius: 0.75rem;
   margin: 1rem 0;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  backdrop-filter: blur(10px);
+  animation: shake 0.5s ease;
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
 
   svg {
-    color: #dc3545;
+    color: #FAB95B;
   }
 
   p {
     margin: 0;
     font-size: 0.95rem;
+    color: #E8E2DB;
   }
 `;
 
