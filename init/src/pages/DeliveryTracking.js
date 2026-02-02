@@ -80,15 +80,15 @@ const DeliveryTracking = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case "Pending":
-        return "#f6c23e";
+        return "var(--nb-orange)";
       case "In Transit":
-        return "#36b9cc";
+        return "var(--nb-blue)";
       case "Delivered":
-        return "#1cc88a";
+        return "var(--nb-blue)";
       case "Cancelled":
-        return "#e74a3b";
+        return "var(--nb-orange)";
       default:
-        return "#858796";
+        return "var(--nb-ink)";
     }
   };
 
@@ -128,7 +128,7 @@ const DeliveryTracking = () => {
           <KanbanBoard>
             {/* Pending Column */}
             <Column>
-              <ColumnHeader color="#f6c23e">
+              <ColumnHeader color="var(--nb-orange)">
                 <FaClock /> Pending (
                 {
                   filteredDeliveries.filter(
@@ -168,7 +168,7 @@ const DeliveryTracking = () => {
                       </CardBody>
                       <CardActions>
                         <ActionButton
-                          color="#36b9cc"
+                          color="var(--nb-blue)"
                           onClick={() =>
                             updateStatus(delivery._id, "In Transit")
                           }
@@ -183,7 +183,7 @@ const DeliveryTracking = () => {
 
             {/* In Transit Column */}
             <Column>
-              <ColumnHeader color="#36b9cc">
+              <ColumnHeader color="var(--nb-blue)">
                 <FaShippingFast /> In Transit (
                 {
                   filteredDeliveries.filter(
@@ -221,7 +221,7 @@ const DeliveryTracking = () => {
                       </CardBody>
                       <CardActions>
                         <ActionButton
-                          color="#1cc88a"
+                          color="var(--nb-blue)"
                           onClick={() =>
                             updateStatus(delivery._id, "Delivered")
                           }
@@ -236,7 +236,7 @@ const DeliveryTracking = () => {
 
             {/* Delivered Column (Recent) */}
             <Column>
-              <ColumnHeader color="#1cc88a">
+              <ColumnHeader color="var(--nb-blue)">
                 <FaCheckCircle /> Completed (Today)
               </ColumnHeader>
               <DroppableArea>
@@ -288,7 +288,7 @@ const Header = styled.div`
   gap: 15px;
 
   h1 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.8rem;
     margin: 0;
   }
@@ -300,15 +300,15 @@ const Controls = styled.div`
 `;
 
 const SearchBox = styled.div`
-  background: white;
+  background: var(--nb-white);
   padding: 8px 15px;
   border-radius: 20px;
   display: flex;
   align-items: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
 
   svg {
-    color: #888;
+    color: var(--nb-ink);
     margin-right: 8px;
   }
   input {
@@ -322,8 +322,8 @@ const SearchBox = styled.div`
 const FilterSelect = styled.select`
   padding: 8px 15px;
   border-radius: 20px;
-  border: 1px solid #ddd;
-  background: white;
+  border: 1px solid var(--nb-border);
+  background: var(--nb-white);
   cursor: pointer;
 `;
 
@@ -335,7 +335,7 @@ const KanbanBoard = styled.div`
 `;
 
 const Column = styled.div`
-  background: #f8f9fc;
+  background: var(--nb-muted);
   border-radius: 8px;
   min-height: 500px;
   display: flex;
@@ -345,7 +345,7 @@ const Column = styled.div`
 const ColumnHeader = styled.div`
   padding: 15px;
   background: ${(props) => props.color};
-  color: white;
+  color: var(--nb-white);
   font-weight: bold;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -363,19 +363,19 @@ const DroppableArea = styled.div`
 `;
 
 const DeliveryCard = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 6px;
   padding: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   border-left: 4px solid
     ${(props) =>
       props.status === "Pending"
-        ? "#f6c23e"
+        ? "var(--nb-orange)"
         : props.status === "In Transit"
-          ? "#36b9cc"
+          ? "var(--nb-blue)"
           : props.status === "Delivered"
-            ? "#1cc88a"
-            : "#ddd"};
+            ? "var(--nb-blue)"
+            : "var(--nb-border)"};
 `;
 
 const CardHeader = styled.div`
@@ -385,29 +385,29 @@ const CardHeader = styled.div`
 
   .vehicle {
     font-weight: bold;
-    color: #2e3a59;
+    color: var(--nb-ink);
   }
   .type {
-    background: #eee;
+    background: var(--nb-border);
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.8rem;
   }
   .date {
     font-size: 0.8rem;
-    color: #888;
+    color: var(--nb-ink);
   }
 `;
 
 const CardBody = styled.div`
   font-size: 0.9rem;
-  color: #555;
+  color: var(--nb-ink);
 
   .row {
     margin-bottom: 5px;
   }
   .delayed {
-    color: #e74a3b;
+    color: var(--nb-orange);
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -419,14 +419,14 @@ const CardBody = styled.div`
 const CardActions = styled.div`
   margin-top: 15px;
   padding-top: 10px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--nb-border);
   display: flex;
   justify-content: flex-end;
 `;
 
 const ActionButton = styled.button`
   background: ${(props) => props.color};
-  color: white;
+  color: var(--nb-white);
   border: none;
   padding: 5px 10px;
   border-radius: 4px;

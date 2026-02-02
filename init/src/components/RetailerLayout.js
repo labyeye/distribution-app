@@ -71,7 +71,7 @@ const RetailerLayout = ({ children }) => {
         </NavMenu>
         <UserProfile>
           <img
-            src={`https://ui-avatars.com/api/?name=${user?.name || "Retailer"}&background=667eea&color=fff`}
+            src={`https://ui-avatars.com/api/?name=${user?.name || "Retailer"}&background=1f5eff&color=ffffff`}
             alt="User"
           />
           <div>
@@ -89,16 +89,18 @@ const RetailerLayout = ({ children }) => {
 const Container = styled.div`
   display: flex;
   min-height: 100vh;
+  background: var(--nb-white);
 `;
 
 const Sidebar = styled.div`
   width: 280px;
-  background-color: #fff;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+  background-color: var(--nb-white);
+  border-right: 2px solid var(--nb-border);
+  box-shadow: var(--nb-shadow-md);
   display: flex;
   flex-direction: column;
   z-index: 10;
-  transition: all 0.3s ease;
+  transition: width var(--nb-transition);
 
   @media (max-width: 768px) {
     width: 80px;
@@ -111,11 +113,11 @@ const Sidebar = styled.div`
 
 const LogoContainer = styled.div`
   padding: 25px 20px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 2px solid var(--nb-border);
   text-align: center;
 
   h2 {
-    color: #4e73df;
+    color: var(--nb-ink);
     margin: 0 0 0.5rem 0;
     font-size: 1.5rem;
     font-weight: 700;
@@ -130,14 +132,15 @@ const LogoContainer = styled.div`
 
 const RoleBadge = styled.div`
   display: inline-block;
-  background: linear-gradient(to right, #ffd60e 0%, #fd241d 100%);
-  color: white;
+  background: var(--nb-orange);
+  color: var(--nb-white);
   padding: 0.35rem 0.75rem;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  border: 2px solid var(--nb-border);
 
   @media (max-width: 768px) {
     display: none;
@@ -156,18 +159,18 @@ const NavItem = styled.li`
   padding: 12px 25px;
   display: flex;
   align-items: center;
-  color: #6e707e;
+  color: ${(props) => (props.active ? "var(--nb-white)" : "var(--nb-ink)")};
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-left: 3px solid transparent;
-  border-left-color: ${(props) => (props.active ? "#4e73df" : "transparent")};
+  transition: background-color var(--nb-transition), color var(--nb-transition);
+  border-left: 4px solid
+    ${(props) => (props.active ? "var(--nb-orange)" : "transparent")};
   background-color: ${(props) =>
-    props.active ? "rgba(78, 115, 223, 0.05)" : "transparent"};
+    props.active ? "var(--nb-blue)" : "transparent"};
 
   svg {
     margin-right: 15px;
     font-size: 1rem;
-    color: ${(props) => (props.active ? "#4e73df" : "#6e707e")};
+    color: ${(props) => (props.active ? "var(--nb-white)" : "var(--nb-ink)")};
     flex-shrink: 0;
   }
 
@@ -191,11 +194,11 @@ const NavItem = styled.li`
   }
 
   &:hover {
-    background-color: rgba(78, 115, 223, 0.1);
-    color: #4e73df;
+    background-color: var(--nb-muted);
+    color: var(--nb-ink);
 
     svg {
-      color: #4e73df;
+      color: var(--nb-ink);
     }
   }
 `;
@@ -204,14 +207,16 @@ const UserProfile = styled.div`
   display: flex;
   align-items: center;
   padding: 20px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 2px solid var(--nb-border);
   margin-top: auto;
+  background: var(--nb-muted);
 
   img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 12px;
+    border: 2px solid var(--nb-border);
   }
 
   div {
@@ -224,18 +229,18 @@ const UserProfile = styled.div`
 const UserName = styled.div`
   font-weight: 600;
   font-size: 0.9rem;
-  color: #2e3a59;
+  color: var(--nb-ink);
 `;
 
 const UserRole = styled.div`
   font-size: 0.75rem;
-  color: #6e707e;
+  color: #333333;
   margin-top: 2px;
 `;
 
 const MainContent = styled.div`
   flex: 1;
-  background-color: #f8f9fc;
+  background-color: var(--nb-white);
   padding: 30px;
   overflow-x: hidden;
 

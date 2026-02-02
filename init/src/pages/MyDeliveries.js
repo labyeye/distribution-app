@@ -85,17 +85,17 @@ const MyDeliveries = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case "Pending":
-        return "#f6c23e";
+        return "var(--nb-orange)";
       case "In Transit":
-        return "#36b9cc";
+        return "var(--nb-blue)";
       case "Delivered":
-        return "#1cc88a";
+        return "var(--nb-blue)";
       case "Completed":
-        return "#1cc88a";
+        return "var(--nb-blue)";
       case "Cancelled":
-        return "#e74a3b";
+        return "var(--nb-orange)";
       default:
-        return "#858796";
+        return "var(--nb-ink)";
     }
   };
 
@@ -194,7 +194,7 @@ const MyDeliveries = () => {
                     <DeliveryActions>
                       {delivery.deliveryStatus === "Pending" && (
                         <ActionButton
-                          color="#36b9cc"
+                          color="var(--nb-blue)"
                           onClick={() =>
                             updateDeliveryStatus(delivery._id, "In Transit")
                           }
@@ -204,7 +204,7 @@ const MyDeliveries = () => {
                       )}
                       {delivery.deliveryStatus === "In Transit" && (
                         <ActionButton
-                          color="#1cc88a"
+                          color="var(--nb-blue)"
                           onClick={() =>
                             updateDeliveryStatus(delivery._id, "Delivered")
                           }
@@ -266,7 +266,7 @@ const MyDeliveries = () => {
                             orderDetails?.status !== "Cancelled" && (
                               <OrderActions>
                                 <OrderActionButton
-                                  color="#1cc88a"
+                                  color="var(--nb-blue)"
                                   onClick={() =>
                                     updateOrderStatus(
                                       delivery._id,
@@ -285,7 +285,7 @@ const MyDeliveries = () => {
                                   )}
                                 </OrderActionButton>
                                 <OrderActionButton
-                                  color="#e74a3b"
+                                  color="var(--nb-orange)"
                                   onClick={() =>
                                     updateOrderStatus(
                                       delivery._id,
@@ -362,7 +362,7 @@ const Header = styled.div`
   margin-bottom: 2rem;
 
   h1 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.8rem;
     margin: 0;
     display: flex;
@@ -372,8 +372,8 @@ const Header = styled.div`
 `;
 
 const RefreshButton = styled.button`
-  background: #4e73df;
-  color: white;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -382,7 +382,7 @@ const RefreshButton = styled.button`
   transition: background 0.2s;
 
   &:hover {
-    background: #2e59d9;
+    background: var(--nb-blue);
   }
 `;
 
@@ -390,23 +390,23 @@ const LoadingMessage = styled.div`
   text-align: center;
   padding: 40px;
   font-size: 1.1rem;
-  color: #666;
+  color: var(--nb-ink);
 `;
 
 const ErrorMessage = styled.div`
   text-align: center;
   padding: 40px;
   font-size: 1.1rem;
-  color: #e74a3b;
+  color: var(--nb-orange);
 `;
 
 const EmptyMessage = styled.div`
   text-align: center;
   padding: 60px 20px;
-  color: #888;
+  color: var(--nb-ink);
 
   svg {
-    color: #ddd;
+    color: var(--nb-border);
     margin-bottom: 20px;
   }
 
@@ -422,14 +422,14 @@ const DeliveriesList = styled.div`
 `;
 
 const DeliveryCard = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--nb-shadow-md);
   overflow: hidden;
 `;
 
 const DeliveryHeader = styled.div`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--nb-var(--nb-white));
   padding: 20px;
   display: flex;
   justify-content: space-between;
@@ -438,7 +438,7 @@ const DeliveryHeader = styled.div`
   transition: background 0.2s;
 
   &:hover {
-    background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
+    background: var(--nb-var(--nb-white));
   }
 `;
 
@@ -451,12 +451,12 @@ const VehicleInfo = styled.div`
 const VehicleNumber = styled.div`
   font-size: 1.4rem;
   font-weight: bold;
-  color: white;
+  color: var(--nb-white);
 `;
 
 const VehicleType = styled.div`
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: var(--nb-muted);
+  color: var(--nb-white);
   padding: 5px 12px;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -464,7 +464,7 @@ const VehicleType = styled.div`
 
 const StatusBadge = styled.div`
   background: ${(props) => props.color};
-  color: white;
+  color: var(--nb-white);
   padding: ${(props) => (props.small ? "4px 10px" : "8px 15px")};
   border-radius: 20px;
   font-weight: bold;
@@ -486,24 +486,24 @@ const InfoRow = styled.div`
   align-items: center;
   gap: 8px;
   font-size: 0.95rem;
-  color: #555;
+  color: var(--nb-ink);
 
   svg {
-    color: #4e73df;
+    color: var(--nb-blue);
   }
 
   strong {
-    color: #2e3a59;
+    color: var(--nb-ink);
   }
 
   span {
-    color: #666;
+    color: var(--nb-ink);
   }
 `;
 
 const DeliveryActions = styled.div`
   padding: 15px 20px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--nb-border);
   display: flex;
   gap: 10px;
   justify-content: flex-end;
@@ -511,7 +511,7 @@ const DeliveryActions = styled.div`
 
 const ActionButton = styled.button`
   background: ${(props) => props.color};
-  color: white;
+  color: var(--nb-white);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -528,27 +528,27 @@ const ActionButton = styled.button`
 `;
 
 const OrdersSection = styled.div`
-  background: #f8f9fc;
+  background: var(--nb-muted);
   padding: 20px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--nb-border);
 `;
 
 const OrdersHeader = styled.div`
   margin-bottom: 15px;
 
   h3 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.1rem;
     margin: 0;
   }
 `;
 
 const OrderCard = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 6px;
   padding: 15px;
   margin-bottom: 15px;
-  border-left: 4px solid #4e73df;
+  border-left: 4px solid var(--nb-blue);
 `;
 
 const OrderHeader = styled.div`
@@ -560,7 +560,7 @@ const OrderHeader = styled.div`
 
 const OrderNumber = styled.div`
   font-weight: bold;
-  color: #2e3a59;
+  color: var(--nb-ink);
   font-size: 1rem;
 `;
 
@@ -578,12 +578,12 @@ const DetailRow = styled.div`
   font-size: 0.9rem;
 
   strong {
-    color: #666;
+    color: var(--nb-ink);
     font-size: 0.8rem;
   }
 
   span {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-weight: 500;
   }
 `;
@@ -593,12 +593,12 @@ const OrderActions = styled.div`
   gap: 10px;
   margin-top: 15px;
   padding-top: 15px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--nb-border);
 `;
 
 const OrderActionButton = styled.button`
   background: ${(props) => props.color};
-  color: white;
+  color: var(--nb-white);
   border: none;
   padding: 8px 15px;
   border-radius: 5px;
@@ -622,10 +622,10 @@ const OrderActionButton = styled.button`
 const ItemsList = styled.div`
   margin-top: 15px;
   padding-top: 15px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--nb-border);
 
   h4 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 0.9rem;
     margin-bottom: 10px;
   }
@@ -636,25 +636,25 @@ const ItemRow = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 8px 10px;
-  background: #f8f9fc;
+  background: var(--nb-muted);
   border-radius: 4px;
   margin-bottom: 5px;
   font-size: 0.85rem;
 
   .item-name {
     flex: 2;
-    color: #2e3a59;
+    color: var(--nb-ink);
   }
 
   .item-qty {
     flex: 1;
-    color: #666;
+    color: var(--nb-ink);
     text-align: center;
   }
 
   .item-price {
     flex: 1;
-    color: #1cc88a;
+    color: var(--nb-blue);
     font-weight: bold;
     text-align: right;
   }
@@ -663,16 +663,16 @@ const ItemRow = styled.div`
 const ExpandButton = styled.button`
   width: 100%;
   padding: 12px;
-  background: #f8f9fc;
+  background: var(--nb-muted);
   border: none;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--nb-border);
   cursor: pointer;
-  color: #4e73df;
+  color: var(--nb-blue);
   font-weight: 500;
   transition: background 0.2s;
 
   &:hover {
-    background: #e7e9f4;
+    background: var(--nb-muted);
   }
 `;
 

@@ -371,13 +371,13 @@ const OrderList = () => {
                     <ActionButtons>
                       <StatusButton
                         onClick={() => handleApprove(order._id)}
-                        color="#1cc88a"
+                        color="var(--nb-blue)"
                       >
                         Approve
                       </StatusButton>
                       <StatusButton
                         onClick={() => handleReject(order._id)}
-                        color="#e74a3b"
+                        color="var(--nb-orange)"
                       >
                         Reject
                       </StatusButton>
@@ -387,7 +387,7 @@ const OrderList = () => {
                     <ActionButtons>
                       <StatusButton
                         onClick={() => handleGenerateBill(order._id)}
-                        color="#4e73df"
+                        color="var(--nb-blue)"
                       >
                         Generate Bill
                       </StatusButton>
@@ -410,7 +410,7 @@ const OrderList = () => {
 const PageHeader = styled.h1`
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--nb-ink);
   text-align: center;
 `;
 
@@ -424,7 +424,7 @@ const ControlsContainer = styled.div`
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
   border-radius: 0.375rem;
   padding: 0.5rem 0.75rem;
   width: 300px;
@@ -443,8 +443,8 @@ const ExportButton = styled.button`
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: #1cc88a;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 0.375rem;
   font-size: 0.875rem;
@@ -457,7 +457,7 @@ const FiltersContainer = styled.div`
   gap: 1rem;
   margin-bottom: 1.5rem;
   padding: 1rem;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
   border-radius: 0.375rem;
 `;
 
@@ -468,28 +468,28 @@ const FilterGroup = styled.div`
 
 const Label = styled.label`
   font-size: 0.75rem;
-  color: #718096;
+  color: var(--nb-ink);
   margin-bottom: 0.25rem;
 `;
 
 const Select = styled.select`
   padding: 0.5rem 0.75rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--nb-border);
   border-radius: 0.25rem;
   font-size: 0.875rem;
 `;
 
 const Input = styled.input`
   padding: 0.5rem 0.75rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--nb-border);
   border-radius: 0.25rem;
   font-size: 0.875rem;
 `;
 
 const ErrorMessage = styled.div`
   padding: 0.75rem 1rem;
-  background-color: #fed7d7;
-  color: #c53030;
+  background-color: var(--nb-muted);
+  color: var(--nb-orange);
   border-radius: 0.375rem;
   margin-bottom: 1rem;
   font-size: 0.875rem;
@@ -498,14 +498,14 @@ const ErrorMessage = styled.div`
 const LoadingMessage = styled.div`
   padding: 1rem;
   text-align: center;
-  color: #718096;
+  color: var(--nb-ink);
 `;
 
 const EmptyMessage = styled.div`
   padding: 1rem;
   text-align: center;
-  color: #718096;
-  border: 1px dashed #cbd5e0;
+  color: var(--nb-ink);
+  border: 1px dashed var(--nb-border);
   border-radius: 0.375rem;
 `;
 
@@ -518,17 +518,17 @@ const OrdersTable = styled.table`
   td {
     padding: 0.75rem;
     text-align: left;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--nb-border);
   }
 
   th {
-    background-color: #f8f9fc;
+    background-color: var(--nb-muted);
     font-weight: 600;
-    color: #4a5568;
+    color: var(--nb-ink);
   }
 
   tr:hover {
-    background-color: #f8fafc;
+    background-color: var(--nb-muted);
   }
 `;
 
@@ -540,7 +540,7 @@ const ItemsList = styled.div`
 
 const Item = styled.div`
   padding: 0.5rem;
-  background-color: #f8fafc;
+  background-color: var(--nb-muted);
   border-radius: 0.25rem;
   font-size: 0.75rem;
 
@@ -561,28 +561,28 @@ const StatusBadge = styled.span`
   font-weight: 600;
   background-color: ${(props) =>
     props.status === "Completed"
-      ? "#c6f6d5"
+      ? "var(--nb-muted)"
       : props.status === "Approved"
-        ? "#bee3f8"
+        ? "var(--nb-muted)"
         : props.status === "Rejected"
-          ? "#fed7d7"
+          ? "var(--nb-muted)"
           : props.status === "Cancelled"
-            ? "#fed7d7"
-            : "#feebc8"};
+            ? "var(--nb-muted)"
+            : "var(--nb-muted)"};
   color: ${(props) =>
     props.status === "Completed"
-      ? "#22543d"
+      ? "var(--nb-ink)"
       : props.status === "Approved"
-        ? "#2c5282"
+        ? "var(--nb-ink)"
         : props.status === "Rejected"
-          ? "#9b2c2c"
+          ? "var(--nb-ink)"
           : props.status === "Cancelled"
-            ? "#9b2c2c"
-            : "#9c4221"};
+            ? "var(--nb-ink)"
+            : "var(--nb-ink)"};
 `;
 
 const BillGenerated = styled.div`
-  color: #1cc88a;
+  color: var(--nb-blue);
   font-size: 0.75rem;
   font-weight: 600;
 `;
@@ -594,8 +594,8 @@ const ActionButtons = styled.div`
 
 const StatusButton = styled.button`
   padding: 0.25rem 0.5rem;
-  background-color: ${(props) => props.color || "#4299e1"};
-  color: white;
+  background-color: ${(props) => props.color || "var(--nb-blue)"};
+  color: var(--nb-white);
   border: none;
   border-radius: 0.25rem;
   font-size: 0.75rem;

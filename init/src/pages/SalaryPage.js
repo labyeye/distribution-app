@@ -227,13 +227,13 @@ const SalaryPage = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case "Paid":
-        return "#28a745";
+        return "var(--nb-blue)";
       case "Partially Paid":
-        return "#ffc107";
+        return "var(--nb-orange)";
       case "Pending":
-        return "#dc3545";
+        return "var(--nb-orange)";
       default:
-        return "#6c757d";
+        return "var(--nb-ink)";
     }
   };
 
@@ -471,7 +471,7 @@ const SalaryPage = () => {
                     </Td>
                     <Td>{salary.staffName}</Td>
                     <Td>₹ {salary.basicSalary.toFixed(2)}</Td>
-                    <Td style={{ color: "#dc3545" }}>
+                    <Td style={{ color: "var(--nb-orange)" }}>
                       ₹ {salary.advanceDeducted.toFixed(2)}
                     </Td>
                     <Td style={{ fontWeight: "600" }}>
@@ -524,14 +524,14 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 28px;
-  color: #2c3e50;
+  color: var(--nb-ink);
   margin: 0;
   font-weight: 600;
 `;
 
 const AddButton = styled.button`
-  background: #4e73df;
-  color: white;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   padding: 12px 24px;
   border-radius: 6px;
@@ -541,24 +541,24 @@ const AddButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background: #2e59d9;
+    background: var(--nb-blue);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(78, 115, 223, 0.3);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
 const FormCard = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 8px;
   padding: 25px;
   margin-bottom: 25px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e3e6f0;
+  box-shadow: var(--nb-shadow-md);
+  border: 1px solid var(--nb-border);
 `;
 
 const FormTitle = styled.h2`
   font-size: 20px;
-  color: #2c3e50;
+  color: var(--nb-ink);
   margin: 0 0 20px 0;
   font-weight: 600;
 `;
@@ -579,49 +579,49 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   font-size: 13px;
-  color: #5a5c69;
+  color: var(--nb-ink);
   margin-bottom: 6px;
   font-weight: 500;
 `;
 
 const Input = styled.input`
   padding: 10px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 14px;
   transition: border-color 0.3s;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
 const Select = styled.select`
   padding: 10px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 14px;
-  background: white;
+  background: var(--nb-white);
   cursor: pointer;
   transition: border-color 0.3s;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
 const ReadOnlyInput = styled(Input)`
-  background: #f8f9fc;
-  color: #dc3545;
+  background: var(--nb-muted);
+  color: var(--nb-orange);
   font-weight: 600;
   cursor: not-allowed;
 `;
 
 const NetSalaryInput = styled(Input)`
-  background: #d4edda;
-  color: #155724;
+  background: var(--nb-muted);
+  color: var(--nb-blue);
   font-weight: 700;
   font-size: 16px;
   cursor: not-allowed;
@@ -629,7 +629,7 @@ const NetSalaryInput = styled(Input)`
 
 const TextArea = styled.textarea`
   padding: 10px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 14px;
   font-family: inherit;
@@ -638,13 +638,13 @@ const TextArea = styled.textarea`
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
 const AdvanceList = styled.div`
-  background: #fff3cd;
-  border: 1px solid #ffc107;
+  background: var(--nb-muted);
+  border: 1px solid var(--nb-orange);
   border-radius: 6px;
   padding: 15px;
   margin-bottom: 15px;
@@ -652,7 +652,7 @@ const AdvanceList = styled.div`
 
 const AdvanceTitle = styled.div`
   font-weight: 600;
-  color: #856404;
+  color: var(--nb-ink);
   margin-bottom: 10px;
   font-size: 14px;
 `;
@@ -661,9 +661,9 @@ const AdvanceItem = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid #ffeaa7;
+  border-bottom: 1px solid var(--nb-orange);
   font-size: 13px;
-  color: #856404;
+  color: var(--nb-ink);
 
   &:last-child {
     border-bottom: none;
@@ -672,7 +672,7 @@ const AdvanceItem = styled.div`
 
 const AdvanceAmount = styled.span`
   font-weight: 600;
-  color: #dc3545;
+  color: var(--nb-orange);
 `;
 
 const ButtonGroup = styled.div`
@@ -682,8 +682,8 @@ const ButtonGroup = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  background: #28a745;
-  color: white;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   padding: 12px 30px;
   border-radius: 6px;
@@ -693,15 +693,15 @@ const SubmitButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background: #218838;
+    background: var(--nb-blue);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
 const CancelButton = styled.button`
-  background: #6c757d;
-  color: white;
+  background: var(--nb-ink);
+  color: var(--nb-white);
   border: none;
   padding: 12px 30px;
   border-radius: 6px;
@@ -711,22 +711,22 @@ const CancelButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background: #5a6268;
+    background: var(--nb-ink);
   }
 `;
 
 const TableCard = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 8px;
   padding: 25px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e3e6f0;
+  box-shadow: var(--nb-shadow-md);
+  border: 1px solid var(--nb-border);
   overflow-x: auto;
 `;
 
 const TableTitle = styled.h2`
   font-size: 18px;
-  color: #2c3e50;
+  color: var(--nb-ink);
   margin: 0 0 20px 0;
   font-weight: 600;
 `;
@@ -738,19 +738,19 @@ const Table = styled.table`
 `;
 
 const Th = styled.th`
-  background: #f8f9fc;
+  background: var(--nb-muted);
   padding: 12px;
   text-align: left;
   font-weight: 600;
-  color: #5a5c69;
-  border-bottom: 2px solid #e3e6f0;
-  white-space: nowrap;
+  color: var(--nb-ink);
+  border-bottom: 2px solid var(--nb-border);
+  var(--nb-white)-space: nowrap;
 `;
 
 const Td = styled.td`
   padding: 12px;
-  border-bottom: 1px solid #e3e6f0;
-  color: #5a5c69;
+  border-bottom: 1px solid var(--nb-border);
+  color: var(--nb-ink);
 `;
 
 const StatusBadge = styled.span`
@@ -759,13 +759,13 @@ const StatusBadge = styled.span`
   border-radius: 12px;
   font-size: 12px;
   font-weight: 600;
-  color: white;
+  color: var(--nb-white);
   background: ${(props) => props.color};
 `;
 
 const ActionButton = styled.button`
-  background: #4e73df;
-  color: white;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   padding: 6px 12px;
   border-radius: 4px;
@@ -775,13 +775,13 @@ const ActionButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background: #2e59d9;
+    background: var(--nb-blue);
   }
 `;
 
 const DeleteButton = styled.button`
-  background: #dc3545;
-  color: white;
+  background: var(--nb-orange);
+  color: var(--nb-white);
   border: none;
   padding: 6px 12px;
   border-radius: 4px;
@@ -790,7 +790,7 @@ const DeleteButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background: #c82333;
+    background: var(--nb-orange);
   }
 `;
 

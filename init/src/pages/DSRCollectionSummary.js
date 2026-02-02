@@ -200,11 +200,11 @@ const CollectionRatio = styled.span`
   border-radius: 12px;
   background-color: ${(props) => {
     const ratio = props.total > 0 ? props.collected / props.total : 0;
-    if (ratio >= 0.8) return "#c8e6c9"; // Green
-    if (ratio >= 0.5) return "#fff9c4"; // Yellow
-    return "#ffcdd2"; // Red
+    if (ratio >= 0.8) return "var(--nb-muted)"; // Green
+    if (ratio >= 0.5) return "var(--nb-white)9c4"; // Yellow
+    return "var(--nb-muted)"; // Red
   }};
-  color: #333;
+  color: var(--nb-ink);
   font-weight: ${(props) => (props.total > 0 ? "bold" : "normal")};
 `;
 
@@ -237,7 +237,7 @@ const ControlsContainer = styled.div`
 const DatePickerContainer = styled.div`
   .date-picker {
     padding: 8px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--nb-border);
     border-radius: 4px;
     font-size: 14px;
     min-width: 150px;
@@ -246,17 +246,17 @@ const DatePickerContainer = styled.div`
 
 const ExportButton = styled.button`
   padding: 8px 16px;
-  background-color: ${(props) => (props.disabled ? "#cccccc" : "#4CAF50")};
-  color: white;
+  background-color: ${(props) => (props.disabled ? "var(--nb-border)" : "var(--nb-blue)")};
+  color: var(--nb-white);
   border: none;
   border-radius: 4px;
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   font-size: 14px;
   transition: background-color 0.3s;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
 
   &:hover {
-    background-color: ${(props) => (props.disabled ? "#cccccc" : "#45a049")};
+    background-color: ${(props) => (props.disabled ? "var(--nb-border)" : "var(--nb-blue)")};
   }
 `;
 const DateRangeContainer = styled.div`
@@ -273,12 +273,12 @@ const LoadingMessage = styled.div`
   padding: 20px;
   text-align: center;
   font-size: 16px;
-  color: #666;
+  color: var(--nb-ink);
 `;
 
 const ErrorMessage = styled.div`
-  color: #d32f2f;
-  background-color: #fde7e7;
+  color: var(--nb-orange);
+  background-color: var(--nb-muted);
   padding: 15px;
   border-radius: 4px;
   margin: 20px 0;
@@ -289,8 +289,8 @@ const TableWrapper = styled.div`
   width: 100%;
   overflow-x: auto;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background: white;
+  box-shadow: var(--nb-shadow-md);
+  background: var(--nb-white);
 `;
 
 const SummaryTable = styled.table`
@@ -302,23 +302,23 @@ const SummaryTable = styled.table`
   td {
     padding: 12px 15px;
     text-align: center;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--nb-border);
   }
 
   th {
-    background-color: #f5f5f5;
+    background-color: var(--nb-muted);
     font-weight: 600;
-    white-space: nowrap;
+    var(--nb-white)-space: nowrap;
     position: sticky;
     top: 0;
   }
 
   tr:nth-child(even) {
-    background-color: #fafafa;
+    background-color: var(--nb-muted);
   }
 
   tr:hover {
-    background-color: #f1f8e9;
+    background-color: var(--nb-muted);
   }
 
   @media (max-width: 768px) {
@@ -332,39 +332,39 @@ const SummaryTable = styled.table`
 `;
 
 const CashHeader = styled.th`
-  background-color: #e3f2fd !important;
-  color: #1565c0;
+  background-color: var(--nb-muted) !important;
+  color: var(--nb-ink);
 `;
 
 const CashCell = styled.td`
-  background-color: #e3f2fd;
+  background-color: var(--nb-muted);
 `;
 
 const UPIHeader = styled.th`
-  background-color: #e8f5e9 !important;
-  color: #2e7d32;
+  background-color: var(--nb-muted) !important;
+  color: var(--nb-ink);
 `;
 
 const UPICell = styled.td`
-  background-color: #e8f5e9;
+  background-color: var(--nb-muted);
 `;
 
 const ChequeHeader = styled.th`
-  background-color: #fff3e0 !important;
-  color: #e65100;
+  background-color: var(--nb-white)3e0 !important;
+  color: var(--nb-orange);
 `;
 
 const ChequeCell = styled.td`
-  background-color: #fff3e0;
+  background-color: var(--nb-white)3e0;
 `;
 
 const BankHeader = styled.th`
-  background-color: #f3e5f5 !important;
-  color: #6a1b9a;
+  background-color: var(--nb-muted) !important;
+  color: var(--nb-ink);
 `;
 
 const BankCell = styled.td`
-  background-color: #f3e5f5;
+  background-color: var(--nb-muted);
 `;
 
 export default DSRCollectionSummary;

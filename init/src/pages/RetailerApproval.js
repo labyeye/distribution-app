@@ -221,7 +221,7 @@ const Header = styled.header`
   gap: 1rem;
 
   h1 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.5rem;
     margin: 0 0 0.5rem 0;
     font-weight: 600;
@@ -233,7 +233,7 @@ const Header = styled.header`
 `;
 
 const SubTitle = styled.p`
-  color: #6e707e;
+  color: var(--nb-ink);
   font-size: 0.95rem;
   margin: 0;
 `;
@@ -242,13 +242,13 @@ const CountBadge = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: var(--nb-muted);
+  color: var(--nb-ink);
   padding: 0.6rem 1.2rem;
   border-radius: 2rem;
   font-weight: 600;
   font-size: 0.9rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
 `;
 
 const ApprovalGrid = styled.div`
@@ -266,15 +266,15 @@ const ApprovalGrid = styled.div`
 `;
 
 const ApprovalCard = styled.div`
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 0.75rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   overflow: hidden;
   transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
@@ -283,15 +283,15 @@ const CardHeader = styled.div`
   align-items: center;
   gap: 1rem;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--nb-var(--nb-white));
+  color: var(--nb-white);
 `;
 
 const ShopIcon = styled.div`
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--nb-muted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -311,7 +311,7 @@ const ShopName = styled.h3`
   margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
   font-weight: 600;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
@@ -320,7 +320,7 @@ const ShopEmail = styled.p`
   margin: 0;
   font-size: 0.85rem;
   opacity: 0.9;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
@@ -338,14 +338,14 @@ const InfoRow = styled.div`
 `;
 
 const Label = styled.div`
-  color: #6e707e;
+  color: var(--nb-ink);
   font-size: 0.85rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
 `;
 
 const Value = styled.div`
-  color: #2e3a59;
+  color: var(--nb-ink);
   font-size: 0.95rem;
 `;
 
@@ -353,8 +353,8 @@ const CardFooter = styled.div`
   display: flex;
   gap: 0.75rem;
   padding: 1rem 1.5rem;
-  background-color: #f8f9fc;
-  border-top: 1px solid #f0f0f0;
+  background-color: var(--nb-muted);
+  border-top: 1px solid var(--nb-border);
 `;
 
 const ApproveButton = styled.button`
@@ -364,8 +364,8 @@ const ApproveButton = styled.button`
   justify-content: center;
   gap: 0.5rem;
   padding: 0.7rem 1rem;
-  background-color: #1cc88a;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 0.5rem;
   font-size: 0.9rem;
@@ -374,7 +374,7 @@ const ApproveButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover:not(:disabled) {
-    background-color: #17a673;
+    background-color: var(--nb-blue);
     transform: translateY(-2px);
   }
 
@@ -391,8 +391,8 @@ const RejectButton = styled.button`
   justify-content: center;
   gap: 0.5rem;
   padding: 0.7rem 1rem;
-  background-color: #e74c3c;
-  color: white;
+  background-color: var(--nb-orange);
+  color: var(--nb-white);
   border: none;
   border-radius: 0.5rem;
   font-size: 0.9rem;
@@ -401,7 +401,7 @@ const RejectButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover:not(:disabled) {
-    background-color: #c0392b;
+    background-color: var(--nb-orange);
     transform: translateY(-2px);
   }
 
@@ -414,7 +414,7 @@ const RejectButton = styled.button`
 const LoadingIndicator = styled.div`
   padding: 3rem;
   text-align: center;
-  color: #6e707e;
+  color: var(--nb-ink);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -423,9 +423,9 @@ const LoadingIndicator = styled.div`
   .spinner {
     width: 40px;
     height: 40px;
-    border: 4px solid rgba(78, 115, 223, 0.1);
+    border: 4px solid var(--nb-muted);
     border-radius: 50%;
-    border-top-color: #4e73df;
+    border-top-color: var(--nb-blue);
     animation: spin 1s ease-in-out infinite;
   }
 
@@ -444,27 +444,27 @@ const LoadingIndicator = styled.div`
 const ErrorMessage = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #e74c3c;
-  background-color: #fee;
+  color: var(--nb-orange);
+  background-color: var(--nb-muted);
   border-radius: 0.75rem;
-  border: 1px solid #fcc;
+  border: 1px solid var(--nb-border);
 `;
 
 const EmptyState = styled.div`
   padding: 4rem 2rem;
   text-align: center;
-  color: #6e707e;
-  background-color: #fff;
+  color: var(--nb-ink);
+  background-color: var(--nb-white);
   border-radius: 0.75rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
 
   svg {
-    color: #d0d0d0;
+    color: var(--nb-border);
     margin-bottom: 1rem;
   }
 
   h3 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.3rem;
     margin: 0 0 0.5rem 0;
   }

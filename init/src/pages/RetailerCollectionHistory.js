@@ -97,7 +97,7 @@ const RetailerCollectionHistory = () => {
 
         {/* Summary Cards */}
         <SummaryGrid>
-          <SummaryCard color="#1cc88a">
+          <SummaryCard color="var(--nb-blue)">
             <div className="icon">
               <FaMoneyBillWave size={24} />
             </div>
@@ -106,7 +106,7 @@ const RetailerCollectionHistory = () => {
               <p>₹{totalCollected.toFixed(2)}</p>
             </div>
           </SummaryCard>
-          <SummaryCard color="#4e73df">
+          <SummaryCard color="var(--nb-blue)">
             <div className="icon">
               <FaCalendarAlt size={24} />
             </div>
@@ -229,7 +229,7 @@ const Header = styled.header`
   margin-bottom: 1.5rem;
 
   h1 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.5rem;
     margin: 0 0 0.5rem 0;
     font-weight: 600;
@@ -241,7 +241,7 @@ const Header = styled.header`
 `;
 
 const SubTitle = styled.p`
-  color: #6e707e;
+  color: var(--nb-ink);
   font-size: 0.95rem;
   margin: 0;
 `;
@@ -258,10 +258,10 @@ const SummaryGrid = styled.div`
 `;
 
 const SummaryCard = styled.div`
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -284,14 +284,14 @@ const SummaryCard = styled.div`
 
   .content {
     h3 {
-      color: #6e707e;
+      color: var(--nb-ink);
       font-size: 0.85rem;
       margin: 0 0 0.5rem 0;
       font-weight: 600;
     }
 
     p {
-      color: #2e3a59;
+      color: var(--nb-ink);
       font-size: 1.5rem;
       margin: 0;
       font-weight: 700;
@@ -310,23 +310,23 @@ const FilterButton = styled.button`
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 0.5rem;
-  background-color: ${(props) => (props.active ? "#4e73df" : "#f8f9fa")};
-  color: ${(props) => (props.active ? "#fff" : "#6e707e")};
+  background-color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-muted)")};
+  color: ${(props) => (props.active ? "var(--nb-white)" : "var(--nb-ink)")};
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: ${(props) => (props.active ? "#3a5ab6" : "#e9ecef")};
+    background-color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-muted)")};
   }
 `;
 
 const ContentSection = styled.section`
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   overflow: hidden;
 
   @media (min-width: 768px) {
@@ -355,17 +355,17 @@ const DataTable = styled.table`
   td {
     padding: 0.75rem 1rem;
     text-align: left;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--nb-border);
   }
 
   th {
-    color: #6e707e;
+    color: var(--nb-ink);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-size: 0.75rem;
-    white-space: nowrap;
-    background-color: #f9fafc;
+    var(--nb-white)-space: nowrap;
+    background-color: var(--nb-muted);
 
     @media (min-width: 768px) {
       font-size: 0.8rem;
@@ -374,7 +374,7 @@ const DataTable = styled.table`
   }
 
   td {
-    color: #2e3a59;
+    color: var(--nb-ink);
   }
 
   tr:last-child td {
@@ -382,7 +382,7 @@ const DataTable = styled.table`
   }
 
   tr:hover {
-    background-color: #f8f9fa;
+    background-color: var(--nb-muted);
   }
 
   @media (max-width: 767px) {
@@ -395,7 +395,7 @@ const DataTable = styled.table`
     tr {
       display: block;
       margin-bottom: 1rem;
-      border: 1px solid #eee;
+      border: 1px solid var(--nb-border);
       border-radius: 0.5rem;
       padding: 0.5rem;
     }
@@ -406,7 +406,7 @@ const DataTable = styled.table`
       align-items: center;
       padding: 0.5rem 0.75rem;
       text-align: right;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid var(--nb-border);
 
       &:last-child {
         border-bottom: none;
@@ -416,7 +416,7 @@ const DataTable = styled.table`
         content: attr(data-label);
         float: left;
         font-weight: 600;
-        color: #6e707e;
+        color: var(--nb-ink);
         margin-right: 1rem;
         font-size: 0.8rem;
       }
@@ -426,7 +426,7 @@ const DataTable = styled.table`
 
 const TimeText = styled.div`
   font-size: 0.75rem;
-  color: #6e707e;
+  color: var(--nb-ink);
   margin-top: 0.25rem;
 `;
 
@@ -434,8 +434,8 @@ const StaffBadge = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #e3f2fd;
-  color: #1976d2;
+  background-color: var(--nb-muted);
+  color: var(--nb-blue);
   padding: 0.35rem 0.75rem;
   border-radius: 1rem;
   font-size: 0.85rem;
@@ -443,7 +443,7 @@ const StaffBadge = styled.div`
 `;
 
 const AmountText = styled.div`
-  color: #1cc88a;
+  color: var(--nb-blue);
   font-weight: 600;
   font-size: 1rem;
 `;
@@ -451,7 +451,7 @@ const AmountText = styled.div`
 const LoadingIndicator = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #6e707e;
+  color: var(--nb-ink);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -460,9 +460,9 @@ const LoadingIndicator = styled.div`
   .spinner {
     width: 40px;
     height: 40px;
-    border: 4px solid rgba(78, 115, 223, 0.1);
+    border: 4px solid var(--nb-muted);
     border-radius: 50%;
-    border-top-color: #4e73df;
+    border-top-color: var(--nb-blue);
     animation: spin 1s ease-in-out infinite;
   }
 
@@ -481,10 +481,10 @@ const LoadingIndicator = styled.div`
 const ErrorMessage = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #e74c3c;
-  background-color: #fee;
+  color: var(--nb-orange);
+  background-color: var(--nb-muted);
   border-radius: 0.75rem;
-  border: 1px solid #fcc;
+  border: 1px solid var(--nb-border);
 `;
 
 export default RetailerCollectionHistory;

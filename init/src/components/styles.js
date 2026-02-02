@@ -15,7 +15,7 @@ export const PageContainer = styled.div`
 export const PageHeader = styled.h1`
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--nb-ink);
   text-align: center;
 
   @media (min-width: 768px) {
@@ -27,9 +27,9 @@ export const PageHeader = styled.h1`
 export const SectionHeader = styled.h2`
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #444;
+  color: var(--nb-ink);
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 2px solid var(--nb-border);
 
   @media (min-width: 768px) {
     font-size: 1.5rem;
@@ -59,12 +59,12 @@ export const Title = styled.div`
 
   h1 {
     font-size: 1.5rem;
-    color: #2d3748;
+    color: var(--nb-ink);
     margin: 0;
   }
 
   svg {
-    color: #4a5568;
+    color: var(--nb-ink);
   }
   
   @media (min-width: 768px) {
@@ -80,10 +80,11 @@ export const Title = styled.div`
 
 // Form Components
 export const FormContainer = styled.form`
-  background: white;
+  background: var(--nb-white);
   padding: 1.25rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: var(--nb-radius);
+  border: 2px solid var(--nb-border);
+  box-shadow: var(--nb-shadow-md);
   margin-bottom: 1.5rem;
   width: 100%;
   max-width: 1200px;
@@ -120,7 +121,7 @@ export const FormGroup = styled.div`
 export const Label = styled.label`
   display: block;
   margin-bottom: 0.5rem;
-  color: #555;
+  color: var(--nb-ink);
   font-weight: 500;
   font-size: 0.875rem;
 
@@ -132,17 +133,18 @@ export const Label = styled.label`
 export const Input = styled.input`
   width: 100%;
   padding: 0.625rem 0.75rem;
-  border: 1px solid ${(props) => (props.hasError ? "#e74c3c" : "#ddd")};
-  border-radius: 0.375rem;
+  border: 2px solid ${(props) => (props.hasError ? "var(--nb-orange)" : "var(--nb-border)")};
+  border-radius: var(--nb-radius-sm);
   font-size: 0.875rem;
-  transition: all 0.2s ease;
-  background-color: white;
+  transition: box-shadow var(--nb-transition), transform var(--nb-transition), border-color var(--nb-transition);
+  background-color: var(--nb-white);
+  color: var(--nb-ink);
   min-height: 2.5rem;
 
   &:focus {
     outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-sm);
   }
 
   @media (min-width: 768px) {
@@ -153,10 +155,10 @@ export const Input = styled.input`
 export const Select = styled.select`
   width: 100%;
   padding: 0.625rem 0.75rem;
-  border: 1px solid ${(props) => (props.hasError ? "#e74c3c" : "#ddd")};
-  border-radius: 0.375rem;
+  border: 2px solid ${(props) => (props.hasError ? "var(--nb-orange)" : "var(--nb-border)")};
+  border-radius: var(--nb-radius-sm);
   font-size: 0.875rem;
-  background-color: white;
+  background-color: var(--nb-white);
   min-height: 2.5rem;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -166,8 +168,8 @@ export const Select = styled.select`
 
   &:focus {
     outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-sm);
   }
 
   @media (min-width: 768px) {
@@ -188,24 +190,28 @@ export const ButtonContainer = styled.div`
 
 export const Button = styled.button`
   padding: 0.625rem 1rem;
-  background-color: #4299e1;
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
+  border: 2px solid var(--nb-border);
+  border-radius: var(--nb-radius-sm);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform var(--nb-transition), box-shadow var(--nb-transition);
   width: 100%;
   max-width: 200px;
+  box-shadow: var(--nb-shadow-md);
 
   &:hover {
-    background-color: #3182ce;
+    transform: translate(-2px, -2px);
+    box-shadow: var(--nb-shadow-lg);
   }
 
   &:disabled {
-    background-color: #a0aec0;
+    background-color: var(--nb-muted);
+    color: var(--nb-ink);
     cursor: not-allowed;
+    box-shadow: none;
   }
 
   @media (min-width: 768px) {
@@ -228,17 +234,19 @@ export const ButtonGroup = styled.div`
 
 export const PrimaryButton = styled.button`
   padding: 0.75rem 1rem;
-  background-color: #4299e1;
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
+  border: 2px solid var(--nb-border);
+  border-radius: var(--nb-radius-sm);
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform var(--nb-transition), box-shadow var(--nb-transition);
   width: 100%;
+  box-shadow: var(--nb-shadow-md);
 
   &:hover {
-    background-color: #3182ce;
+    transform: translate(-2px, -2px);
+    box-shadow: var(--nb-shadow-lg);
   }
   
   @media (min-width: 480px) {
@@ -249,17 +257,19 @@ export const PrimaryButton = styled.button`
 
 export const SecondaryButton = styled.button`
   padding: 0.75rem 1rem;
-  background-color: white;
-  color: #4299e1;
-  border: 1px solid #4299e1;
-  border-radius: 0.375rem;
+  background-color: var(--nb-white);
+  color: var(--nb-ink);
+  border: 2px solid var(--nb-border);
+  border-radius: var(--nb-radius-sm);
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform var(--nb-transition), box-shadow var(--nb-transition);
   width: 100%;
+  box-shadow: var(--nb-shadow-md);
 
   &:hover {
-    background-color: #ebf8ff;
+    transform: translate(-2px, -2px);
+    box-shadow: var(--nb-shadow-lg);
   }
   
   @media (min-width: 480px) {
@@ -281,35 +291,37 @@ export const ActionButtons = styled.div`
 `;
 
 export const ActionButton = styled.button`
-  background-color: ${(props) => props.bgColor || "#ebf8ff"};
-  color: ${(props) => props.color || "#3182ce"};
-  border: none;
-  border-radius: 0.25rem;
+  background-color: ${(props) => props.bgColor || "var(--nb-white)"};
+  color: ${(props) => props.color || "var(--nb-ink)"};
+  border: 2px solid var(--nb-border);
+  border-radius: var(--nb-radius-sm);
   padding: 0.5rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform var(--nb-transition), box-shadow var(--nb-transition);
+  box-shadow: var(--nb-shadow-sm);
 
   &:hover {
-    background-color: ${(props) => props.hoverBgColor || "#bee3f8"};
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
 export const AssignButton = styled(ActionButton).attrs({
-  bgColor: "#ebf8ff",
-  color: "#3182ce",
-  hoverBgColor: "#bee3f8"
+  bgColor: "var(--nb-blue)",
+  color: "var(--nb-white)",
+  hoverBgColor: "var(--nb-blue)"
 })``;
 
 export const EditButton = styled(ActionButton).attrs({
-  bgColor: "#f0fff4",
-  color: "#38a169",
-  hoverBgColor: "#c6f6d5"
+  bgColor: "var(--nb-white)",
+  color: "var(--nb-ink)",
+  hoverBgColor: "var(--nb-white)"
 })``;
 
 export const DeleteButton = styled(ActionButton).attrs({
-  bgColor: "#fff5f5",
-  color: "#e53e3e",
-  hoverBgColor: "#fed7d7"
+  bgColor: "var(--nb-orange)",
+  color: "var(--nb-white)",
+  hoverBgColor: "var(--nb-orange)"
 })``;
 
 // File Upload Components
@@ -328,18 +340,20 @@ export const FileUploadContainer = styled.div`
 export const FileInputLabel = styled.label`
   display: inline-block;
   padding: 0.625rem 1rem;
-  background-color: #edf2f7;
-  color: #4a5568;
-  border: 1px solid #cbd5e0;
-  border-radius: 0.375rem;
+  background-color: var(--nb-white);
+  color: var(--nb-ink);
+  border: 2px solid var(--nb-border);
+  border-radius: var(--nb-radius-sm);
   cursor: pointer;
   font-size: 0.875rem;
   text-align: center;
-  transition: all 0.2s ease;
+  transition: transform var(--nb-transition), box-shadow var(--nb-transition);
   width: 100%;
+  box-shadow: var(--nb-shadow-sm);
 
   &:hover {
-    background-color: #e2e8f0;
+    transform: translate(-1px, -1px);
+    box-shadow: var(--nb-shadow-md);
   }
 
   @media (min-width: 480px) {
@@ -358,7 +372,7 @@ export const FileInput = styled.input`
 
 export const FileName = styled.span`
   font-size: 0.875rem;
-  color: #4a5568;
+  color: var(--nb-ink);
   word-break: break-all;
   text-align: center;
 
@@ -375,10 +389,11 @@ export const FileName = styled.span`
 export const SearchBox = styled.div`
   display: flex;
   align-items: center;
-  background: white;
-  border-radius: 8px;
+  background: var(--nb-white);
+  border-radius: var(--nb-radius);
   padding: 0.5rem 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--nb-border);
+  box-shadow: var(--nb-shadow-sm);
   width: 100%;
 
   input {
@@ -387,10 +402,12 @@ export const SearchBox = styled.div`
     padding: 0.5rem;
     width: 100%;
     font-size: 1rem;
+    color: var(--nb-ink);
+    background: transparent;
   }
 
   svg {
-    color: #a0aec0;
+    color: var(--nb-ink);
     margin-right: 0.5rem;
   }
   
@@ -401,9 +418,10 @@ export const SearchBox = styled.div`
 
 // Table Components
 export const TableContainer = styled.div`
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: var(--nb-white);
+  border-radius: var(--nb-radius);
+  border: 2px solid var(--nb-border);
+  box-shadow: var(--nb-shadow-md);
   overflow-x: auto;
 `;
 
@@ -414,23 +432,23 @@ export const Table = styled.table`
   min-width: 650px;
 
   th {
-    background-color: #f7fafc;
-    color: #4a5568;
+    background-color: var(--nb-muted);
+    color: var(--nb-ink);
     font-weight: 600;
     text-align: left;
     padding: 1rem;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 2px solid var(--nb-border);
     white-space: nowrap;
   }
 
   td {
     padding: 1rem;
-    border-bottom: 1px solid #e2e8f0;
-    color: #2d3748;
+    border-bottom: 2px solid var(--nb-border);
+    color: var(--nb-ink);
   }
 
   tr:hover td {
-    background-color: #f8fafc;
+    background-color: var(--nb-muted);
   }
 `;
 
@@ -442,38 +460,39 @@ export const StatusBadge = styled.span`
   font-weight: 600;
   text-transform: capitalize;
   white-space: nowrap;
+  border: 2px solid var(--nb-border);
   
   background-color: ${(props) =>
     props.status === "Paid" || props.status === "paid"
-      ? "#ebf8ff"
+      ? "var(--nb-blue)"
       : props.status === "Partially Paid" || props.status === "partially paid"
-      ? "#fefcbf"
+      ? "var(--nb-orange)"
       : props.status === "Unpaid" || props.status === "unpaid" || props.status === "pending"
-      ? "#fff5f5"
-      : "#f0fff4"};
+      ? "var(--nb-white)"
+      : "var(--nb-white)"};
       
   color: ${(props) =>
     props.status === "Paid" || props.status === "paid"
-      ? "#3182ce"
+      ? "var(--nb-white)"
       : props.status === "Partially Paid" || props.status === "partially paid"
-      ? "#d69e2e"
+      ? "var(--nb-white)"
       : props.status === "Unpaid" || props.status === "unpaid" || props.status === "pending"
-      ? "#e53e3e"
-      : "#38a169"};
+      ? "var(--nb-orange)"
+      : "var(--nb-ink)"};
 `;
 
 // Message Components
 export const Message = styled.div`
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
-  border-radius: 0.375rem;
+  border-radius: var(--nb-radius-sm);
   font-weight: 500;
   font-size: 0.875rem;
-  background-color: ${(props) =>
-    props.type === "error" ? "#fff5f5" : "#f0fff4"};
-  color: ${(props) => (props.type === "error" ? "#e53e3e" : "#38a169")};
-  border-left: 4px solid
-    ${(props) => (props.type === "error" ? "#e53e3e" : "#38a169")};
+  background-color: var(--nb-white);
+  color: var(--nb-ink);
+  border: 2px solid var(--nb-border);
+  border-left: 6px solid
+    ${(props) => (props.type === "error" ? "var(--nb-orange)" : "var(--nb-blue)")};
   width: 100%;
 
   @media (min-width: 768px) {
@@ -493,7 +512,7 @@ export const ErrorMessage = styled(Message).attrs({
 `;
 
 export const ErrorText = styled.span`
-  color: #e74c3c;
+  color: var(--nb-orange);
   font-size: 0.75rem;
   margin-top: 0.25rem;
   display: block;
@@ -505,7 +524,7 @@ export const ErrorText = styled.span`
 
 export const NoteText = styled.p`
   font-size: 0.875rem;
-  color: #718096;
+  color: var(--nb-ink);
   margin-top: 1rem;
   line-height: 1.5;
 
@@ -521,14 +540,14 @@ export const LoadingIndicator = styled.div`
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  color: #4a5568;
+  color: var(--nb-ink);
   gap: 1rem;
 `;
 
 export const Spinner = styled.div`
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 3px solid var(--nb-ink);
   border-radius: 50%;
-  border-top: 4px solid #4299e1;
+  border-top: 3px solid var(--nb-blue);
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
@@ -550,7 +569,7 @@ export const ModalOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -559,11 +578,12 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  background: white;
-  border-radius: 0.5rem;
+  background: var(--nb-white);
+  border-radius: var(--nb-radius);
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--nb-border);
+  box-shadow: var(--nb-shadow-lg);
 `;
 
 export const ModalHeader = styled.div`
@@ -571,12 +591,12 @@ export const ModalHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 2px solid var(--nb-border);
 
   h3 {
     margin: 0;
     font-size: 1.15rem;
-    color: #2d3748;
+    color: var(--nb-ink);
   }
   
   @media (min-width: 768px) {
@@ -593,11 +613,11 @@ export const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #a0aec0;
+  color: var(--nb-ink);
   padding: 0.5rem;
 
   &:hover {
-    color: #718096;
+    color: var(--nb-ink);
   }
 `;
 

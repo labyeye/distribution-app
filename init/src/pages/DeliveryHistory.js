@@ -91,15 +91,15 @@ const DeliveryHistory = () => {
   const getStatusBadge = (status) => {
     switch (status) {
       case "Pending":
-        return <Badge color="#f6c23e">Pending</Badge>;
+        return <Badge color="var(--nb-orange)">Pending</Badge>;
       case "In Transit":
-        return <Badge color="#36b9cc">In Transit</Badge>;
+        return <Badge color="var(--nb-blue)">In Transit</Badge>;
       case "Delivered":
-        return <Badge color="#1cc88a">Delivered</Badge>;
+        return <Badge color="var(--nb-blue)">Delivered</Badge>;
       case "Cancelled":
-        return <Badge color="#e74a3b">Cancelled</Badge>;
+        return <Badge color="var(--nb-orange)">Cancelled</Badge>;
       default:
-        return <Badge color="#858796">{status}</Badge>;
+        return <Badge color="var(--nb-ink)">{status}</Badge>;
     }
   };
 
@@ -195,13 +195,13 @@ const DeliveryHistory = () => {
                     </td>
                     <td>
                       <div>{delivery.vehicleNumber}</div>
-                      <small style={{ color: "#888" }}>
+                      <small style={{ color: "var(--nb-ink)" }}>
                         {delivery.vehicleType}
                       </small>
                     </td>
                     <td>
                       <div>{delivery.driverName}</div>
-                      <small style={{ color: "#888" }}>
+                      <small style={{ color: "var(--nb-ink)" }}>
                         {delivery.driverMobile}
                       </small>
                     </td>
@@ -259,14 +259,14 @@ const Header = styled.div`
   margin-bottom: 20px;
 
   h1 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.8rem;
   }
 `;
 
 const ExportButton = styled.button`
-  background: #1cc88a;
-  color: white;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
@@ -277,7 +277,7 @@ const ExportButton = styled.button`
   font-weight: 500;
 
   &:hover {
-    background: #17a673;
+    background: var(--nb-blue);
   }
 `;
 
@@ -286,25 +286,25 @@ const FiltersContainer = styled.div`
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 20px;
-  background: white;
+  background: var(--nb-white);
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   flex-wrap: wrap;
 `;
 
 const SearchBox = styled.div`
   display: flex;
   align-items: center;
-  background: #f8f9fa;
+  background: var(--nb-muted);
   padding: 8px 12px;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   flex: 1;
   min-width: 200px;
 
   svg {
-    color: #888;
+    color: var(--nb-ink);
     margin-right: 8px;
   }
 
@@ -325,16 +325,16 @@ const FilterGroup = styled.div`
   input[type="date"],
   select {
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--nb-border);
     border-radius: 4px;
     outline: none;
   }
 `;
 
 const TableContainer = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   overflow-x: auto;
 `;
 
@@ -346,25 +346,25 @@ const Table = styled.table`
   td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--nb-border);
   }
 
   th {
-    background: #f8f9fc;
-    color: #6e707e;
+    background: var(--nb-muted);
+    color: var(--nb-ink);
     font-weight: 600;
     font-size: 0.85rem;
     text-transform: uppercase;
   }
 
   tr:hover {
-    background: #f8f9fa;
+    background: var(--nb-muted);
   }
 `;
 
 const Badge = styled.span`
   background: ${(props) => props.color};
-  color: white;
+  color: var(--nb-white);
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 0.75rem;
@@ -374,13 +374,13 @@ const Badge = styled.span`
 const ActionButton = styled.button`
   background: none;
   border: none;
-  color: #4e73df;
+  color: var(--nb-blue);
   cursor: pointer;
   font-size: 1rem;
   padding: 4px;
 
   &:hover {
-    color: #2e59d9;
+    color: var(--nb-blue);
   }
 `;
 
@@ -394,18 +394,18 @@ const Pagination = styled.div`
 
 const PageButton = styled.button`
   padding: 8px 16px;
-  border: 1px solid #ddd;
-  background: white;
+  border: 1px solid var(--nb-border);
+  background: var(--nb-white);
   border-radius: 4px;
   cursor: pointer;
 
   &:disabled {
-    background: #eee;
+    background: var(--nb-border);
     cursor: not-allowed;
   }
 
   &:hover:not(:disabled) {
-    background: #f8f9fa;
+    background: var(--nb-muted);
   }
 `;
 

@@ -355,19 +355,19 @@ const SalaryLedgerPage = () => {
                   <SummaryGrid>
                     <SummaryItem>
                       <SummaryLabel>Total Salary Credited</SummaryLabel>
-                      <SummaryValue color="#28a745">
+                      <SummaryValue color="var(--nb-blue)">
                         ₹ {getTotals().totalSalary.toFixed(2)}
                       </SummaryValue>
                     </SummaryItem>
                     <SummaryItem>
                       <SummaryLabel>Total Advance Taken</SummaryLabel>
-                      <SummaryValue color="#dc3545">
+                      <SummaryValue color="var(--nb-orange)">
                         ₹ {getTotals().totalAdvance.toFixed(2)}
                       </SummaryValue>
                     </SummaryItem>
                     <SummaryItem>
                       <SummaryLabel>Total Paid</SummaryLabel>
-                      <SummaryValue color="#ffc107">
+                      <SummaryValue color="var(--nb-orange)">
                         ₹ {getTotals().totalPaid.toFixed(2)}
                       </SummaryValue>
                     </SummaryItem>
@@ -375,7 +375,7 @@ const SalaryLedgerPage = () => {
                       <SummaryLabel>Final Balance</SummaryLabel>
                       <SummaryValue
                         color={
-                          getTotals().finalBalance >= 0 ? "#4e73df" : "#dc3545"
+                          getTotals().finalBalance >= 0 ? "var(--nb-blue)" : "var(--nb-orange)"
                         }
                       >
                         ₹ {Math.abs(getTotals().finalBalance).toFixed(2)}
@@ -408,18 +408,18 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 28px;
-  color: #2c3e50;
+  color: var(--nb-ink);
   margin: 0;
   font-weight: 600;
 `;
 
 const FilterCard = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 25px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e3e6f0;
+  box-shadow: var(--nb-shadow-md);
+  border: 1px solid var(--nb-border);
 `;
 
 const FilterRow = styled.div`
@@ -435,28 +435,28 @@ const FilterGroup = styled.div`
 
 const Label = styled.label`
   font-size: 13px;
-  color: #5a5c69;
+  color: var(--nb-ink);
   margin-bottom: 6px;
   font-weight: 500;
 `;
 
 const Select = styled.select`
   padding: 10px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 14px;
-  background: white;
+  background: var(--nb-white);
   cursor: pointer;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
 const LedgerHeader = styled.div`
-  background: #4e73df;
-  color: white;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   padding: 20px;
   border-radius: 8px 8px 0 0;
   margin-bottom: 0;
@@ -474,58 +474,58 @@ const LedgerPeriod = styled.div`
 `;
 
 const LoadingMessage = styled.div`
-  background: white;
+  background: var(--nb-white);
   padding: 40px;
   text-align: center;
   border-radius: 8px;
-  color: #5a5c69;
+  color: var(--nb-ink);
   font-size: 16px;
 `;
 
 const NoDataMessage = styled.div`
-  background: white;
+  background: var(--nb-white);
   padding: 40px;
   text-align: center;
   border-radius: 8px;
-  color: #858796;
+  color: var(--nb-ink);
   font-size: 16px;
 `;
 
 const LedgerTable = styled.table`
   width: 100%;
   border-collapse: collapse;
-  background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  background: var(--nb-white);
+  box-shadow: var(--nb-shadow-md);
   font-size: 13px;
 
   .debit {
-    background: #fff5f5;
+    background: var(--nb-muted);
   }
 
   .credit {
-    background: #f0fff4;
+    background: var(--nb-muted);
   }
 
   .balance {
-    background: #f8f9fc;
+    background: var(--nb-muted);
   }
 `;
 
 const Th = styled.th`
-  background: #f8f9fc;
+  background: var(--nb-muted);
   padding: 12px;
   text-align: left;
   font-weight: 600;
-  color: #5a5c69;
-  border: 1px solid #e3e6f0;
+  color: var(--nb-ink);
+  border: 1px solid var(--nb-border);
   text-transform: uppercase;
   font-size: 12px;
 `;
 
 const Td = styled.td`
   padding: 10px 12px;
-  border: 1px solid #e3e6f0;
-  color: #5a5c69;
+  border: 1px solid var(--nb-border);
+  color: var(--nb-ink);
   vertical-align: top;
 `;
 
@@ -537,48 +537,48 @@ const Particulars = styled.div`
 
 const Details = styled.div`
   font-size: 11px;
-  color: #858796;
+  color: var(--nb-ink);
 `;
 
 const BalanceRow = styled.tr`
-  background: #f8f9fc;
+  background: var(--nb-muted);
   font-weight: 600;
-  border-top: 2px solid #4e73df;
-  border-bottom: 2px solid #4e73df;
+  border-top: 2px solid var(--nb-blue);
+  border-bottom: 2px solid var(--nb-blue);
 `;
 
 const BalanceAmount = styled.span`
-  color: ${(props) => (props.positive ? "#28a745" : "#dc3545")};
+  color: ${(props) => (props.positive ? "var(--nb-blue)" : "var(--nb-orange)")};
   font-weight: 700;
 `;
 
 const TotalRow = styled.tr`
-  background: #2c3e50;
-  color: white;
+  background: var(--nb-ink);
+  color: var(--nb-white);
 
   td {
-    color: white;
+    color: var(--nb-white);
     font-weight: 700;
     padding: 15px 12px;
-    border-color: #2c3e50;
+    border-color: var(--nb-ink);
   }
 `;
 
 const SummaryCard = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 0 0 8px 8px;
   padding: 25px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--nb-shadow-md);
   margin-top: -1px;
 `;
 
 const SummaryTitle = styled.h3`
   font-size: 16px;
-  color: #2c3e50;
+  color: var(--nb-ink);
   margin: 0 0 20px 0;
   font-weight: 600;
   text-transform: uppercase;
-  border-bottom: 2px solid #e3e6f0;
+  border-bottom: 2px solid var(--nb-border);
   padding-bottom: 10px;
 `;
 
@@ -591,13 +591,13 @@ const SummaryGrid = styled.div`
 const SummaryItem = styled.div`
   text-align: center;
   padding: 15px;
-  background: #f8f9fc;
+  background: var(--nb-muted);
   border-radius: 6px;
 `;
 
 const SummaryLabel = styled.div`
   font-size: 12px;
-  color: #858796;
+  color: var(--nb-ink);
   font-weight: 600;
   text-transform: uppercase;
   margin-bottom: 8px;

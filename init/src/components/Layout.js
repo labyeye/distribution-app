@@ -19,6 +19,7 @@ import {
   FaBook,
   FaCalendarCheck,
   FaTruck,
+  FaCogs,
 } from "react-icons/fa";
 
 const Layout = ({ children }) => {
@@ -260,6 +261,15 @@ const Layout = ({ children }) => {
             <Link to="/admin/users" />
           </NavItem>
 
+          {/* Settings */}
+          <NavItem
+            active={location.pathname === "/admin/settings/modules"}
+          >
+            <FaCogs />
+            <span>Settings</span>
+            <Link to="/admin/settings/modules" />
+          </NavItem>
+
           {/* Logout */}
           <NavItem onClick={handleLogout}>
             <FaSignOutAlt />
@@ -270,7 +280,7 @@ const Layout = ({ children }) => {
           <img
             src={`https://ui-avatars.com/api/?name=${
               user?.name || "Admin"
-            }&background=667eea&color=fff`}
+            }&background=1f5eff&color=ffffff`}
             alt="User"
           />
           <div>
@@ -295,20 +305,19 @@ const CategoryHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #547792;
-  font-weight: 500;
+  color: var(--nb-ink);
+  font-weight: 600;
   font-size: 0.95rem;
-  transition: all 0.3s ease;
-  border-radius: 8px;
+  transition: background-color var(--nb-transition), color var(--nb-transition);
+  border-radius: var(--nb-radius);
   margin: 0 3px;
 
   &:hover {
-    background: rgba(26, 50, 99, 0.6);
-    color: #FAB95B;
-    transform: translateX(5px);
+    background: var(--nb-blue);
+    color: var(--nb-white);
 
     svg {
-      color: #FAB95B;
+      color: var(--nb-white);
     }
   }
 
@@ -328,9 +337,9 @@ const CategoryIcon = styled.div`
 
   svg {
     font-size: 1rem;
-    color: #547792;
+    color: var(--nb-ink);
     flex-shrink: 0;
-    transition: all 0.3s ease;
+    transition: color var(--nb-transition);
   }
 `;
 
@@ -341,8 +350,8 @@ const ChevronIcon = styled.div`
 
   svg {
     font-size: 0.75rem;
-    color: #547792;
-    transition: all 0.3s ease;
+    color: var(--nb-ink);
+    transition: color var(--nb-transition);
   }
 
   @media (max-width: 768px) {
@@ -353,10 +362,8 @@ const ChevronIcon = styled.div`
 const DropdownMenu = styled.div`
   max-height: ${(props) => (props.isOpen ? "500px" : "0")};
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height var(--nb-transition);
   padding-left: 15px;
-  opacity: ${(props) => (props.isOpen ? "1" : "0")};
-  transform: translateY(${(props) => (props.isOpen ? "0" : "-10px")});
 
   @media (max-width: 768px) {
     padding-left: 0;
@@ -367,19 +374,18 @@ const DropdownMenu = styled.div`
 const Container = styled.div`
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1A3263 0%, #0F1B3D 100%);
-  background-attachment: fixed;
+  background: var(--nb-white);
 `;
 
 const Sidebar = styled.div`
   width: 280px;
-  background: #0F1B3D;
-  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
+  background: var(--nb-white);
+  border-right: 2px solid var(--nb-border);
+  box-shadow: var(--nb-shadow-md);
   display: flex;
   flex-direction: column;
   z-index: 10;
-  transition: all 0.3s ease;
-  border-right: 1px solid rgba(84, 119, 146, 0.2);
+  transition: width var(--nb-transition);
 
   @media (max-width: 768px) {
     width: 80px;
@@ -392,33 +398,20 @@ const Sidebar = styled.div`
 
 const LogoContainer = styled.div`
   padding: 25px 20px;
-  border-bottom: 1px solid rgba(84, 119, 146, 0.2);
+  border-bottom: 2px solid var(--nb-border);
   text-align: center;
-  background: rgba(26, 50, 99, 0.3);
+  background: var(--nb-white);
 
   h2 {
-    color: #E8E2DB;
+    color: var(--nb-ink);
     margin: 0;
     font-size: 1.5rem;
     font-weight: 700;
-    text-shadow: 0 2px 10px rgba(250, 185, 91, 0.2);
-    animation: fadeIn 0.6s ease;
   }
 
   @media (max-width: 768px) {
     h2 {
       display: none;
-    }
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
     }
   }
 `;
@@ -440,12 +433,12 @@ const NavMenu = styled.ul`
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(84, 119, 146, 0.3);
+    background: var(--nb-ink);
     border-radius: 3px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: rgba(250, 185, 91, 0.5);
+    background: var(--nb-blue);
   }
 `;
 
@@ -454,28 +447,26 @@ const NavItem = styled.li`
   padding: 12px 25px;
   display: flex;
   align-items: center;
-  color: ${(props) => (props.active ? "#FAB95B" : "#547792")};
+  color: ${(props) => (props.active ? "var(--nb-white)" : "var(--nb-ink)")};
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-left: 4px solid ${(props) => (props.active ? "#FAB95B" : "transparent")};
-  background: ${(props) =>
-    props.active
-      ? "rgba(26, 50, 99, 0.8)"
-      : "transparent"};
+  transition: background-color var(--nb-transition), color var(--nb-transition);
+  border-left: 4px solid
+    ${(props) => (props.active ? "var(--nb-orange)" : "transparent")};
+  background: ${(props) => (props.active ? "var(--nb-blue)" : "transparent")};
   margin: 2px 0;
 
   svg {
     margin-right: 15px;
     font-size: 1rem;
-    color: ${(props) => (props.active ? "#FAB95B" : "#547792")};
+    color: ${(props) => (props.active ? "var(--nb-white)" : "var(--nb-ink)")};
     flex-shrink: 0;
-    transition: all 0.3s ease;
+    transition: color var(--nb-transition);
   }
 
   span {
     font-size: 0.95rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    font-weight: 600;
+    transition: color var(--nb-transition);
 
     @media (max-width: 768px) {
       display: none;
@@ -492,39 +483,15 @@ const NavItem = styled.li`
   }
 
   &:hover {
-    background: rgba(26, 50, 99, 0.6);
-    color: #FAB95B;
-    transform: translateX(5px);
+    background: var(--nb-muted);
+    color: var(--nb-ink);
 
     svg {
-      color: #FAB95B;
-      transform: scale(1.1);
+      color: var(--nb-ink);
     }
 
     span {
-      color: #FAB95B;
-    }
-  }
-
-  /* Ripple effect on click */
-  &:active::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(250, 185, 91, 0.3);
-    transform: translate(-50%, -50%);
-    animation: ripple 0.6s ease-out;
-  }
-
-  @keyframes ripple {
-    to {
-      width: 300px;
-      height: 300px;
-      opacity: 0;
+      color: var(--nb-ink);
     }
   }
 `;
@@ -533,28 +500,16 @@ const UserProfile = styled.div`
   display: flex;
   align-items: center;
   padding: 20px;
-  border-top: 1px solid rgba(84, 119, 146, 0.2);
+  border-top: 2px solid var(--nb-border);
   margin-top: auto;
-  background: rgba(26, 50, 99, 0.3);
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: rgba(26, 50, 99, 0.5);
-  }
+  background: var(--nb-muted);
 
   img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 12px;
-    border: 2px solid #FAB95B;
-    box-shadow: 0 0 15px rgba(250, 185, 91, 0.3);
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(250, 185, 91, 0.5);
-    }
+    border: 2px solid var(--nb-border);
   }
 
   div {
@@ -567,40 +522,21 @@ const UserProfile = styled.div`
 const UserName = styled.div`
   font-weight: 600;
   font-size: 0.9rem;
-  color: #E8E2DB;
+  color: var(--nb-ink);
 `;
 
 const UserRole = styled.div`
   font-size: 0.75rem;
-  color: #547792;
+  color: #333333;
   margin-top: 2px;
 `;
 
 const MainContent = styled.div`
   flex: 1;
-  background: linear-gradient(135deg, rgba(26, 50, 99, 0.3) 0%, rgba(15, 27, 61, 0.3) 100%);
+  background: var(--nb-white);
   padding: 30px;
   overflow-x: hidden;
   position: relative;
-
-  /* Radial gradient overlay */
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(250, 185, 91, 0.05) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* All children above overlay */
-  > * {
-    position: relative;
-    z-index: 1;
-  }
 
   @media (max-width: 768px) {
     padding: 20px;

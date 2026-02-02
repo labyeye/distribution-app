@@ -1,22 +1,18 @@
 // RetailerAdd.js
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import * as xlsx from "xlsx";
 import styled from "styled-components";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
+import DynamicForm from "../components/DynamicForm";
+import {
+  createRecord,
+  hydrateModuleDefinition,
+} from "../utils/dynamicApi";
 const RetailerAdd = () => {
   const navigate = useNavigate();
-  const [manualRetailer, setManualRetailer] = useState({
-    name: "",
-    address1: "",
-    address2: "",
-    assignedTo: "",
-    dayAssigned: "",
-    email: "",
-    password: "",
-  });
-  const [staffList, setStaffList] = useState([]);
+  const [manualRetailer, setManualRetailer] = useState({});
+  const [moduleDefinition, setModuleDefinition] = useState(null);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -26,101 +22,35 @@ const RetailerAdd = () => {
     current: 0,
     total: 0,
   });
-  const [redirectTimer, setRedirectTimer] = useState(null);
 
   const handleManualSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      setError("Please fix the errors in the form");
-      return;
-    }
-
     setLoading(true);
+    setError("");
+    setMessage("");
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:2500/api/retailers",
-        {
-          name: manualRetailer.name,
-          address1: manualRetailer.address1,
-          address2: manualRetailer.address2,
-          assignedTo: manualRetailer.assignedTo,
-          dayAssigned: manualRetailer.dayAssigned,
-          email: manualRetailer.email,
-          password: manualRetailer.password,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
-
-      setMessage(
-        "Retailer added successfully! Redirecting to retailer list...",
-      );
-      setManualRetailer({
-        name: "",
-        address1: "",
-        address2: "",
-        assignedTo: "",
-        dayAssigned: "",
-        email: "",
-        password: "",
-      });
+      await createRecord("retailer", manualRetailer);
+      setMessage("Retailer added successfully!");
+      setManualRetailer({});
+      setFieldErrors({});
     } catch (err) {
       setError(err.response?.data?.message || "Failed to add retailer");
-      console.error("Error adding retailer:", err.response?.data);
+      setFieldErrors(err.response?.data?.errors || {});
     } finally {
       setLoading(false);
     }
   };
   useEffect(() => {
-    return () => {
-      if (redirectTimer) {
-        clearTimeout(redirectTimer);
-      }
-    };
-  }, [redirectTimer]);
-
-  useEffect(() => {
-    const fetchStaff = async () => {
+    const loadModule = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "http://localhost:2500/api/users/staff",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
-        );
-        setStaffList(response.data);
+        const definition = await hydrateModuleDefinition("retailer");
+        setModuleDefinition(definition);
       } catch (err) {
-        console.error("Failed to fetch staff", err);
+        setError("Failed to load retailer module");
       }
     };
-    fetchStaff();
+    loadModule();
   }, []);
-
-  const handleManualInputChange = (e) => {
-    const { name, value } = e.target;
-    setManualRetailer((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    if (fieldErrors[name]) {
-      setFieldErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
-    }
-  };
-
-  const validateForm = () => {
-    const errors = {};
-    if (!manualRetailer.name) errors.name = "Retailer name is required";
-    if (!manualRetailer.address1)
-      errors.address1 = "Address line 1 is required";
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -282,7 +212,7 @@ const RetailerAdd = () => {
   };
 
   const handleBackToList = () => {
-    navigate("/retailers");
+    navigate("/admin/view-retailer");
   };
 
   return (
@@ -296,125 +226,34 @@ const RetailerAdd = () => {
       </ButtonContainer>
 
       {/* Manual Retailer Entry Form */}
-      <FormContainer onSubmit={handleManualSubmit}>
+      <FormContainer>
         <SectionHeader>Manual Retailer Entry</SectionHeader>
-        <FormGrid>
-          <FormGroup>
-            <Label htmlFor="name">Retailer Name</Label>
-            <Input
-              id="name"
-              type="text"
-              name="name"
-              value={manualRetailer.name}
-              onChange={handleManualInputChange}
-              hasError={!!fieldErrors.name}
-            />
-            {fieldErrors.name && <ErrorText>{fieldErrors.name}</ErrorText>}
-          </FormGroup>
+        {moduleDefinition ? (
+          <DynamicForm
+            moduleDefinition={moduleDefinition}
+            values={manualRetailer}
+            onChange={(key, value) =>
+              setManualRetailer((prev) => ({ ...prev, [key]: value }))
+            }
+            onSubmit={handleManualSubmit}
+            errors={fieldErrors}
+            submitLabel="Add Retailer"
+          />
+        ) : (
+          <LoadingMessage>Loading fields...</LoadingMessage>
+        )}
 
-          <FormGroup>
-            <Label htmlFor="address1">Address Line 1</Label>
-            <Input
-              id="address1"
-              type="text"
-              name="address1"
-              value={manualRetailer.address1}
-              onChange={handleManualInputChange}
-              hasError={!!fieldErrors.address1}
+        {loading && importProgress.total > 0 && (
+          <ProgressBar>
+            <ProgressFill
+              width={`${(importProgress.current / importProgress.total) * 100}%`}
             />
-            {fieldErrors.address1 && (
-              <ErrorText>{fieldErrors.address1}</ErrorText>
-            )}
-          </FormGroup>
-
-          <FormGroup>
-            <Label htmlFor="address2">Address Line 2 (Optional)</Label>
-            <Input
-              id="address2"
-              type="text"
-              name="address2"
-              value={manualRetailer.address2}
-              onChange={handleManualInputChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="dayAssigned">Day Assigned</Label>
-            <Select
-              id="dayAssigned"
-              name="dayAssigned"
-              value={manualRetailer.dayAssigned || ""}
-              onChange={handleManualInputChange}
-            >
-              <option value="">Any Day</option>
-              <option value="Monday">Monday</option>
-              <option value="Tuesday">Tuesday</option>
-              <option value="Wednesday">Wednesday</option>
-              <option value="Thursday">Thursday</option>
-              <option value="Friday">Friday</option>
-              <option value="Saturday">Saturday</option>
-              <option value="Sunday">Sunday</option>
-            </Select>
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="assignedTo">Assign To Staff</Label>
-            <Select
-              id="assignedTo"
-              name="assignedTo"
-              value={manualRetailer.assignedTo || ""}
-              onChange={handleManualInputChange}
-            >
-              <option value="">Select Staff</option>
-              {staffList.map((staff) => (
-                <option key={staff._id} value={staff._id}>
-                  {staff.name}
-                </option>
-              ))}
-            </Select>
-          </FormGroup>
-
-          <FormGroup>
-            <Label htmlFor="email">Email (for login)</Label>
-            <Input
-              id="email"
-              type="email"
-              name="email"
-              value={manualRetailer.email}
-              onChange={handleManualInputChange}
-              placeholder="retailer@example.com"
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label htmlFor="password">Password (for login)</Label>
-            <Input
-              id="password"
-              type="password"
-              name="password"
-              value={manualRetailer.password}
-              onChange={handleManualInputChange}
-              placeholder="Minimum 6 characters"
-            />
-          </FormGroup>
-        </FormGrid>
-
-        <ButtonContainer>
-          <SubmitButton type="submit" disabled={loading}>
-            {loading ? "Processing..." : "Add Retailer"}
-          </SubmitButton>
-          {loading && importProgress.total > 0 && (
-            <ProgressBar>
-              <ProgressFill
-                width={`${
-                  (importProgress.current / importProgress.total) * 100
-                }%`}
-              />
-            </ProgressBar>
-          )}
-        </ButtonContainer>
+          </ProgressBar>
+        )}
       </FormContainer>
 
       {/* Excel File Upload Form */}
-      <FormContainer onSubmit={handleImport}>
+      <UploadForm onSubmit={handleImport}>
         <SectionHeader>Upload Retailers (Excel)</SectionHeader>
         <FileUploadContainer>
           <FileInputLabel>
@@ -439,7 +278,7 @@ const RetailerAdd = () => {
           Note: Excel file should have columns for Retailer Name, Address 1
           (required), and Address 2 (optional).
         </NoteText>
-      </FormContainer>
+      </UploadForm>
 
       {message && <SuccessMessage>{message}</SuccessMessage>}
       {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -449,7 +288,7 @@ const RetailerAdd = () => {
 const ProgressBar = styled.div`
   width: 100%;
   height: 4px;
-  background: #e0e0e0;
+  background: var(--nb-border);
   border-radius: 2px;
   margin-top: 8px;
   overflow: hidden;
@@ -457,68 +296,44 @@ const ProgressBar = styled.div`
 
 const ProgressFill = styled.div`
   height: 100%;
-  background: #4299e1;
+  background: var(--nb-blue);
   width: ${(props) => props.width};
   transition: width 0.3s ease;
 `;
 const PageHeader = styled.h1`
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--nb-ink);
   text-align: center;
 `;
 
-const FormContainer = styled.form`
-  background: white;
+const FormContainer = styled.div`
+  background: var(--nb-white);
   padding: 1.25rem;
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--nb-shadow-md);
+  margin-bottom: 1.5rem;
+`;
+
+const UploadForm = styled.form`
+  background: var(--nb-white);
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--nb-shadow-md);
   margin-bottom: 1.5rem;
 `;
 
 const SectionHeader = styled.h2`
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: #444;
+  color: var(--nb-ink);
 `;
 
-const FormGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-`;
-const Select = styled.select`
-  width: 100%;
-  padding: 0.625rem 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  background-color: white;
-  color: #333;
-  cursor: pointer;
-  &:focus {
-    border-color: #4299e1;
-    outline: none;
-  }
-`;
-const FormGroup = styled.div`
-  margin-bottom: 1rem;
+const LoadingMessage = styled.div`
+  padding: 0.75rem 0;
+  color: var(--nb-ink);
 `;
 
-const Label = styled.label`
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #555;
-  font-weight: 500;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 0.625rem 0.75rem;
-  border: 1px solid ${(props) => (props.hasError ? "#e74c3c" : "#ddd")};
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-`;
 
 const ButtonContainer = styled.div`
   margin-top: 1.25rem;
@@ -528,8 +343,8 @@ const ButtonContainer = styled.div`
 
 const BackButton = styled.button`
   padding: 0.625rem 1rem;
-  background-color: #718096;
-  color: white;
+  background-color: var(--nb-ink);
+  color: var(--nb-white);
   border: none;
   border-radius: 0.375rem;
   font-size: 0.875rem;
@@ -540,8 +355,8 @@ const BackButton = styled.button`
 
 const SubmitButton = styled.button`
   padding: 0.625rem 1rem;
-  background-color: #4299e1;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 0.375rem;
   font-size: 0.875rem;
@@ -561,9 +376,9 @@ const FileUploadContainer = styled.div`
 const FileInputLabel = styled.label`
   display: inline-block;
   padding: 0.625rem 1rem;
-  background-color: #edf2f7;
-  color: #4a5568;
-  border: 1px solid #cbd5e0;
+  background-color: var(--nb-muted);
+  color: var(--nb-ink);
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   cursor: pointer;
   font-size: 0.875rem;
@@ -576,19 +391,19 @@ const FileInput = styled.input`
 
 const FileName = styled.span`
   font-size: 0.875rem;
-  color: #4a5568;
+  color: var(--nb-ink);
 `;
 
 const NoteText = styled.p`
   font-size: 0.875rem;
-  color: #718096;
+  color: var(--nb-ink);
   margin-top: 1rem;
 `;
 
 const SuccessMessage = styled.div`
   padding: 0.75rem 1rem;
-  background-color: #c6f6d5;
-  color: #2f855a;
+  background-color: var(--nb-muted);
+  color: var(--nb-blue);
   border-radius: 0.375rem;
   margin-bottom: 1rem;
   font-size: 0.875rem;
@@ -596,19 +411,12 @@ const SuccessMessage = styled.div`
 
 const ErrorMessage = styled.div`
   padding: 0.75rem 1rem;
-  background-color: #fed7d7;
-  color: #c53030;
+  background-color: var(--nb-muted);
+  color: var(--nb-orange);
   border-radius: 0.375rem;
   margin-bottom: 1rem;
   font-size: 0.875rem;
-  white-space: pre-line;
-`;
-
-const ErrorText = styled.span`
-  color: #e74c3c;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  display: block;
+  var(--nb-white)-space: pre-line;
 `;
 
 export default RetailerAdd;

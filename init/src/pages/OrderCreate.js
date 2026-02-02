@@ -709,7 +709,7 @@ const OrderCreate = () => {
 const DashboardLayout = styled.div`
   display: flex;
   min-height: 100vh;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
   flex-direction: column;
 
   @media (min-width: 768px) {
@@ -722,12 +722,12 @@ const ProductResultsList = styled.div`
   width: 64%;
   max-height: 200px;
   overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
+  background: var(--nb-white);
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   margin-top: 0.25rem;
   font-size: 0.75rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--nb-shadow-md);
 `;
 
 const ProductResultItem = styled.div`
@@ -736,19 +736,19 @@ const ProductResultItem = styled.div`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #f0f4f8;
+    background-color: var(--nb-muted);
   }
 `;
 
 const NoResults = styled.div`
   padding: 0.5rem 0.75rem;
-  color: #718096;
+  color: var(--nb-ink);
   font-style: italic;
 `;
 const Sidebar = styled.div`
   width: 100%;
-  background-color: #fff;
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  background-color: var(--nb-white);
+  box-shadow: var(--nb-shadow-md);
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -819,7 +819,7 @@ const ItemsHeader = styled.div`
   h3 {
     margin: 0;
     font-size: 1.25rem;
-    color: #2e3a59;
+    color: var(--nb-ink);
   }
 
   @media (min-width: 768px) {
@@ -880,25 +880,25 @@ const SidebarHeader = styled.div`
   align-items: center;
   padding: 0 20px;
   height: 70px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--nb-border);
 `;
 
 const Logo = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
-  color: #4e73df;
-  white-space: nowrap;
+  color: var(--nb-blue);
+  var(--nb-white)-space: nowrap;
 `;
 
 const UserProfile = styled.div`
   display: flex;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--nb-border);
 `;
 
 const UserAvatar = styled.div`
-  color: #4e73df;
+  color: var(--nb-blue);
   margin-right: ${(props) => (props.collapsed ? "0" : "15px")};
 `;
 
@@ -910,12 +910,12 @@ const UserInfo = styled.div`
 const UserName = styled.div`
   font-weight: 600;
   font-size: 0.9rem;
-  color: #343a40;
+  color: var(--nb-ink);
 `;
 
 const UserRole = styled.div`
   font-size: 0.75rem;
-  color: #6c757d;
+  color: var(--nb-ink);
 `;
 
 const NavMenu = styled.div`
@@ -928,17 +928,17 @@ const NavItem = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: ${(props) => (props.active ? "#4e73df" : "#6c757d")};
+  color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-ink)")};
   background-color: ${(props) =>
-    props.active ? "rgba(78, 115, 223, 0.1)" : "transparent"};
+    props.active ? "var(--nb-muted)" : "transparent"};
   cursor: pointer;
   transition: all 0.3s;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
 
   &:hover {
-    background-color: rgba(78, 115, 223, 0.1);
-    color: #4e73df;
+    background-color: var(--nb-muted);
+    color: var(--nb-blue);
   }
 `;
 
@@ -951,15 +951,15 @@ const NavItemMain = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: #6c757d;
+  color: var(--nb-ink);
   cursor: pointer;
   transition: all 0.3s;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
 
   &:hover {
-    background-color: rgba(78, 115, 223, 0.1);
-    color: #4e73df;
+    background-color: var(--nb-muted);
+    color: var(--nb-blue);
   }
 `;
 
@@ -982,7 +982,7 @@ const NavArrow = styled.div`
 const NavCheckmark = styled.span`
   margin-left: auto;
   font-size: 0.9rem;
-  color: ${(props) => (props.active ? "#4e73df" : "#6c757d")};
+  color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-ink)")};
 `;
 
 const Submenu = styled.div`
@@ -993,30 +993,30 @@ const LogoutButton = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: #6c757d;
+  color: var(--nb-ink);
   cursor: pointer;
   transition: all 0.3s;
-  border-top: 1px solid #f0f0f0;
-  white-space: nowrap;
+  border-top: 1px solid var(--nb-border);
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
 
   &:hover {
-    color: #e74a3b;
-    background-color: rgba(231, 74, 59, 0.1);
+    color: var(--nb-orange);
+    background-color: var(--nb-muted);
   }
 `;
 
 const PageHeader = styled.h1`
   font-size: 1.75rem;
   margin-bottom: 1.5rem;
-  color: #2e3a59;
+  color: var(--nb-ink);
   font-weight: 600;
 `;
 
 const FilterLabel = styled.label`
   display: block;
   margin-bottom: 0.5rem;
-  color: #555;
+  color: var(--nb-ink);
   font-weight: 500;
   font-size: 0.875rem;
 `;
@@ -1024,23 +1024,23 @@ const FilterLabel = styled.label`
 const FilterSelect = styled.select`
   width: 90%;
   padding: 0.625rem 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   font-size: 0.875rem;
-  background-color: #fff;
+  background-color: var(--nb-white);
   transition: border-color 0.3s;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
 const FormContainer = styled.form`
-  background: white;
+  background: var(--nb-white);
   padding: 1.5rem;
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--nb-shadow-md);
   margin-bottom: 1.5rem;
 `;
 
@@ -1049,8 +1049,8 @@ const AddButton = styled.button`
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: #4e73df;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 0.375rem;
   font-size: 0.875rem;
@@ -1058,17 +1058,17 @@ const AddButton = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #3a5bc7;
+    background-color: var(--nb-blue);
   }
 `;
 
 const EmptyItems = styled.div`
   padding: 1.5rem;
   text-align: center;
-  color: #718096;
-  border: 1px dashed #cbd5e0;
+  color: var(--nb-ink);
+  border: 1px dashed var(--nb-border);
   border-radius: 0.375rem;
-  background-color: #f8fafc;
+  background-color: var(--nb-muted);
 `;
 
 const ItemsList = styled.div`
@@ -1080,10 +1080,10 @@ const ItemsList = styled.div`
 
 const ItemCard = styled.div`
   padding: 1.5rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--nb-border);
   border-radius: 0.5rem;
-  background-color: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: var(--nb-white);
+  box-shadow: var(--nb-shadow-md);
 `;
 
 const ItemHeader = styled.div`
@@ -1092,25 +1092,25 @@ const ItemHeader = styled.div`
   align-items: center;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--nb-border);
 
   span {
     font-weight: 600;
-    color: #2e3a59;
+    color: var(--nb-ink);
   }
 `;
 
 const RemoveButton = styled.button`
   background: none;
   border: none;
-  color: #e53e3e;
+  color: var(--nb-orange);
   cursor: pointer;
   font-size: 1rem;
   padding: 0.25rem;
   transition: color 0.3s;
 
   &:hover {
-    color: #c53030;
+    color: var(--nb-orange);
   }
 `;
 
@@ -1132,7 +1132,7 @@ const QFormGroup = styled.div`
 const Label = styled.label`
   display: block;
   margin-bottom: 0.5rem;
-  color: #555;
+  color: var(--nb-ink);
   font-weight: 500;
   font-size: 0.875rem;
 `;
@@ -1140,79 +1140,79 @@ const Label = styled.label`
 const Input = styled.input`
   width: 90%;
   padding: 0.625rem 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   font-size: 0.875rem;
-  background-color: #fff;
+  background-color: var(--nb-white);
   transition: border-color 0.3s;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 
   &[readonly] {
-    background-color: #f8f9fc;
-    color: #6c757d;
+    background-color: var(--nb-muted);
+    color: var(--nb-ink);
   }
 `;
 
 const StockInput = styled(Input)`
   text-align: center;
   width: 40%;
-  background-color: #fff8e1;
+  background-color: var(--nb-white)8e1;
 `;
 const NInput = styled(Input)`
   text-align: center;
   width: 45%;
-  background-color: #fff8e1;
+  background-color: var(--nb-white)8e1;
 `;
 const QuantityInput = styled(Input)`
   width: 40%;
   text-align: center;
-  background-color: #fff8e1;
+  background-color: var(--nb-white)8e1;
 `;
 const SearchInput = styled(Input)`
   text-align: center;
-  background-color: #fff8e1;
+  background-color: var(--nb-white)8e1;
 `;
 
 const RInput = styled.input`
   width: 90%;
   padding: 0.625rem 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   font-size: 0.875rem;
-  background-color: #fff8e1;
+  background-color: var(--nb-white)8e1;
   transition: border-color 0.3s;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 
   &[readonly] {
-    background-color: #f8f9fc;
-    color: #6c757d;
+    background-color: var(--nb-muted);
+    color: var(--nb-ink);
   }
 `;
 const SchemeInput = styled(Input)`
   text-align: center;
-  background-color: #fff8e1;
+  background-color: var(--nb-white)8e1;
 `;
 
 const Select = styled.select`
   width: 100%;
   padding: 0.625rem 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   font-size: 0.875rem;
-  background-color: #fff;
+  background-color: var(--nb-white);
   transition: border-color 0.3s;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
@@ -1223,8 +1223,8 @@ const NumberInputContainer = styled.div`
 `;
 
 const NumberInputButton = styled.button`
-  background-color: #e2e8f0;
-  border: 1px solid #cbd5e0;
+  background-color: var(--nb-border);
+  border: 1px solid var(--nb-border);
   border-radius: 0.25rem;
   padding: 0.25rem 0.5rem;
   cursor: pointer;
@@ -1235,7 +1235,7 @@ const NumberInputButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background-color: #cbd5e0;
+    background-color: var(--nb-border);
   }
 
   &:disabled {
@@ -1246,8 +1246,8 @@ const NumberInputButton = styled.button`
 
 const SubmitButton = styled.button`
   padding: 0.75rem 1.5rem;
-  background-color: #4e73df;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 0.375rem;
   font-size: 0.875rem;
@@ -1257,46 +1257,46 @@ const SubmitButton = styled.button`
   min-width: 150px;
 
   &:hover {
-    background-color: #3a5bc7;
+    background-color: var(--nb-blue);
   }
 
   &:disabled {
-    background-color: #b0b7d4;
+    background-color: var(--nb-border);
     cursor: not-allowed;
   }
 `;
 
 const SuccessMessage = styled.div`
   padding: 1rem;
-  background-color: #d4edda;
-  color: #155724;
+  background-color: var(--nb-muted);
+  color: var(--nb-blue);
   border-radius: 0.375rem;
   margin-bottom: 1.5rem;
   font-size: 0.875rem;
-  border: 1px solid #c3e6cb;
+  border: 1px solid var(--nb-border);
 `;
 
 const ErrorMessage = styled.div`
   padding: 1rem;
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: var(--nb-muted);
+  color: var(--nb-orange);
   border-radius: 0.375rem;
   margin-bottom: 1.5rem;
   font-size: 0.875rem;
-  border: 1px solid #f5c6cb;
+  border: 1px solid var(--nb-border);
 `;
 
 const SubmenuItem = styled.div`
   display: flex;
   align-items: center;
   padding: 8px 20px 8px 40px;
-  color: #6c757d;
+  color: var(--nb-ink);
   cursor: pointer;
   font-size: 0.85rem;
   transition: all 0.3s;
 
   &:hover {
-    color: #4e73df;
+    color: var(--nb-blue);
   }
 
   ${NavCheckmark} {

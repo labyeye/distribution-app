@@ -136,7 +136,7 @@ const RetailerSignup = () => {
               style={{
                 fontSize: "1.8rem",
                 fontWeight: "bold",
-                color: "#667eea",
+                color: "var(--nb-blue)",
               }}
             >
               Laxmi Lube Private Limited
@@ -273,14 +273,14 @@ const SignupContainer = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #ffd60e 0%, #fd241d 100%);
+  background: var(--nb-var(--nb-white));
   padding: 20px;
 `;
 
 const SignupWrapper = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 15px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--nb-shadow-md);
   overflow: hidden;
   width: 100%;
   max-width: 600px;
@@ -300,7 +300,7 @@ const Logo = styled.div`
 `;
 
 const FormTitle = styled.h2`
-  color: #333;
+  color: var(--nb-ink);
   text-align: center;
   margin-bottom: 0.5rem;
   font-weight: 600;
@@ -308,7 +308,7 @@ const FormTitle = styled.h2`
 `;
 
 const SubTitle = styled.p`
-  color: #666;
+  color: var(--nb-ink);
   text-align: center;
   margin-bottom: 2rem;
   font-size: 0.95rem;
@@ -321,7 +321,7 @@ const InputGroup = styled.div`
 const InputLabel = styled.label`
   display: block;
   margin-bottom: 0.5rem;
-  color: #555;
+  color: var(--nb-ink);
   font-size: 0.9rem;
   font-weight: 500;
 `;
@@ -329,14 +329,14 @@ const InputLabel = styled.label`
 const InputField = styled.input`
   width: 100%;
   padding: 0.8rem 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
 
   &:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-md);
     outline: none;
   }
 `;
@@ -344,15 +344,15 @@ const InputField = styled.input`
 const SelectField = styled.select`
   width: 100%;
   padding: 0.8rem 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background-color: white;
+  background-color: var(--nb-white);
 
   &:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-md);
     outline: none;
   }
 `;
@@ -369,9 +369,9 @@ const DaysGrid = styled.div`
 
 const DayCheckbox = styled.div`
   padding: 0.6rem;
-  border: 2px solid ${(props) => (props.selected ? "#667eea" : "#ddd")};
-  background-color: ${(props) => (props.selected ? "#667eea" : "white")};
-  color: ${(props) => (props.selected ? "white" : "#555")};
+  border: 2px solid ${(props) => (props.selected ? "var(--nb-blue)" : "var(--nb-border)")};
+  background-color: ${(props) => (props.selected ? "var(--nb-blue)" : "var(--nb-white)")};
+  color: ${(props) => (props.selected ? "var(--nb-white)" : "var(--nb-ink)")};
   border-radius: 8px;
   text-align: center;
   font-size: 0.85rem;
@@ -380,16 +380,16 @@ const DayCheckbox = styled.div`
   transition: all 0.3s ease;
 
   &:hover {
-    border-color: #667eea;
-    background-color: ${(props) => (props.selected ? "#5568d3" : "#f0f2ff")};
+    border-color: var(--nb-blue);
+    background-color: ${(props) => (props.selected ? "var(--nb-blue)" : "var(--nb-muted)")};
   }
 `;
 
 const SubmitButton = styled.button`
   width: 100%;
   padding: 0.8rem;
-  background: linear-gradient(to right, #ffd60e 0%, #fd241d 100%);
-  color: white;
+  background: var(--nb-var(--nb-white));
+  color: var(--nb-white);
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -408,42 +408,42 @@ const SubmitButton = styled.button`
   }
 
   &:disabled {
-    background: #ccc;
+    background: var(--nb-border);
     cursor: not-allowed;
     transform: none;
   }
 `;
 
 const ErrorMessage = styled.p`
-  color: #e74c3c;
+  color: var(--nb-orange);
   text-align: center;
   margin-top: 1rem;
   font-size: 0.9rem;
-  background-color: #fee;
+  background-color: var(--nb-muted);
   padding: 0.75rem;
   border-radius: 8px;
-  border: 1px solid #fcc;
+  border: 1px solid var(--nb-border);
 `;
 
 const SuccessMessage = styled.p`
-  color: #27ae60;
+  color: var(--nb-blue);
   text-align: center;
   margin-top: 1rem;
   font-size: 0.9rem;
-  background-color: #efe;
+  background-color: var(--nb-muted);
   padding: 0.75rem;
   border-radius: 8px;
-  border: 1px solid #cfc;
+  border: 1px solid var(--nb-border);
 `;
 
 const FooterText = styled.p`
   text-align: center;
   margin-top: 2rem;
-  color: #777;
+  color: var(--nb-ink);
   font-size: 0.9rem;
 
   a {
-    color: #667eea;
+    color: var(--nb-blue);
     text-decoration: none;
     font-weight: 500;
 

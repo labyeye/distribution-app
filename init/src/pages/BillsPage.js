@@ -472,12 +472,12 @@ const Title = styled.div`
 
   h1 {
     font-size: 1.5rem;
-    color: #2d3748;
+    color: var(--nb-ink);
     margin: 0;
   }
 
   svg {
-    color: #4a5568;
+    color: var(--nb-ink);
   }
 
   @media (min-width: 768px) {
@@ -490,10 +490,10 @@ const Title = styled.div`
 const SearchBox = styled.div`
   display: flex;
   align-items: center;
-  background: white;
+  background: var(--nb-white);
   border-radius: 8px;
   padding: 0.5rem 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--nb-shadow-md);
   width: 100%;
 
   input {
@@ -505,7 +505,7 @@ const SearchBox = styled.div`
   }
 
   svg {
-    color: #a0aec0;
+    color: var(--nb-border);
     margin-right: 0.5rem;
   }
 
@@ -521,10 +521,10 @@ const Message = styled.div`
   font-weight: 500;
   font-size: 0.875rem;
   background-color: ${(props) =>
-    props.type === "error" ? "#fff5f5" : "#f0fff4"};
-  color: ${(props) => (props.type === "error" ? "#e53e3e" : "#38a169")};
+    props.type === "error" ? "var(--nb-muted)" : "var(--nb-muted)"};
+  color: ${(props) => (props.type === "error" ? "var(--nb-orange)" : "var(--nb-blue)")};
   border-left: 4px solid
-    ${(props) => (props.type === "error" ? "#e53e3e" : "#38a169")};
+    ${(props) => (props.type === "error" ? "var(--nb-orange)" : "var(--nb-blue)")};
 
   @media (min-width: 768px) {
     padding: 1rem;
@@ -539,14 +539,14 @@ const LoadingIndicator = styled.div`
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  color: #4a5568;
+  color: var(--nb-ink);
   gap: 1rem;
 `;
 
 const Spinner = styled.div`
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 4px solid var(--nb-border);
   border-radius: 50%;
-  border-top: 4px solid #4299e1;
+  border-top: 4px solid var(--nb-blue);
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
@@ -562,9 +562,9 @@ const Spinner = styled.div`
 `;
 
 const TableContainer = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--nb-shadow-md);
   overflow-x: auto;
 `;
 
@@ -575,24 +575,24 @@ const BillsTable = styled.table`
   min-width: 600px;
 
   th {
-    background-color: #f7fafc;
-    color: #4a5568;
+    background-color: var(--nb-muted);
+    color: var(--nb-ink);
     font-weight: 600;
     text-align: left;
     padding: 0.75rem;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--nb-border);
     font-size: 0.875rem;
   }
 
   td {
     padding: 0.75rem;
-    border-bottom: 1px solid #e2e8f0;
-    color: #2d3748;
+    border-bottom: 1px solid var(--nb-border);
+    color: var(--nb-ink);
     font-size: 0.875rem;
   }
 
   tr:hover td {
-    background-color: #f8fafc;
+    background-color: var(--nb-muted);
   }
 
   @media (min-width: 768px) {
@@ -612,16 +612,16 @@ const StatusBadge = styled.span`
   text-transform: capitalize;
   background-color: ${(props) =>
     props.status === "paid"
-      ? "#ebf8ff"
+      ? "var(--nb-muted)"
       : props.status === "pending"
-      ? "#fff5f5"
-      : "#f0fff4"};
+      ? "var(--nb-muted)"
+      : "var(--nb-muted)"};
   color: ${(props) =>
     props.status === "paid"
-      ? "#3182ce"
+      ? "var(--nb-blue)"
       : props.status === "pending"
-      ? "#e53e3e"
-      : "#38a169"};
+      ? "var(--nb-orange)"
+      : "var(--nb-blue)"};
 
   @media (min-width: 768px) {
     padding: 0.25rem 0.75rem;
@@ -639,8 +639,8 @@ const ActionButtons = styled.div`
 `;
 
 const AssignButton = styled.button`
-  background-color: #ebf8ff;
-  color: #3182ce;
+  background-color: var(--nb-muted);
+  color: var(--nb-blue);
   border: none;
   border-radius: 0.25rem;
   padding: 0.4rem;
@@ -649,7 +649,7 @@ const AssignButton = styled.button`
   font-size: 0.75rem;
 
   &:hover {
-    background-color: #bee3f8;
+    background-color: var(--nb-muted);
   }
 
   @media (min-width: 768px) {
@@ -659,8 +659,8 @@ const AssignButton = styled.button`
 `;
 
 const EditButton = styled.button`
-  background-color: #f0fff4;
-  color: #38a169;
+  background-color: var(--nb-muted);
+  color: var(--nb-blue);
   border: none;
   border-radius: 0.25rem;
   padding: 0.4rem;
@@ -669,7 +669,7 @@ const EditButton = styled.button`
   font-size: 0.75rem;
 
   &:hover {
-    background-color: #c6f6d5;
+    background-color: var(--nb-muted);
   }
 
   @media (min-width: 768px) {
@@ -679,8 +679,8 @@ const EditButton = styled.button`
 `;
 
 const DeleteButton = styled.button`
-  background-color: #fff5f5;
-  color: #e53e3e;
+  background-color: var(--nb-muted);
+  color: var(--nb-orange);
   border: none;
   border-radius: 0.25rem;
   padding: 0.4rem;
@@ -689,7 +689,7 @@ const DeleteButton = styled.button`
   font-size: 0.75rem;
 
   &:hover {
-    background-color: #fed7d7;
+    background-color: var(--nb-muted);
   }
 
   @media (min-width: 768px) {
@@ -704,7 +704,7 @@ const ModalOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--nb-muted);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -713,13 +713,13 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 0.5rem;
   width: 100%;
   max-width: 800px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--nb-shadow-md);
 `;
 
 const ModalHeader = styled.div`
@@ -727,12 +727,12 @@ const ModalHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--nb-border);
 
   h3 {
     margin: 0;
     font-size: 1.1rem;
-    color: #2d3748;
+    color: var(--nb-ink);
   }
 
   @media (min-width: 768px) {
@@ -749,11 +749,11 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.25rem;
   cursor: pointer;
-  color: #a0aec0;
+  color: var(--nb-border);
   padding: 0.25rem;
 
   &:hover {
-    color: #718096;
+    color: var(--nb-ink);
   }
 
   @media (min-width: 768px) {
@@ -778,7 +778,7 @@ const FormGroup = styled.div`
     margin-bottom: 0.5rem;
     font-size: 0.875rem;
     font-weight: 500;
-    color: #4a5568;
+    color: var(--nb-ink);
   }
 
   @media (min-width: 768px) {
@@ -799,15 +799,15 @@ const FormGrid = styled.div`
 const Input = styled.input`
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   font-size: 0.875rem;
   transition: all 0.2s;
 
   &:focus {
     outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-md);
   }
 
   @media (min-width: 768px) {
@@ -819,15 +819,15 @@ const Input = styled.input`
 const Select = styled.select`
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   font-size: 0.875rem;
   transition: all 0.2s;
 
   &:focus {
     outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-md);
   }
 
   @media (min-width: 768px) {
@@ -850,8 +850,8 @@ const ButtonGroup = styled.div`
 
 const PrimaryButton = styled.button`
   padding: 0.5rem;
-  background-color: #4299e1;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 0.375rem;
   font-weight: 500;
@@ -860,7 +860,7 @@ const PrimaryButton = styled.button`
   font-size: 0.875rem;
 
   &:hover {
-    background-color: #3182ce;
+    background-color: var(--nb-blue);
   }
 
   @media (min-width: 768px) {
@@ -872,9 +872,9 @@ const PrimaryButton = styled.button`
 
 const SecondaryButton = styled.button`
   padding: 0.5rem;
-  background-color: white;
-  color: #4299e1;
-  border: 1px solid #4299e1;
+  background-color: var(--nb-white);
+  color: var(--nb-blue);
+  border: 1px solid var(--nb-blue);
   border-radius: 0.375rem;
   font-weight: 500;
   cursor: pointer;
@@ -882,7 +882,7 @@ const SecondaryButton = styled.button`
   font-size: 0.875rem;
 
   &:hover {
-    background-color: #ebf8ff;
+    background-color: var(--nb-muted);
   }
 
   @media (min-width: 768px) {

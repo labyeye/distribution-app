@@ -148,12 +148,12 @@ const AdminDashboard = () => {
         {
           label: "Collection Amount (₹)",
           data,
-          backgroundColor: "rgba(250, 185, 91, 0.8)",
-          borderColor: "#FAB95B",
+          backgroundColor: "var(--nb-orange)",
+          borderColor: "var(--nb-orange)",
           borderWidth: 2,
           borderRadius: 8,
-          hoverBackgroundColor: "#FAB95B",
-          hoverBorderColor: "#E8E2DB",
+          hoverBackgroundColor: "var(--nb-orange)",
+          hoverBorderColor: "var(--nb-ink)",
         },
       ],
     };
@@ -194,17 +194,17 @@ const AdminDashboard = () => {
           label: "Bill Amount (₹)",
           data,
           fill: true,
-          backgroundColor: "rgba(84, 119, 146, 0.2)",
-          borderColor: "#547792",
+          backgroundColor: "var(--nb-border)",
+          borderColor: "var(--nb-blue)",
           borderWidth: 3,
           tension: 0.4,
-          pointBackgroundColor: "#547792",
-          pointBorderColor: "#E8E2DB",
+          pointBackgroundColor: "var(--nb-blue)",
+          pointBorderColor: "var(--nb-ink)",
           pointBorderWidth: 2,
           pointRadius: 5,
           pointHoverRadius: 7,
-          pointHoverBackgroundColor: "#FAB95B",
-          pointHoverBorderColor: "#E8E2DB",
+          pointHoverBackgroundColor: "var(--nb-orange)",
+          pointHoverBorderColor: "var(--nb-ink)",
         },
       ],
     };
@@ -228,7 +228,7 @@ const AdminDashboard = () => {
       legend: {
         position: "top",
         labels: {
-          color: "#E8E2DB",
+          color: "var(--nb-ink)",
           font: {
             size: 13,
             weight: "500",
@@ -245,7 +245,7 @@ const AdminDashboard = () => {
             ? "Weekly"
             : "Monthly"
         })`,
-        color: "#FAB95B",
+        color: "var(--nb-orange)",
         font: {
           size: 16,
           weight: "600",
@@ -259,7 +259,7 @@ const AdminDashboard = () => {
         anchor: "end",
         align: "top",
         formatter: (value) => value > 0 ? "₹" + formatIndianNumber(value) : "",
-        color: "#FAB95B",
+        color: "var(--nb-orange)",
         font: {
           weight: "bold",
           size: 11,
@@ -273,25 +273,25 @@ const AdminDashboard = () => {
           callback: function (value) {
             return "₹" + formatIndianNumber(value);
           },
-          color: "#E8E2DB",
+          color: "var(--nb-ink)",
           font: {
             size: 11,
           },
         },
         grid: {
-          color: "rgba(84, 119, 146, 0.1)",
+          color: "var(--nb-border)",
           drawBorder: false,
         },
       },
       x: {
         ticks: {
-          color: "#E8E2DB",
+          color: "var(--nb-ink)",
           font: {
             size: 11,
           },
         },
         grid: {
-          color: "rgba(84, 119, 146, 0.1)",
+          color: "var(--nb-border)",
           drawBorder: false,
         },
       },
@@ -316,7 +316,7 @@ const AdminDashboard = () => {
       legend: {
         position: "top",
         labels: {
-          color: "#E8E2DB",
+          color: "var(--nb-ink)",
           font: {
             size: 13,
             weight: "500",
@@ -333,7 +333,7 @@ const AdminDashboard = () => {
             ? "Weekly"
             : "Monthly"
         })`,
-        color: "#547792",
+        color: "var(--nb-blue)",
         font: {
           size: 16,
           weight: "600",
@@ -354,25 +354,25 @@ const AdminDashboard = () => {
           callback: function (value) {
             return "₹" + formatIndianNumber(value);
           },
-          color: "#E8E2DB",
+          color: "var(--nb-ink)",
           font: {
             size: 11,
           },
         },
         grid: {
-          color: "rgba(84, 119, 146, 0.1)",
+          color: "var(--nb-border)",
           drawBorder: false,
         },
       },
       x: {
         ticks: {
-          color: "#E8E2DB",
+          color: "var(--nb-ink)",
           font: {
             size: 11,
           },
         },
         grid: {
-          color: "rgba(84, 119, 146, 0.1)",
+          color: "var(--nb-border)",
           drawBorder: false,
         },
       },
@@ -406,7 +406,7 @@ const AdminDashboard = () => {
         ) : (
           <>
             <MetricsGrid>
-              <MetricCard color="#547792">
+              <MetricCard color="var(--nb-blue)">
                 <div className="icon-container">
                   <FaFileInvoiceDollar size={20} />
                 </div>
@@ -416,7 +416,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="#FAB95B">
+              <MetricCard color="var(--nb-orange)">
                 <div className="icon-container">
                   <FaMoneyBillWave size={20} />
                 </div>
@@ -426,7 +426,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="#FAB95B">
+              <MetricCard color="var(--nb-orange)">
                 <div className="icon-container">
                   <FaListAlt size={20} />
                 </div>
@@ -436,7 +436,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="#547792">
+              <MetricCard color="var(--nb-blue)">
                 <div className="icon-container">
                   <FaUserTie size={20} />
                 </div>
@@ -446,7 +446,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="#4CAF50">
+              <MetricCard color="var(--nb-blue)">
                 <div className="icon-container">
                   <FaStore size={20} />
                 </div>
@@ -456,7 +456,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="#2196F3">
+              <MetricCard color="var(--nb-blue)">
                 <div className="icon-container">
                   <FaTruck size={20} />
                 </div>
@@ -466,7 +466,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="#FF9800">
+              <MetricCard color="var(--nb-orange)">
                 <div className="icon-container">
                   <FaHourglassHalf size={20} />
                 </div>
@@ -476,7 +476,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="#9C27B0">
+              <MetricCard color="var(--nb-orange)">
                 <div className="icon-container">
                   <FaBoxes size={20} />
                 </div>
@@ -683,9 +683,9 @@ const ChartContainer = styled.div`
   height: 400px;
   margin-top: 1rem;
   padding: 1.5rem;
-  background: rgba(26, 50, 99, 0.6);
+  background: var(--nb-muted);
   border-radius: 1rem;
-  border: 1px solid rgba(84, 119, 146, 0.3);
+  border: 1px solid var(--nb-border);
   backdrop-filter: blur(10px);
   animation: slideUp 0.8s ease;
 
@@ -752,29 +752,30 @@ const TimeRangeSelector = styled.div`
 
 const TimeRangeButton = styled.button`
   padding: 0.5rem 1rem;
-  border: 1px solid ${(props) => (props.active ? "#FAB95B" : "rgba(84, 119, 146, 0.3)")};
+  border: 1px solid
+    ${(props) => (props.active ? "var(--nb-orange)" : "var(--nb-border)")};
   border-radius: 20px;
-  background: ${(props) => (props.active ? "#FAB95B" : "rgba(26, 50, 99, 0.4)")};
-  color: ${(props) => (props.active ? "#1A3263" : "#E8E2DB")};
+  background: ${(props) =>
+    props.active ? "var(--nb-orange)" : "var(--nb-blue)"};
+  color: var(--nb-white);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: ${(props) => (props.active ? "0 0 15px rgba(250, 185, 91, 0.4)" : "none")};
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: var(--nb-shadow-md);
 
   &:hover {
     transform: scale(1.05);
-    background: ${(props) => (props.active ? "#FAB95B" : "rgba(84, 119, 146, 0.3)")};
-    border-color: #FAB95B;
+    border-color: var(--nb-orange);
+    box-shadow: var(--nb-shadow-lg);
   }
 
   &:active {
     transform: scale(0.98);
-  }
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: ${(props) => (props.active ? "#3a5ab6" : "#e9ecef")};
   }
 `;
 const Header = styled.header`
@@ -802,11 +803,11 @@ const Header = styled.header`
   }
 
   h1 {
-    color: #E8E2DB;
+    color: var(--nb-ink);
     font-size: 1.5rem;
     margin: 0;
     font-weight: 600;
-    text-shadow: 0 2px 10px rgba(250, 185, 91, 0.3);
+    text-shadow: none;
 
     @media (min-width: 768px) {
       font-size: 1.8rem;
@@ -824,26 +825,26 @@ const DSRPerformanceGrid = styled.div`
 `;
 
 const DSRPerformanceCard = styled.div`
-  background: rgba(15, 27, 61, 0.6);
+  background: var(--nb-muted);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(84, 119, 146, 0.2);
+  box-shadow: var(--nb-shadow-md);
+  border: 1px solid var(--nb-border);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-    border-color: rgba(250, 185, 91, 0.3);
+    box-shadow: var(--nb-shadow-md);
+    border-color: var(--nb-orange);
   }
 
   h3 {
-    color: #FAB95B;
+    color: var(--nb-orange);
     font-size: 1rem;
     margin: 0 0 1rem 0;
     font-weight: 600;
-    border-bottom: 1px solid rgba(84, 119, 146, 0.2);
+    border-bottom: 1px solid var(--nb-border);
     padding-bottom: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -865,13 +866,13 @@ const DSRItem = styled.div`
   transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(84, 119, 146, 0.2);
+    background: var(--nb-muted);
     transform: translateX(5px);
   }
 
   .rank {
-    background: linear-gradient(135deg, #547792 0%, #FAB95B 100%);
-    color: #1A3263;
+    background: var(--nb-var(--nb-white));
+    color: var(--nb-blue);
     width: 28px;
     height: 28px;
     border-radius: 50%;
@@ -880,17 +881,17 @@ const DSRItem = styled.div`
     justify-content: center;
     font-size: 0.8rem;
     font-weight: 700;
-    box-shadow: 0 2px 8px rgba(250, 185, 91, 0.3);
+    box-shadow: var(--nb-shadow-md);
   }
 
   .name {
     flex: 1;
-    color: #E8E2DB;
+    color: var(--nb-ink);
     font-weight: 500;
   }
 
   .amount {
-    color: #FAB95B;
+    color: var(--nb-orange);
     font-weight: 700;
     font-size: 1.05rem;
   }
@@ -900,11 +901,11 @@ const UserProfile = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: rgba(26, 50, 99, 0.6);
+  background: var(--nb-muted);
   padding: 0.5rem 1rem;
   border-radius: 2rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(84, 119, 146, 0.3);
+  box-shadow: var(--nb-shadow-md);
+  border: 1px solid var(--nb-border);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   animation: slideRight 0.6s ease 0.2s backwards;
@@ -922,20 +923,20 @@ const UserProfile = styled.div`
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(250, 185, 91, 0.3);
-    border-color: rgba(250, 185, 91, 0.5);
+    box-shadow: var(--nb-shadow-md);
+    border-color: var(--nb-orange);
   }
 
   img {
     width: 2.25rem;
     height: 2.25rem;
     border-radius: 50%;
-    border: 2px solid #FAB95B;
-    box-shadow: 0 0 10px rgba(250, 185, 91, 0.3);
+    border: 2px solid var(--nb-orange);
+    box-shadow: var(--nb-shadow-md);
   }
 
   span {
-    color: #E8E2DB;
+    color: var(--nb-ink);
     font-weight: 500;
     font-size: 0.9rem;
 
@@ -1005,15 +1006,15 @@ const MetricsGrid = styled.div`
 `;
 
 const MetricCard = styled.div`
-  background: rgba(26, 50, 99, 0.8);
+  background: var(--nb-muted);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--nb-shadow-md);
   display: flex;
   align-items: center;
   gap: 1rem;
   border-left: 4px solid ${(props) => props.color};
-  border: 1px solid rgba(84, 119, 146, 0.3);
+  border: 1px solid var(--nb-border);
   border-left: 4px solid ${(props) => props.color};
   transition: all 0.3s ease;
   min-height: 90px;
@@ -1030,12 +1031,12 @@ const MetricCard = styled.div`
     width: 4px;
     height: 100%;
     background: ${(props) => props.color};
-    box-shadow: 0 0 15px ${(props) => props.color};
+    box-shadow: var(--nb-shadow-md);
   }
 
   &:hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px ${(props) => `${props.color}40`};
+    box-shadow: var(--nb-shadow-md);
     border-color: ${(props) => props.color};
   }
 
@@ -1094,7 +1095,7 @@ const MetricCard = styled.div`
 
   .metric-content {
     h3 {
-      color: #547792;
+      color: var(--nb-blue);
       font-size: 0.85rem;
       margin: 0 0 0.25rem 0;
       font-weight: 600;
@@ -1107,7 +1108,7 @@ const MetricCard = styled.div`
     }
 
     p {
-      color: #E8E2DB;
+      color: var(--nb-ink);
       font-size: 1.25rem;
       margin: 0;
       font-weight: 300;
@@ -1132,13 +1133,13 @@ const MetricCard = styled.div`
 `;
 
 const ContentSection = styled.section`
-  background: rgba(26, 50, 99, 0.6);
+  background: var(--nb-muted);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--nb-shadow-md);
   overflow: hidden;
   margin-bottom: 2rem;
-  border: 1px solid rgba(84, 119, 146, 0.3);
+  border: 1px solid var(--nb-border);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   animation: slideUp 0.8s ease;
@@ -1155,8 +1156,8 @@ const ContentSection = styled.section`
   }
 
   &:hover {
-    border-color: rgba(250, 185, 91, 0.3);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    border-color: var(--nb-orange);
+    box-shadow: var(--nb-shadow-md);
   }
 
   @media (min-width: 768px) {
@@ -1177,11 +1178,11 @@ const SectionHeader = styled.div`
   }
 
   h2 {
-    color: #E8E2DB;
+    color: var(--nb-ink);
     font-size: 1.25rem;
     margin: 0;
     font-weight: 600;
-    text-shadow: 0 2px 10px rgba(250, 185, 91, 0.2);
+    text-shadow: none;
 
     @media (min-width: 768px) {
       font-size: 1.4rem;
@@ -1190,25 +1191,25 @@ const SectionHeader = styled.div`
 `;
 
 const ViewAllLink = styled(Link)`
-  color: #FAB95B;
+  color: var(--nb-orange);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
   display: flex;
   align-items: center;
   gap: 0.25rem;
   transition: all 0.3s ease;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  background: rgba(250, 185, 91, 0.1);
+  background: var(--nb-muted);
 
   &:hover {
-    color: #E8E2DB;
+    color: var(--nb-ink);
     text-decoration: none;
-    background: rgba(250, 185, 91, 0.2);
+    background: var(--nb-muted);
     transform: translateX(5px);
-    box-shadow: 0 0 15px rgba(250, 185, 91, 0.3);
+    box-shadow: var(--nb-shadow-md);
   }
 
   svg {
@@ -1228,9 +1229,9 @@ const TableContainer = styled.div`
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: 0.5rem;
-  background: rgba(15, 27, 61, 0.4);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(84, 119, 146, 0.2);
+  background: var(--nb-muted);
+  box-shadow: var(--nb-shadow-md);
+  border: 1px solid var(--nb-border);
 `;
 
 const DataTable = styled.table`
@@ -1248,17 +1249,17 @@ const DataTable = styled.table`
   td {
     padding: 0.75rem 1rem;
     text-align: left;
-    border-bottom: 1px solid rgba(84, 119, 146, 0.2);
+    border-bottom: 1px solid var(--nb-border);
   }
 
   th {
-    color: #FAB95B;
+    color: var(--nb-orange);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-size: 0.75rem;
-    white-space: nowrap;
-    background: rgba(26, 50, 99, 0.6);
+    var(--nb-white)-space: nowrap;
+    background: var(--nb-muted);
 
     @media (min-width: 768px) {
       font-size: 0.8rem;
@@ -1267,8 +1268,8 @@ const DataTable = styled.table`
   }
 
   td {
-    color: #E8E2DB;
-    white-space: nowrap;
+    color: var(--nb-ink);
+    var(--nb-white)-space: nowrap;
     transition: all 0.3s ease;
   }
 
@@ -1281,7 +1282,7 @@ const DataTable = styled.table`
     cursor: pointer;
 
     &:hover {
-      background: rgba(84, 119, 146, 0.2);
+      background: var(--nb-muted);
       transform: scale(1.01);
     }
   }
@@ -1296,11 +1297,11 @@ const DataTable = styled.table`
     tr {
       display: block;
       margin-bottom: 1rem;
-      border: 1px solid rgba(84, 119, 146, 0.3);
+      border: 1px solid var(--nb-border);
       border-radius: 0.5rem;
       padding: 0.5rem;
       position: relative;
-      background: rgba(26, 50, 99, 0.4);
+      background: var(--nb-muted);
     }
 
     td {
@@ -1309,8 +1310,8 @@ const DataTable = styled.table`
       align-items: center;
       padding: 0.5rem 0.75rem;
       text-align: right;
-      border-bottom: 1px solid rgba(84, 119, 146, 0.2);
-      white-space: normal;
+      border-bottom: 1px solid var(--nb-border);
+      var(--nb-white)-space: normal;
 
       &:last-child {
         border-bottom: none;
@@ -1320,7 +1321,7 @@ const DataTable = styled.table`
         content: attr(data-label);
         float: left;
         font-weight: 600;
-        color: #FAB95B;
+        color: var(--nb-orange);
         margin-right: 1rem;
         font-size: 0.8rem;
       }
@@ -1336,36 +1337,35 @@ const PaymentBadge = styled.span`
   font-weight: 600;
   background: ${(props) =>
     props.mode === "Cash"
-      ? "rgba(250, 185, 91, 0.2)"
+      ? "var(--nb-orange)"
       : props.mode === "Card"
-      ? "rgba(84, 119, 146, 0.2)"
-      : "rgba(250, 185, 91, 0.2)"};
+      ? "var(--nb-border)"
+      : "var(--nb-orange)"};
   color: ${(props) =>
     props.mode === "Cash"
-      ? "#FAB95B"
+      ? "var(--nb-orange)"
       : props.mode === "Card"
-      ? "#547792"
-      : "#FAB95B"};
+      ? "var(--nb-blue)"
+      : "var(--nb-orange)"};
   text-transform: capitalize;
   border: 1px solid ${(props) =>
     props.mode === "Cash"
-      ? "rgba(250, 185, 91, 0.4)"
+      ? "var(--nb-orange)"
       : props.mode === "Card"
-      ? "rgba(84, 119, 146, 0.4)"
-      : "rgba(250, 185, 91, 0.4)"};
+      ? "var(--nb-border)"
+      : "var(--nb-orange)"};
   transition: all 0.3s ease;
 
   &:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 10px ${(props) =>
-      props.mode === "Cash" ? "rgba(250, 185, 91, 0.4)" : "rgba(84, 119, 146, 0.4)"};
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
 const LoadingIndicator = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #E8E2DB;
+  color: var(--nb-ink);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1384,11 +1384,11 @@ const LoadingIndicator = styled.div`
   .spinner {
     width: 50px;
     height: 50px;
-    border: 4px solid rgba(84, 119, 146, 0.2);
+    border: 4px solid var(--nb-border);
     border-radius: 50%;
-    border-top-color: #FAB95B;
+    border-top-color: var(--nb-orange);
     animation: spin 1s ease-in-out infinite;
-    box-shadow: 0 0 20px rgba(250, 185, 91, 0.3);
+    box-shadow: var(--nb-shadow-md);
   }
 
   @keyframes spin {
@@ -1400,7 +1400,7 @@ const LoadingIndicator = styled.div`
   p {
     margin: 0;
     font-size: 0.95rem;
-    color: #547792;
+    color: var(--nb-blue);
     animation: pulse 2s ease-in-out infinite;
   }
 
@@ -1416,8 +1416,8 @@ const LoadingIndicator = styled.div`
 
 const ErrorMessage = styled.div`
   padding: 1.5rem;
-  background: rgba(220, 53, 69, 0.2);
-  color: #FAB95B;
+  background: var(--nb-muted);
+  color: var(--nb-orange);
   border-radius: 0.75rem;
   margin: 1rem 0;
   text-align: center;
@@ -1425,7 +1425,7 @@ const ErrorMessage = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  border: 1px solid rgba(220, 53, 69, 0.3);
+  border: 1px solid var(--nb-orange);
   backdrop-filter: blur(10px);
   animation: shake 0.5s ease;
 
@@ -1436,13 +1436,13 @@ const ErrorMessage = styled.div`
   }
 
   svg {
-    color: #FAB95B;
+    color: var(--nb-orange);
   }
 
   p {
     margin: 0;
     font-size: 0.95rem;
-    color: #E8E2DB;
+    color: var(--nb-ink);
   }
 `;
 

@@ -314,7 +314,7 @@ const CollectionsHistory = () => {
 const DashboardLayout = styled.div`
   display: flex;
   min-height: 100vh;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
   flex-direction: column;
 
   @media (min-width: 768px) {
@@ -324,8 +324,8 @@ const DashboardLayout = styled.div`
 
 const Sidebar = styled.div`
   width: 100%;
-  background-color: #fff;
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  background-color: var(--nb-white);
+  box-shadow: var(--nb-shadow-md);
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -357,8 +357,8 @@ const TopBar = styled.div`
   flex-direction: column;
   gap: 15px;
   padding: 15px;
-  background-color: #fff;
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  background-color: var(--nb-white);
+  box-shadow: var(--nb-shadow-md);
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -383,10 +383,10 @@ const HeaderActions = styled.div`
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 4px;
   padding: 8px 15px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   flex: 1;
   min-width: 200px;
 `;
@@ -405,27 +405,27 @@ const SearchInput = styled.input`
 const DateFilterContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 4px;
   padding: 8px 15px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   flex: 1;
 `;
 
 const CollectionsTable = styled.table`
   width: 100%;
   border-collapse: collapse;
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  box-shadow: var(--nb-shadow-md);
   display: block;
   overflow-x: auto;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
 
   @media (min-width: 992px) {
     display: table;
-    white-space: normal;
+    var(--nb-white)-space: normal;
   }
 `;
 
@@ -433,7 +433,7 @@ const TableHeaderCell = styled.th`
   padding: 12px;
   text-align: left;
   font-weight: 600;
-  color: #4e73df;
+  color: var(--nb-blue);
 
   @media (min-width: 768px) {
     padding: 15px;
@@ -442,7 +442,7 @@ const TableHeaderCell = styled.th`
 
 const TableCell = styled.td`
   padding: 12px;
-  color: #6c757d;
+  color: var(--nb-ink);
 
   @media (min-width: 768px) {
     padding: 15px;
@@ -466,9 +466,9 @@ const EmptyState = styled.div`
   justify-content: center;
   padding: 40px 20px;
   text-align: center;
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 8px;
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  box-shadow: var(--nb-shadow-md);
 
   @media (min-width: 768px) {
     padding: 60px 20px;
@@ -478,7 +478,7 @@ const EmptyState = styled.div`
 const PageTitle = styled.h1`
   font-size: 1.25rem;
   font-weight: 600;
-  color: #2e3a59;
+  color: var(--nb-ink);
   margin: 0;
 
   @media (min-width: 768px) {
@@ -488,24 +488,24 @@ const PageTitle = styled.h1`
 const NavCheckmark = styled.span`
   margin-left: auto;
   font-size: 0.9rem;
-  color: ${(props) => (props.active ? "#4e73df" : "#6c757d")};
+  color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-ink)")};
 `;
 
 const TableHeader = styled.thead`
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
 `;
 
 const TableBody = styled.tbody``;
 
 const TableRow = styled.tr`
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--nb-border);
 
   &:last-child {
     border-bottom: none;
   }
 
   &:hover {
-    background-color: #f8f9fc;
+    background-color: var(--nb-muted);
   }
 `;
 
@@ -517,29 +517,29 @@ const PaymentMode = styled.span`
   font-weight: 600;
   background-color: ${(props) =>
     props.mode === "Cash"
-      ? "#1cc88a20"
+      ? "var(--nb-blue)20"
       : props.mode === "upi"
-      ? "#4e73df20"
+      ? "var(--nb-blue)20"
       : props.mode === "bank_transfer"
-      ? "#36b9cc20"
-      : "#f6c23e20"};
+      ? "var(--nb-blue)20"
+      : "var(--nb-orange)20"};
   color: ${(props) =>
     props.mode === "Cash"
-      ? "#1cc88a"
+      ? "var(--nb-blue)"
       : props.mode === "upi"
-      ? "#4e73df"
+      ? "var(--nb-blue)"
       : props.mode === "bank_transfer"
-      ? "#36b9cc"
-      : "#f6c23e"};
+      ? "var(--nb-blue)"
+      : "var(--nb-orange)"};
 `;
 
 const SearchIcon = styled.div`
-  color: #6c757d;
+  color: var(--nb-ink);
   margin-right: 10px;
 `;
 
 const CalendarIcon = styled.div`
-  color: #6c757d;
+  color: var(--nb-ink);
   margin-right: 10px;
 `;
 
@@ -555,24 +555,24 @@ const SidebarHeader = styled.div`
   align-items: center;
   padding: 0 20px;
   height: 70px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--nb-border);
 `;
 
 const Logo = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
-  color: #4e73df;
-  white-space: nowrap;
+  color: var(--nb-blue);
+  var(--nb-white)-space: nowrap;
 `;
 const UserProfile = styled.div`
   display: flex;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--nb-border);
 `;
 
 const UserAvatar = styled.div`
-  color: #4e73df;
+  color: var(--nb-blue);
   margin-right: ${(props) => (props.collapsed ? "0" : "15px")};
 `;
 
@@ -584,12 +584,12 @@ const UserInfo = styled.div`
 const UserName = styled.div`
   font-weight: 600;
   font-size: 0.9rem;
-  color: #343a40;
+  color: var(--nb-ink);
 `;
 
 const UserRole = styled.div`
   font-size: 0.75rem;
-  color: #6c757d;
+  color: var(--nb-ink);
 `;
 
 const NavMenu = styled.div`
@@ -602,17 +602,17 @@ const NavItem = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: ${(props) => (props.active ? "#4e73df" : "#6c757d")};
+  color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-ink)")};
   background-color: ${(props) =>
-    props.active ? "rgba(78, 115, 223, 0.1)" : "transparent"};
+    props.active ? "var(--nb-muted)" : "transparent"};
   cursor: pointer;
   transition: all 0.3s;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
 
   &:hover {
-    background-color: rgba(78, 115, 223, 0.1);
-    color: #4e73df;
+    background-color: var(--nb-muted);
+    color: var(--nb-blue);
   }
 `;
 
@@ -625,15 +625,15 @@ const NavItemMain = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: #6c757d;
+  color: var(--nb-ink);
   cursor: pointer;
   transition: all 0.3s;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
 
   &:hover {
-    background-color: rgba(78, 115, 223, 0.1);
-    color: #4e73df;
+    background-color: var(--nb-muted);
+    color: var(--nb-blue);
   }
 `;
 
@@ -661,13 +661,13 @@ const SubmenuItem = styled.div`
   display: flex;
   align-items: center;
   padding: 8px 20px 8px 40px;
-  color: #6c757d;
+  color: var(--nb-ink);
   cursor: pointer;
   font-size: 0.85rem;
   transition: all 0.3s;
 
   &:hover {
-    color: #4e73df;
+    color: var(--nb-blue);
   }
 `;
 
@@ -675,22 +675,22 @@ const LogoutButton = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: #6c757d;
+  color: var(--nb-ink);
   cursor: pointer;
   transition: all 0.3s;
-  border-top: 1px solid #f0f0f0;
-  white-space: nowrap;
+  border-top: 1px solid var(--nb-border);
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
 
   &:hover {
-    color: #e74a3b;
-    background-color: rgba(231, 74, 59, 0.1);
+    color: var(--nb-orange);
+    background-color: var(--nb-muted);
   }
 `;
 
 const ErrorAlert = styled.div`
-  background-color: #fff5f5;
-  border: 1px solid #ffd6d6;
+  background-color: var(--nb-muted);
+  border: 1px solid var(--nb-border);
   border-radius: 8px;
   padding: 20px;
   display: flex;
@@ -703,7 +703,7 @@ const ErrorAlert = styled.div`
 
 const ErrorMessage = styled.div`
   font-size: 1rem;
-  color: #e74a3b;
+  color: var(--nb-orange);
   margin-bottom: 20px;
 `;
 
@@ -713,22 +713,22 @@ const LoadingContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
 `;
 
 const Spinner = styled.div`
   width: 50px;
   height: 50px;
-  border: 4px solid rgba(78, 115, 223, 0.1);
+  border: 4px solid var(--nb-muted);
   border-radius: 50%;
-  border-top-color: #4e73df;
+  border-top-color: var(--nb-blue);
   animation: ${spin} 1s linear infinite;
   margin-bottom: 20px;
 `;
 
 const EmptyMessage = styled.p`
   font-size: 1rem;
-  color: #6c757d;
+  color: var(--nb-ink);
   margin: 20px 0;
 `;
 

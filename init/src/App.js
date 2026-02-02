@@ -34,6 +34,7 @@ import RetailerDashboard from "./pages/RetailerDashboard";
 import RetailerBilling from "./pages/RetailerBilling";
 import RetailerCollectionHistory from "./pages/RetailerCollectionHistory";
 import RetailerOrders from "./pages/RetailerOrders";
+import ModuleSettings from "./pages/ModuleSettings";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -340,6 +341,18 @@ const App = () => {
 
         {/* Logout Route */}
         <Route path="/logout" element={<Logout />} />
+
+        {/* Admin Settings - Modules */}
+        <Route
+          path="/admin/settings/modules"
+          element={
+            user?.role === "admin" ? (
+              <ModuleSettings />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
       </Routes>
     </Router>
   );

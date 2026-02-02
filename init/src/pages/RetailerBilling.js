@@ -70,15 +70,15 @@ const RetailerBilling = () => {
 
         {/* Summary Cards */}
         <SummaryGrid>
-          <SummaryCard color="#4e73df">
+          <SummaryCard color="var(--nb-blue)">
             <h3>Total Bills</h3>
             <p>₹{totalBillAmount.toFixed(2)}</p>
           </SummaryCard>
-          <SummaryCard color="#1cc88a">
+          <SummaryCard color="var(--nb-blue)">
             <h3>Total Paid</h3>
             <p>₹{totalPaid.toFixed(2)}</p>
           </SummaryCard>
-          <SummaryCard color="#f6c23e">
+          <SummaryCard color="var(--nb-orange)">
             <h3>Total Due</h3>
             <p>₹{totalDue.toFixed(2)}</p>
           </SummaryCard>
@@ -199,7 +199,7 @@ const Header = styled.header`
   margin-bottom: 1.5rem;
 
   h1 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.5rem;
     margin: 0;
     font-weight: 600;
@@ -222,21 +222,21 @@ const SummaryGrid = styled.div`
 `;
 
 const SummaryCard = styled.div`
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   border-left: 4px solid ${(props) => props.color};
 
   h3 {
-    color: #6e707e;
+    color: var(--nb-ink);
     font-size: 0.85rem;
     margin: 0 0 0.5rem 0;
     font-weight: 600;
   }
 
   p {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.5rem;
     margin: 0;
     font-weight: 700;
@@ -254,23 +254,23 @@ const FilterButton = styled.button`
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 0.5rem;
-  background-color: ${(props) => (props.active ? "#4e73df" : "#f8f9fa")};
-  color: ${(props) => (props.active ? "#fff" : "#6e707e")};
+  background-color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-muted)")};
+  color: ${(props) => (props.active ? "var(--nb-white)" : "var(--nb-ink)")};
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: ${(props) => (props.active ? "#3a5ab6" : "#e9ecef")};
+    background-color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-muted)")};
   }
 `;
 
 const ContentSection = styled.section`
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   overflow: hidden;
 
   @media (min-width: 768px) {
@@ -299,17 +299,17 @@ const DataTable = styled.table`
   td {
     padding: 0.75rem 1rem;
     text-align: left;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--nb-border);
   }
 
   th {
-    color: #6e707e;
+    color: var(--nb-ink);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-size: 0.75rem;
-    white-space: nowrap;
-    background-color: #f9fafc;
+    var(--nb-white)-space: nowrap;
+    background-color: var(--nb-muted);
 
     @media (min-width: 768px) {
       font-size: 0.8rem;
@@ -318,8 +318,8 @@ const DataTable = styled.table`
   }
 
   td {
-    color: #2e3a59;
-    white-space: nowrap;
+    color: var(--nb-ink);
+    var(--nb-white)-space: nowrap;
   }
 
   tr:last-child td {
@@ -327,7 +327,7 @@ const DataTable = styled.table`
   }
 
   tr:hover {
-    background-color: #f8f9fa;
+    background-color: var(--nb-muted);
   }
 
   @media (max-width: 767px) {
@@ -340,7 +340,7 @@ const DataTable = styled.table`
     tr {
       display: block;
       margin-bottom: 1rem;
-      border: 1px solid #eee;
+      border: 1px solid var(--nb-border);
       border-radius: 0.5rem;
       padding: 0.5rem;
     }
@@ -351,8 +351,8 @@ const DataTable = styled.table`
       align-items: center;
       padding: 0.5rem 0.75rem;
       text-align: right;
-      border-bottom: 1px solid #f0f0f0;
-      white-space: normal;
+      border-bottom: 1px solid var(--nb-border);
+      var(--nb-white)-space: normal;
 
       &:last-child {
         border-bottom: none;
@@ -362,7 +362,7 @@ const DataTable = styled.table`
         content: attr(data-label);
         float: left;
         font-weight: 600;
-        color: #6e707e;
+        color: var(--nb-ink);
         margin-right: 1rem;
         font-size: 0.8rem;
       }
@@ -378,23 +378,23 @@ const StatusBadge = styled.span`
   font-weight: 600;
   background-color: ${(props) =>
     props.status === "Paid"
-      ? "#e3faf0"
+      ? "var(--nb-muted)"
       : props.status === "Partially Paid"
-        ? "#fff8e6"
-        : "#ffe6e6"};
+        ? "var(--nb-white)8e6"
+        : "var(--nb-muted)"};
   color: ${(props) =>
     props.status === "Paid"
-      ? "#20c997"
+      ? "var(--nb-blue)"
       : props.status === "Partially Paid"
-        ? "#ffc107"
-        : "#e74c3c"};
+        ? "var(--nb-orange)"
+        : "var(--nb-orange)"};
   text-transform: capitalize;
 `;
 
 const LoadingIndicator = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #6e707e;
+  color: var(--nb-ink);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -403,9 +403,9 @@ const LoadingIndicator = styled.div`
   .spinner {
     width: 40px;
     height: 40px;
-    border: 4px solid rgba(78, 115, 223, 0.1);
+    border: 4px solid var(--nb-muted);
     border-radius: 50%;
-    border-top-color: #4e73df;
+    border-top-color: var(--nb-blue);
     animation: spin 1s ease-in-out infinite;
   }
 
@@ -424,10 +424,10 @@ const LoadingIndicator = styled.div`
 const ErrorMessage = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #e74c3c;
-  background-color: #fee;
+  color: var(--nb-orange);
+  background-color: var(--nb-muted);
   border-radius: 0.75rem;
-  border: 1px solid #fcc;
+  border: 1px solid var(--nb-border);
 `;
 
 export default RetailerBilling;

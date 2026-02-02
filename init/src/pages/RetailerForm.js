@@ -1,151 +1,92 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import DynamicForm from "../components/DynamicForm";
+import {
+  createRecord,
+  hydrateModuleDefinition,
+  updateRecord,
+} from "../utils/dynamicApi";
 
-const RetailerForm = ({ retailer, onClose, onSuccess, staffList = [] }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    address1: "",
-    address2: "",
-    assignedTo: "",
-    dayAssigned: "",
-  });
+const RetailerForm = ({ record, onClose, onSuccess }) => {
+  const [formData, setFormData] = useState({});
+  const [moduleDefinition, setModuleDefinition] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
 
   useEffect(() => {
-    if (retailer) {
-      setFormData({
-        name: retailer.name,
-        address1: retailer.address1,
-        address2: retailer.address2 || "",
-        assignedTo: retailer.assignedTo || "",
-        dayAssigned: retailer.dayAssigned || "",
-      });
-    }
-  }, [retailer]);
+    const loadModule = async () => {
+      try {
+        const definition = await hydrateModuleDefinition("retailer");
+        setModuleDefinition(definition);
+      } catch (err) {
+        setError("Failed to load retailer module");
+      }
+    };
+    loadModule();
+  }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  useEffect(() => {
+    if (record?.data) {
+      setFormData(record.data);
+    } else {
+      setFormData({});
+    }
+  }, [record]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-
     try {
-      const token = localStorage.getItem("token");
-      const url = retailer
-        ? `http://localhost:2500/api/retailers/${retailer._id}`
-        : "http://localhost:2500/api/retailers";
-
-      const method = retailer ? "put" : "post";
-
-      await axios[method](url, formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
+      if (record?._id) {
+        await updateRecord("retailer", record._id, formData);
+      } else {
+        await createRecord("retailer", formData);
+      }
       onSuccess();
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
+      setFieldErrors(err.response?.data?.errors || {});
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
+    <FormContainer>
       <FormHeader>
-        {retailer ? "Edit Retailer" : "Add New Retailer"}
+        {record ? "Edit Retailer" : "Add New Retailer"}
         <CloseButton onClick={onClose}>×</CloseButton>
       </FormHeader>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
 
-      <FormGroup>
-        <Label>Retailer Name</Label>
-        <Input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
+      {moduleDefinition ? (
+        <DynamicForm
+          moduleDefinition={moduleDefinition}
+          values={formData}
+          onChange={(key, value) =>
+            setFormData((prev) => ({ ...prev, [key]: value }))
+          }
+          onSubmit={handleSubmit}
+          errors={fieldErrors}
+          submitLabel={record ? "Update Retailer" : "Add Retailer"}
         />
-      </FormGroup>
-
-      <FormGroup>
-        <Label>Address Line 1</Label>
-        <Input
-          type="text"
-          name="address1"
-          value={formData.address1}
-          onChange={handleChange}
-          required
-        />
-      </FormGroup>
-
-      <FormGroup>
-        <Label>Address Line 2 (Optional)</Label>
-        <Input
-          type="text"
-          name="address2"
-          value={formData.address2}
-          onChange={handleChange}
-        />
-      </FormGroup>
-
-      <FormGroup>
-        <Label>Day Assigned</Label>
-        <Select
-          name="dayAssigned"
-          value={formData.dayAssigned}
-          onChange={handleChange}
-        >
-          <option value="Monday">Monday</option>
-          <option value="Tuesday">Tuesday</option>
-          <option value="Wednesday">Wednesday</option>
-          <option value="Thursday">Thursday</option>
-          <option value="Friday">Friday</option>
-          <option value="Saturday">Saturday</option>
-          <option value="Sunday">Sunday</option>
-        </Select>
-      </FormGroup>
-
-      <FormGroup>
-        <Label>Assign To Staff</Label>
-        <Select
-          name="assignedTo"
-          value={formData.assignedTo}
-          onChange={handleChange}
-        >
-          <option value="">Select Staff</option>
-          {staffList.map((staff) => (
-            <option key={staff._id} value={staff._id}>
-              {staff.name}
-            </option>
-          ))}
-        </Select>
-      </FormGroup>
+      ) : (
+        <LoadingText>Loading fields...</LoadingText>
+      )}
 
       <ButtonContainer>
         <Button type="button" onClick={onClose} secondary>
           Cancel
-        </Button>
-        <Button type="submit" disabled={loading}>
-          {loading ? "Processing..." : "Save"}
         </Button>
       </ButtonContainer>
     </FormContainer>
   );
 };
 
-// Styled components
-const FormContainer = styled.form`
+const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -164,29 +105,7 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #666;
-`;
-
-const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const Label = styled.label`
-  font-weight: 500;
-`;
-
-const Input = styled.input`
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-`;
-
-const Select = styled.select`
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  color: var(--nb-ink);
 `;
 
 const ButtonContainer = styled.div`
@@ -198,18 +117,24 @@ const ButtonContainer = styled.div`
 
 const Button = styled.button`
   padding: 0.5rem 1rem;
-  background-color: ${(props) => (props.secondary ? "#f0f0f0" : "#4299e1")};
-  color: ${(props) => (props.secondary ? "#333" : "white")};
+  background-color: ${(props) =>
+    props.secondary ? "var(--nb-border)" : "var(--nb-blue)"};
+  color: ${(props) => (props.secondary ? "var(--nb-ink)" : "var(--nb-white)")};
   border: none;
   border-radius: 4px;
   cursor: pointer;
 `;
 
 const ErrorMessage = styled.div`
-  color: #e53e3e;
+  color: var(--nb-orange);
   padding: 0.5rem;
-  background-color: #fed7d7;
+  background-color: var(--nb-muted);
   border-radius: 4px;
+`;
+
+const LoadingText = styled.div`
+  color: var(--nb-ink);
+  padding: 0.5rem 0;
 `;
 
 export default RetailerForm;

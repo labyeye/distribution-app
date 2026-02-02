@@ -358,7 +358,7 @@ const Header = styled.header`
   flex-wrap: wrap;
 
   h1 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.5rem;
     margin: 0 0 0.5rem 0;
     font-weight: 600;
@@ -370,7 +370,7 @@ const Header = styled.header`
 `;
 
 const SubTitle = styled.p`
-  color: #6e707e;
+  color: var(--nb-ink);
   font-size: 0.95rem;
   margin: 0;
 `;
@@ -380,37 +380,37 @@ const ActionButton = styled.button`
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--nb-var(--nb-white));
+  color: var(--nb-white);
   border: none;
   border-radius: 0.5rem;
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
 const OrderFormSection = styled.div`
-  background: #fff;
+  background: var(--nb-white);
   border-radius: 0.75rem;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   margin-bottom: 2rem;
 `;
 
 const FormHeader = styled.div`
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid var(--nb-border);
 
   h2 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.25rem;
     margin: 0;
     font-weight: 600;
@@ -429,7 +429,7 @@ const OrderItemRow = styled.div`
   gap: 1rem;
   align-items: end;
   padding: 1rem;
-  background: #f8f9fa;
+  background: var(--nb-muted);
   border-radius: 0.5rem;
 
   @media (max-width: 768px) {
@@ -444,58 +444,58 @@ const FormGroup = styled.div`
 `;
 
 const Label = styled.label`
-  color: #6e707e;
+  color: var(--nb-ink);
   font-size: 0.85rem;
   font-weight: 500;
 `;
 
 const Select = styled.select`
   padding: 0.625rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   font-size: 0.9rem;
-  background: white;
+  background: var(--nb-white);
   cursor: pointer;
 
   &:focus {
-    border-color: #667eea;
+    border-color: var(--nb-blue);
     outline: none;
   }
 `;
 
 const Input = styled.input`
   padding: 0.625rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   font-size: 0.9rem;
 
   &:focus {
-    border-color: #667eea;
+    border-color: var(--nb-blue);
     outline: none;
   }
 `;
 
 const TotalText = styled.div`
   padding: 0.625rem;
-  background: #e3f2fd;
+  background: var(--nb-muted);
   border-radius: 0.375rem;
-  color: #1976d2;
+  color: var(--nb-blue);
   font-weight: 600;
   text-align: center;
 `;
 
 const RemoveButton = styled.button`
   padding: 0.625rem;
-  background: #fee;
-  color: #e74c3c;
-  border: 1px solid #fcc;
+  background: var(--nb-muted);
+  color: var(--nb-orange);
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #e74c3c;
-    color: white;
+    background: var(--nb-orange);
+    color: var(--nb-white);
   }
 `;
 
@@ -505,9 +505,9 @@ const AddItemButton = styled.button`
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem;
-  background: #f8f9fa;
-  color: #667eea;
-  border: 2px dashed #667eea;
+  background: var(--nb-muted);
+  color: var(--nb-blue);
+  border: 2px dashed var(--nb-blue);
   border-radius: 0.5rem;
   font-size: 0.95rem;
   font-weight: 500;
@@ -515,15 +515,15 @@ const AddItemButton = styled.button`
   transition: all 0.2s ease;
 
   &:hover {
-    background: #667eea;
-    color: white;
+    background: var(--nb-blue);
+    color: var(--nb-white);
   }
 `;
 
 const OrderSummary = styled.div`
   margin-top: 1.5rem;
   padding: 1rem;
-  background: #f8f9fa;
+  background: var(--nb-muted);
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -536,7 +536,7 @@ const SummaryRow = styled.div`
   font-size: 1rem;
 
   strong {
-    color: #2e3a59;
+    color: var(--nb-ink);
   }
 `;
 
@@ -549,9 +549,9 @@ const FormActions = styled.div`
 
 const CancelButton = styled.button`
   padding: 0.75rem 1.5rem;
-  background: #f8f9fa;
-  color: #6e707e;
-  border: 1px solid #ddd;
+  background: var(--nb-muted);
+  color: var(--nb-ink);
+  border: 1px solid var(--nb-border);
   border-radius: 0.5rem;
   font-size: 0.95rem;
   font-weight: 500;
@@ -559,14 +559,14 @@ const CancelButton = styled.button`
   transition: all 0.2s ease;
 
   &:hover {
-    background: #e9ecef;
+    background: var(--nb-muted);
   }
 `;
 
 const SubmitButton = styled.button`
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--nb-var(--nb-white));
+  color: var(--nb-white);
   border: none;
   border-radius: 0.5rem;
   font-size: 0.95rem;
@@ -576,7 +576,7 @@ const SubmitButton = styled.button`
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: var(--nb-shadow-md);
   }
 
   &:disabled {
@@ -586,10 +586,10 @@ const SubmitButton = styled.button`
 `;
 
 const ContentSection = styled.section`
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
 
   @media (min-width: 768px) {
     padding: 1.5rem;
@@ -600,7 +600,7 @@ const SectionHeader = styled.div`
   margin-bottom: 1.25rem;
 
   h2 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.25rem;
     margin: 0;
     font-weight: 600;
@@ -614,13 +614,13 @@ const OrdersList = styled.div`
 `;
 
 const OrderCard = styled.div`
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--nb-border);
   border-radius: 0.75rem;
   padding: 1.25rem;
   transition: all 0.3s ease;
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
@@ -630,18 +630,18 @@ const OrderHeader = styled.div`
   align-items: flex-start;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--nb-border);
 `;
 
 const OrderTitle = styled.h3`
-  color: #2e3a59;
+  color: var(--nb-ink);
   font-size: 1.1rem;
   margin: 0 0 0.25rem 0;
   font-weight: 600;
 `;
 
 const OrderDate = styled.div`
-  color: #6e707e;
+  color: var(--nb-ink);
   font-size: 0.85rem;
 `;
 
@@ -652,20 +652,20 @@ const StatusBadge = styled.span`
   font-weight: 600;
   background-color: ${(props) =>
     props.status === "Completed" || props.status === "Approved"
-      ? "#e3faf0"
+      ? "var(--nb-muted)"
       : props.status === "Pending"
-        ? "#fff8e6"
+        ? "var(--nb-white)8e6"
         : props.status === "Rejected"
-          ? "#ffe6e6"
-          : "#e3f2fd"};
+          ? "var(--nb-muted)"
+          : "var(--nb-muted)"};
   color: ${(props) =>
     props.status === "Completed" || props.status === "Approved"
-      ? "#20c997"
+      ? "var(--nb-blue)"
       : props.status === "Pending"
-        ? "#ffc107"
+        ? "var(--nb-orange)"
         : props.status === "Rejected"
-          ? "#e74c3c"
-          : "#1976d2"};
+          ? "var(--nb-orange)"
+          : "var(--nb-blue)"};
 `;
 
 const OrderItems = styled.div`
@@ -680,11 +680,11 @@ const OrderItem = styled.div`
   align-items: center;
   gap: 1rem;
   padding: 0.75rem;
-  background: #f8f9fa;
+  background: var(--nb-muted);
   border-radius: 0.5rem;
 
   svg {
-    color: #667eea;
+    color: var(--nb-blue);
     flex-shrink: 0;
   }
 `;
@@ -694,19 +694,19 @@ const ItemDetails = styled.div`
 `;
 
 const ItemName = styled.div`
-  color: #2e3a59;
+  color: var(--nb-ink);
   font-weight: 500;
   font-size: 0.95rem;
 `;
 
 const ItemQuantity = styled.div`
-  color: #6e707e;
+  color: var(--nb-ink);
   font-size: 0.85rem;
   margin-top: 0.25rem;
 `;
 
 const ItemTotal = styled.div`
-  color: #1cc88a;
+  color: var(--nb-blue);
   font-weight: 600;
   font-size: 1rem;
 `;
@@ -715,7 +715,7 @@ const OrderFooter = styled.div`
   display: flex;
   justify-content: space-between;
   padding-top: 1rem;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--nb-border);
 `;
 
 const FooterItem = styled.div`
@@ -724,12 +724,12 @@ const FooterItem = styled.div`
   gap: 0.25rem;
 
   span {
-    color: #6e707e;
+    color: var(--nb-ink);
     font-size: 0.85rem;
   }
 
   strong {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1rem;
   }
 `;
@@ -737,7 +737,7 @@ const FooterItem = styled.div`
 const LoadingIndicator = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #6e707e;
+  color: var(--nb-ink);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -746,9 +746,9 @@ const LoadingIndicator = styled.div`
   .spinner {
     width: 40px;
     height: 40px;
-    border: 4px solid rgba(102, 126, 234, 0.1);
+    border: 4px solid var(--nb-muted);
     border-radius: 50%;
-    border-top-color: #667eea;
+    border-top-color: var(--nb-blue);
     animation: spin 1s ease-in-out infinite;
   }
 
@@ -767,31 +767,31 @@ const LoadingIndicator = styled.div`
 const ErrorMessage = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #e74c3c;
-  background-color: #fee;
+  color: var(--nb-orange);
+  background-color: var(--nb-muted);
   border-radius: 0.75rem;
-  border: 1px solid #fcc;
+  border: 1px solid var(--nb-border);
 `;
 
 const EmptyState = styled.div`
   padding: 3rem 2rem;
   text-align: center;
-  color: #6e707e;
+  color: var(--nb-ink);
 
   svg {
-    color: #cbd5e0;
+    color: var(--nb-border);
     margin-bottom: 1rem;
   }
 
   p {
     font-size: 1.1rem;
     margin: 0 0 0.5rem 0;
-    color: #2e3a59;
+    color: var(--nb-ink);
   }
 
   small {
     font-size: 0.9rem;
-    color: #6e707e;
+    color: var(--nb-ink);
   }
 `;
 

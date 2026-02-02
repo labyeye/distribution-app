@@ -370,25 +370,25 @@ const Container = styled.div`
 const Header = styled.div`
   margin-bottom: 2rem;
   h1 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.8rem;
   }
 `;
 
 const Section = styled.div`
-  background: white;
+  background: var(--nb-white);
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
 
   h3 {
     margin-bottom: 15px;
-    color: #4e73df;
+    color: var(--nb-blue);
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--nb-border);
     padding-bottom: 10px;
   }
 `;
@@ -413,42 +413,42 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   font-weight: 500;
-  color: #555;
+  color: var(--nb-ink);
   font-size: 0.9rem;
 `;
 
 const Input = styled.input`
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 1rem;
   &:focus {
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
     outline: none;
   }
 `;
 
 const Select = styled.select`
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 1rem;
-  background: white;
+  background: var(--nb-white);
 `;
 
 const TextArea = styled.textarea`
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 1rem;
   resize: vertical;
 `;
 
 const OrderSelectionContainer = styled.div`
-  border: 1px solid #eee;
+  border: 1px solid var(--nb-border);
   padding: 15px;
   border-radius: 6px;
-  background: #f8f9fc;
+  background: var(--nb-muted);
   margin-bottom: 15px;
 `;
 
@@ -460,8 +460,8 @@ const OrdersGrid = styled.div`
 `;
 
 const OrderCard = styled.div`
-  border: 1px solid ${(props) => (props.selected ? "#4e73df" : "#ddd")};
-  background-color: ${(props) => (props.selected ? "#e8f0fe" : "white")};
+  border: 1px solid ${(props) => (props.selected ? "var(--nb-blue)" : "var(--nb-border)")};
+  background-color: ${(props) => (props.selected ? "var(--nb-muted)" : "var(--nb-white)")};
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
@@ -469,26 +469,26 @@ const OrderCard = styled.div`
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--nb-shadow-md);
   }
 
   .order-num {
     font-weight: bold;
-    color: #2e3a59;
+    color: var(--nb-ink);
   }
   .order-amount {
-    color: #1cc88a;
+    color: var(--nb-blue);
     font-weight: 600;
   }
   .order-date {
     font-size: 0.8rem;
-    color: #888;
+    color: var(--nb-ink);
   }
 `;
 
 const SubmitButton = styled.button`
-  background-color: #4e73df;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   padding: 12px 24px;
   border: none;
   border-radius: 4px;
@@ -503,11 +503,11 @@ const SubmitButton = styled.button`
   transition: background 0.3s;
 
   &:hover {
-    background-color: #2e59d9;
+    background-color: var(--nb-blue);
   }
 
   &:disabled {
-    background-color: #ccc;
+    background-color: var(--nb-border);
     cursor: not-allowed;
   }
 `;
@@ -517,10 +517,10 @@ const Alert = styled.div`
   margin-bottom: 20px;
   border-radius: 4px;
   background-color: ${(props) =>
-    props.type === "error" ? "#f8d7da" : "#d4edda"};
-  color: ${(props) => (props.type === "error" ? "#721c24" : "#155724")};
+    props.type === "error" ? "var(--nb-muted)" : "var(--nb-muted)"};
+  color: ${(props) => (props.type === "error" ? "var(--nb-orange)" : "var(--nb-blue)")};
   border: 1px solid
-    ${(props) => (props.type === "error" ? "#f5c6cb" : "#c3e6cb")};
+    ${(props) => (props.type === "error" ? "var(--nb-border)" : "var(--nb-border)")};
 `;
 
 export default DeliveryCreate;

@@ -184,24 +184,24 @@ const AttendancePage = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case "Present":
-        return "#28a745";
+        return "var(--nb-blue)";
       case "Absent":
-        return "#dc3545";
+        return "var(--nb-orange)";
       case "Half Day":
-        return "#ffc107";
+        return "var(--nb-orange)";
       case "Leave":
-        return "#007bff";
+        return "var(--nb-blue)";
       default:
-        return "#6c757d";
+        return "var(--nb-ink)";
     }
   };
 
   const getStatusBadge = (status) => {
     const colors = {
-      Present: { bg: "#d4edda", text: "#155724", label: "P" },
-      Absent: { bg: "#f8d7da", text: "#721c24", label: "A" },
-      "Half Day": { bg: "#fff3cd", text: "#856404", label: "H" },
-      Leave: { bg: "#d1ecf1", text: "#0c5460", label: "L" },
+      Present: { bg: "var(--nb-muted)", text: "var(--nb-blue)", label: "P" },
+      Absent: { bg: "var(--nb-muted)", text: "var(--nb-orange)", label: "A" },
+      "Half Day": { bg: "var(--nb-muted)", text: "var(--nb-ink)", label: "H" },
+      Leave: { bg: "var(--nb-muted)", text: "var(--nb-ink)", label: "L" },
     };
     const color = colors[status] || colors.Present;
     return (
@@ -402,27 +402,27 @@ const AttendancePage = () => {
             {monthlySummary && (
               <>
                 <SummaryCards>
-                  <SummaryCard color="#4e73df">
+                  <SummaryCard color="var(--nb-blue)">
                     <CardValue>{monthlySummary.totalDays}</CardValue>
                     <CardLabel>Total Days</CardLabel>
                   </SummaryCard>
-                  <SummaryCard color="#28a745">
+                  <SummaryCard color="var(--nb-blue)">
                     <CardValue>{monthlySummary.presentDays}</CardValue>
                     <CardLabel>Present Days</CardLabel>
                   </SummaryCard>
-                  <SummaryCard color="#dc3545">
+                  <SummaryCard color="var(--nb-orange)">
                     <CardValue>{monthlySummary.absentDays}</CardValue>
                     <CardLabel>Absent Days</CardLabel>
                   </SummaryCard>
-                  <SummaryCard color="#ffc107">
+                  <SummaryCard color="var(--nb-orange)">
                     <CardValue>{monthlySummary.halfDays}</CardValue>
                     <CardLabel>Half Days</CardLabel>
                   </SummaryCard>
-                  <SummaryCard color="#007bff">
+                  <SummaryCard color="var(--nb-blue)">
                     <CardValue>{monthlySummary.leaveDays}</CardValue>
                     <CardLabel>Leave Days</CardLabel>
                   </SummaryCard>
-                  <SummaryCard color="#17a2b8">
+                  <SummaryCard color="var(--nb-blue)">
                     <CardValue>{monthlySummary.totalWorkingHours}</CardValue>
                     <CardLabel>Working Hours</CardLabel>
                   </SummaryCard>
@@ -473,7 +473,7 @@ const AttendancePage = () => {
                                 <Td>
                                   <ActionButtons>
                                     <ActionButton
-                                      color="#4e73df"
+                                      color="var(--nb-blue)"
                                       onClick={() => {
                                         setView("daily");
                                         setSelectedDate(
@@ -486,7 +486,7 @@ const AttendancePage = () => {
                                       <FaEdit />
                                     </ActionButton>
                                     <ActionButton
-                                      color="#dc3545"
+                                      color="var(--nb-orange)"
                                       onClick={() =>
                                         handleDeleteAttendance(record._id)
                                       }
@@ -537,21 +537,21 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 1.8rem;
-  color: #2e3a59;
+  color: var(--nb-ink);
   display: flex;
   align-items: center;
   gap: 12px;
   margin: 0;
 
   svg {
-    color: #4e73df;
+    color: var(--nb-blue);
   }
 `;
 
 const ViewToggle = styled.div`
   display: flex;
   gap: 10px;
-  background: #f8f9fc;
+  background: var(--nb-muted);
   padding: 5px;
   border-radius: 8px;
 `;
@@ -559,23 +559,23 @@ const ViewToggle = styled.div`
 const ToggleButton = styled.button`
   padding: 10px 20px;
   border: none;
-  background: ${(props) => (props.active ? "#4e73df" : "transparent")};
-  color: ${(props) => (props.active ? "#fff" : "#6e707e")};
+  background: ${(props) => (props.active ? "var(--nb-blue)" : "transparent")};
+  color: ${(props) => (props.active ? "var(--nb-white)" : "var(--nb-ink)")};
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
 
   &:hover {
-    background: ${(props) => (props.active ? "#3a5bc7" : "#e9ecef")};
+    background: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-muted)")};
   }
 `;
 
 const FiltersCard = styled.div`
-  background: #fff;
+  background: var(--nb-white);
   padding: 25px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--nb-shadow-md);
   margin-bottom: 25px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -590,55 +590,55 @@ const FilterGroup = styled.div`
 
 const Label = styled.label`
   font-weight: 600;
-  color: #2e3a59;
+  color: var(--nb-ink);
   font-size: 0.9rem;
 `;
 
 const Select = styled.select`
   padding: 10px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 6px;
   font-size: 0.95rem;
-  color: #2e3a59;
-  background: #fff;
+  color: var(--nb-ink);
+  background: var(--nb-white);
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
-    box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.1);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
 const Input = styled.input`
   padding: 10px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 6px;
   font-size: 0.95rem;
-  color: #2e3a59;
+  color: var(--nb-ink);
   transition: all 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
-    box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.1);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
 const DailyEntryCard = styled.div`
-  background: #fff;
+  background: var(--nb-white);
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--nb-shadow-md);
 `;
 
 const CardTitle = styled.h2`
   font-size: 1.4rem;
-  color: #2e3a59;
+  color: var(--nb-ink);
   margin-bottom: 25px;
   padding-bottom: 15px;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid var(--nb-border);
 `;
 
 const FormGrid = styled.div`
@@ -663,9 +663,9 @@ const StatusButtonGroup = styled.div`
 
 const StatusButton = styled.button`
   padding: 12px 16px;
-  border: 2px solid ${(props) => (props.active ? props.color : "#d1d3e2")};
-  background: ${(props) => (props.active ? props.color : "#fff")};
-  color: ${(props) => (props.active ? "#fff" : "#6e707e")};
+  border: 2px solid ${(props) => (props.active ? props.color : "var(--nb-border)")};
+  background: ${(props) => (props.active ? props.color : "var(--nb-white)")};
+  color: ${(props) => (props.active ? "var(--nb-white)" : "var(--nb-ink)")};
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
@@ -677,7 +677,7 @@ const StatusButton = styled.button`
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--nb-shadow-md);
   }
 
   svg {
@@ -687,18 +687,18 @@ const StatusButton = styled.button`
 
 const TextArea = styled.textarea`
   padding: 10px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 6px;
   font-size: 0.95rem;
-  color: #2e3a59;
+  color: var(--nb-ink);
   font-family: inherit;
   resize: vertical;
   transition: all 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
-    box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.1);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
@@ -710,8 +710,8 @@ const ButtonGroup = styled.div`
 
 const SaveButton = styled.button`
   padding: 12px 30px;
-  background: #28a745;
-  color: #fff;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 8px;
   font-weight: 600;
@@ -722,16 +722,16 @@ const SaveButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-    background: #218838;
+    background: var(--nb-blue);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
 const DeleteButton = styled.button`
   padding: 12px 30px;
-  background: #dc3545;
-  color: #fff;
+  background: var(--nb-orange);
+  color: var(--nb-white);
   border: none;
   border-radius: 8px;
   font-weight: 600;
@@ -742,9 +742,9 @@ const DeleteButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-    background: #c82333;
+    background: var(--nb-orange);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
@@ -756,38 +756,38 @@ const SummaryCards = styled.div`
 `;
 
 const SummaryCard = styled.div`
-  background: #fff;
+  background: var(--nb-white);
   padding: 25px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--nb-shadow-md);
   border-left: 4px solid ${(props) => props.color};
   text-align: center;
   transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
 const CardValue = styled.div`
   font-size: 2rem;
   font-weight: 700;
-  color: #2e3a59;
+  color: var(--nb-ink);
   margin-bottom: 8px;
 `;
 
 const CardLabel = styled.div`
   font-size: 0.9rem;
-  color: #6e707e;
+  color: var(--nb-ink);
   font-weight: 500;
 `;
 
 const TableCard = styled.div`
-  background: #fff;
+  background: var(--nb-white);
   padding: 25px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--nb-shadow-md);
 `;
 
 const TableHeader = styled.div`
@@ -800,15 +800,15 @@ const TableHeader = styled.div`
 
   h3 {
     font-size: 1.3rem;
-    color: #2e3a59;
+    color: var(--nb-ink);
     margin: 0;
   }
 `;
 
 const ExportButton = styled.button`
   padding: 10px 20px;
-  background: #17a2b8;
-  color: #fff;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 6px;
   font-weight: 600;
@@ -819,9 +819,9 @@ const ExportButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-    background: #138496;
+    background: var(--nb-blue);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
@@ -836,19 +836,19 @@ const Table = styled.table`
 `;
 
 const Th = styled.th`
-  background: #f8f9fc;
+  background: var(--nb-muted);
   padding: 12px;
   text-align: left;
   font-weight: 600;
-  color: #2e3a59;
-  border-bottom: 2px solid #e3e6f0;
-  white-space: nowrap;
+  color: var(--nb-ink);
+  border-bottom: 2px solid var(--nb-border);
+  var(--nb-white)-space: nowrap;
 `;
 
 const Td = styled.td`
   padding: 12px;
-  border-bottom: 1px solid #e3e6f0;
-  color: #5a5c69;
+  border-bottom: 1px solid var(--nb-border);
+  color: var(--nb-ink);
 `;
 
 const StatusBadge = styled.span`
@@ -871,7 +871,7 @@ const ActionButtons = styled.div`
 const ActionButton = styled.button`
   padding: 8px 12px;
   background: ${(props) => props.color};
-  color: #fff;
+  color: var(--nb-white);
   border: none;
   border-radius: 6px;
   cursor: pointer;

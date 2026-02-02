@@ -124,7 +124,7 @@ const RetailerDashboard = () => {
 
             {/* Financial Summary Cards */}
             <MetricsGrid>
-              <MetricCard color="#4e73df">
+              <MetricCard color="var(--nb-blue)">
                 <div className="icon-container">
                   <FaFileInvoiceDollar size={20} />
                 </div>
@@ -137,7 +137,7 @@ const RetailerDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="#1cc88a">
+              <MetricCard color="var(--nb-blue)">
                 <div className="icon-container">
                   <FaMoneyBillWave size={20} />
                 </div>
@@ -150,7 +150,7 @@ const RetailerDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="#f6c23e">
+              <MetricCard color="var(--nb-orange)">
                 <div className="icon-container">
                   <FaExclamationCircle size={20} />
                 </div>
@@ -164,7 +164,7 @@ const RetailerDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="#36b9cc">
+              <MetricCard color="var(--nb-blue)">
                 <div className="icon-container">
                   <FaCalendarAlt size={20} />
                 </div>
@@ -251,7 +251,7 @@ const DashboardContainer = styled.div`
   flex: 1;
   padding: 1rem;
   overflow-x: hidden;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
 
   @media (min-width: 768px) {
     padding: 1.5rem;
@@ -275,7 +275,7 @@ const Header = styled.header`
   }
 
   h1 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.5rem;
     margin: 0;
     font-weight: 600;
@@ -290,10 +290,10 @@ const UserProfile = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: #fff;
+  background: var(--nb-white);
   padding: 0.5rem 1rem;
   border-radius: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
 
   img {
     width: 2.25rem;
@@ -302,7 +302,7 @@ const UserProfile = styled.div`
   }
 
   span {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-weight: 500;
     font-size: 0.9rem;
 
@@ -317,10 +317,10 @@ const InfoSection = styled.div`
 `;
 
 const InfoCard = styled.div`
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 0.75rem;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   display: flex;
   gap: 1.5rem;
   align-items: flex-start;
@@ -330,14 +330,14 @@ const InfoIcon = styled.div`
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: rgba(78, 115, 223, 0.1);
+  background-color: var(--nb-muted);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 
   svg {
-    color: #4e73df;
+    color: var(--nb-blue);
   }
 `;
 
@@ -345,7 +345,7 @@ const InfoContent = styled.div`
   flex: 1;
 
   h3 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.1rem;
     margin: 0 0 1rem 0;
     font-weight: 600;
@@ -353,12 +353,12 @@ const InfoContent = styled.div`
 `;
 
 const InfoItem = styled.div`
-  color: #6e707e;
+  color: var(--nb-ink);
   font-size: 0.95rem;
   margin-bottom: 0.5rem;
 
   strong {
-    color: #2e3a59;
+    color: var(--nb-ink);
     margin-right: 0.5rem;
   }
 `;
@@ -380,10 +380,10 @@ const MetricsGrid = styled.div`
 `;
 
 const MetricCard = styled.div`
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -393,7 +393,7 @@ const MetricCard = styled.div`
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--nb-shadow-md);
   }
 
   .icon-container {
@@ -412,7 +412,7 @@ const MetricCard = styled.div`
 
   .metric-content {
     h3 {
-      color: #6e707e;
+      color: var(--nb-ink);
       font-size: 0.85rem;
       margin: 0 0 0.25rem 0;
       font-weight: 600;
@@ -423,7 +423,7 @@ const MetricCard = styled.div`
     }
 
     p {
-      color: #2e3a59;
+      color: var(--nb-ink);
       font-size: 1.25rem;
       margin: 0;
       font-weight: 700;
@@ -436,10 +436,10 @@ const MetricCard = styled.div`
 `;
 
 const ContentSection = styled.section`
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 0.75rem;
   padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--nb-shadow-md);
   overflow: hidden;
   margin-bottom: 2rem;
 
@@ -452,7 +452,7 @@ const SectionHeader = styled.div`
   margin-bottom: 1.25rem;
 
   h2 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.25rem;
     margin: 0;
     font-weight: 600;
@@ -467,8 +467,8 @@ const TableContainer = styled.div`
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: 0.5rem;
-  background: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: var(--nb-white);
+  box-shadow: var(--nb-shadow-md);
 `;
 
 const DataTable = styled.table`
@@ -486,17 +486,17 @@ const DataTable = styled.table`
   td {
     padding: 0.75rem 1rem;
     text-align: left;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--nb-border);
   }
 
   th {
-    color: #6e707e;
+    color: var(--nb-ink);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-size: 0.75rem;
-    white-space: nowrap;
-    background-color: #f9fafc;
+    var(--nb-white)-space: nowrap;
+    background-color: var(--nb-muted);
 
     @media (min-width: 768px) {
       font-size: 0.8rem;
@@ -505,8 +505,8 @@ const DataTable = styled.table`
   }
 
   td {
-    color: #2e3a59;
-    white-space: nowrap;
+    color: var(--nb-ink);
+    var(--nb-white)-space: nowrap;
   }
 
   tr:last-child td {
@@ -514,7 +514,7 @@ const DataTable = styled.table`
   }
 
   tr:hover {
-    background-color: #f8f9fa;
+    background-color: var(--nb-muted);
   }
 
   @media (max-width: 767px) {
@@ -527,7 +527,7 @@ const DataTable = styled.table`
     tr {
       display: block;
       margin-bottom: 1rem;
-      border: 1px solid #eee;
+      border: 1px solid var(--nb-border);
       border-radius: 0.5rem;
       padding: 0.5rem;
     }
@@ -538,8 +538,8 @@ const DataTable = styled.table`
       align-items: center;
       padding: 0.5rem 0.75rem;
       text-align: right;
-      border-bottom: 1px solid #f0f0f0;
-      white-space: normal;
+      border-bottom: 1px solid var(--nb-border);
+      var(--nb-white)-space: normal;
 
       &:last-child {
         border-bottom: none;
@@ -549,7 +549,7 @@ const DataTable = styled.table`
         content: attr(data-label);
         float: left;
         font-weight: 600;
-        color: #6e707e;
+        color: var(--nb-ink);
         margin-right: 1rem;
         font-size: 0.8rem;
       }
@@ -565,23 +565,23 @@ const StatusBadge = styled.span`
   font-weight: 600;
   background-color: ${(props) =>
     props.status === "Paid"
-      ? "#e3faf0"
+      ? "var(--nb-muted)"
       : props.status === "Partially Paid"
-        ? "#fff8e6"
-        : "#ffe6e6"};
+        ? "var(--nb-white)8e6"
+        : "var(--nb-muted)"};
   color: ${(props) =>
     props.status === "Paid"
-      ? "#20c997"
+      ? "var(--nb-blue)"
       : props.status === "Partially Paid"
-        ? "#ffc107"
-        : "#e74c3c"};
+        ? "var(--nb-orange)"
+        : "var(--nb-orange)"};
   text-transform: capitalize;
 `;
 
 const LoadingIndicator = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #6e707e;
+  color: var(--nb-ink);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -590,9 +590,9 @@ const LoadingIndicator = styled.div`
   .spinner {
     width: 40px;
     height: 40px;
-    border: 4px solid rgba(78, 115, 223, 0.1);
+    border: 4px solid var(--nb-muted);
     border-radius: 50%;
-    border-top-color: #4e73df;
+    border-top-color: var(--nb-blue);
     animation: spin 1s ease-in-out infinite;
   }
 
@@ -611,10 +611,10 @@ const LoadingIndicator = styled.div`
 const ErrorMessage = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #e74c3c;
-  background-color: #fee;
+  color: var(--nb-orange);
+  background-color: var(--nb-muted);
   border-radius: 0.75rem;
-  border: 1px solid #fcc;
+  border: 1px solid var(--nb-border);
   display: flex;
   flex-direction: column;
   align-items: center;

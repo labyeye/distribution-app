@@ -267,12 +267,12 @@ const Title = styled.div`
 
   h1 {
     font-size: 1.5rem;
-    color: #2d3748;
+    color: var(--nb-ink);
     margin: 0;
   }
 
   svg {
-    color: #4a5568;
+    color: var(--nb-ink);
   }
 
   @media (min-width: 768px) {
@@ -290,9 +290,9 @@ const Message = styled.div`
   border-radius: 0.375rem;
   font-weight: 500;
   font-size: 0.875rem;
-  background-color: ${props => props.type === 'error' ? '#fff5f5' : '#f0fff4'};
-  color: ${props => props.type === 'error' ? '#e53e3e' : '#38a169'};
-  border-left: 4px solid ${props => props.type === 'error' ? '#e53e3e' : '#38a169'};
+  background-color: ${props => props.type === 'error' ? 'var(--nb-muted)' : 'var(--nb-muted)'};
+  color: ${props => props.type === 'error' ? 'var(--nb-orange)' : 'var(--nb-blue)'};
+  border-left: 4px solid ${props => props.type === 'error' ? 'var(--nb-orange)' : 'var(--nb-blue)'};
 
   @media (min-width: 768px) {
     padding: 1rem;
@@ -302,9 +302,9 @@ const Message = styled.div`
 `;
 
 const FormContainer = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--nb-shadow-md);
   padding: 1rem;
   margin-bottom: 1.5rem;
 
@@ -322,12 +322,12 @@ const FormHeader = styled.div`
 
   h2 {
     font-size: 1.1rem;
-    color: #2d3748;
+    color: var(--nb-ink);
     margin: 0;
   }
 
   svg {
-    color: #4a5568;
+    color: var(--nb-ink);
   }
 
   @media (min-width: 768px) {
@@ -363,20 +363,20 @@ const FormGroup = styled.div`
 const Label = styled.label`
   font-size: 0.875rem;
   font-weight: 500;
-  color: #4a5568;
+  color: var(--nb-ink);
 `;
 
 const Input = styled.input`
   padding: 0.5rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   font-size: 0.875rem;
   transition: all 0.2s;
 
   &:focus {
     outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-md);
   }
 
   @media (min-width: 768px) {
@@ -387,16 +387,16 @@ const Input = styled.input`
 
 const Select = styled.select`
   padding: 0.5rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--nb-border);
   border-radius: 0.375rem;
   font-size: 0.875rem;
-  background-color: white;
+  background-color: var(--nb-white);
   transition: all 0.2s;
 
   &:focus {
     outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    border-color: var(--nb-blue);
+    box-shadow: var(--nb-shadow-md);
   }
 
   @media (min-width: 768px) {
@@ -421,8 +421,8 @@ const ButtonGroup = styled.div`
 
 const PrimaryButton = styled.button`
   padding: 0.5rem 1rem;
-  background-color: #4299e1;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 0.375rem;
   font-weight: 500;
@@ -435,11 +435,11 @@ const PrimaryButton = styled.button`
   gap: 0.5rem;
 
   &:hover {
-    background-color: #3182ce;
+    background-color: var(--nb-blue);
   }
 
   &:disabled {
-    background-color: #a0aec0;
+    background-color: var(--nb-border);
     cursor: not-allowed;
   }
 
@@ -451,9 +451,9 @@ const PrimaryButton = styled.button`
 
 const SecondaryButton = styled.button`
   padding: 0.5rem 1rem;
-  background-color: white;
-  color: #4299e1;
-  border: 1px solid #4299e1;
+  background-color: var(--nb-white);
+  color: var(--nb-blue);
+  border: 1px solid var(--nb-blue);
   border-radius: 0.375rem;
   font-weight: 500;
   font-size: 0.875rem;
@@ -461,7 +461,7 @@ const SecondaryButton = styled.button`
   transition: all 0.2s;
 
   &:hover {
-    background-color: #ebf8ff;
+    background-color: var(--nb-muted);
   }
 
   @media (min-width: 768px) {
@@ -471,9 +471,9 @@ const SecondaryButton = styled.button`
 `;
 
 const TableContainer = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--nb-shadow-md);
   padding: 1rem;
   overflow-x: auto;
 
@@ -498,7 +498,7 @@ const TableHeader = styled.div`
 
 const TotalUsers = styled.span`
   font-size: 0.875rem;
-  color: #4a5568;
+  color: var(--nb-ink);
 `;
 
 const Table = styled.table`
@@ -508,24 +508,24 @@ const Table = styled.table`
   min-width: 600px;
 
   th {
-    background-color: #f7fafc;
-    color: #4a5568;
+    background-color: var(--nb-muted);
+    color: var(--nb-ink);
     font-weight: 600;
     text-align: left;
     padding: 0.75rem;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--nb-border);
     font-size: 0.875rem;
   }
 
   td {
     padding: 0.75rem;
-    border-bottom: 1px solid #e2e8f0;
-    color: #2d3748;
+    border-bottom: 1px solid var(--nb-border);
+    color: var(--nb-ink);
     font-size: 0.875rem;
   }
 
   tr:hover td {
-    background-color: #f8fafc;
+    background-color: var(--nb-muted);
   }
 
   @media (min-width: 768px) {
@@ -543,8 +543,8 @@ const RoleBadge = styled.span`
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;
-  background-color: ${props => props.role === 'admin' ? '#ebf8ff' : '#f0fff4'};
-  color: ${props => props.role === 'admin' ? '#3182ce' : '#38a169'};
+  background-color: ${props => props.role === 'admin' ? 'var(--nb-muted)' : 'var(--nb-muted)'};
+  color: ${props => props.role === 'admin' ? 'var(--nb-blue)' : 'var(--nb-blue)'};
 
   @media (min-width: 768px) {
     padding: 0.25rem 0.75rem;
@@ -562,8 +562,8 @@ const ActionButtons = styled.div`
 `;
 
 const EditButton = styled.button`
-  background-color: #edf2f7;
-  color: #4299e1;
+  background-color: var(--nb-muted);
+  color: var(--nb-blue);
   border: none;
   border-radius: 0.25rem;
   padding: 0.4rem;
@@ -572,7 +572,7 @@ const EditButton = styled.button`
   font-size: 0.75rem;
 
   &:hover {
-    background-color: #e2e8f0;
+    background-color: var(--nb-border);
   }
 
   @media (min-width: 768px) {
@@ -582,8 +582,8 @@ const EditButton = styled.button`
 `;
 
 const DeleteButton = styled.button`
-  background-color: #fff5f5;
-  color: #e53e3e;
+  background-color: var(--nb-muted);
+  color: var(--nb-orange);
   border: none;
   border-radius: 0.25rem;
   padding: 0.4rem;
@@ -592,7 +592,7 @@ const DeleteButton = styled.button`
   font-size: 0.75rem;
 
   &:hover {
-    background-color: #fed7d7;
+    background-color: var(--nb-muted);
   }
 
   @media (min-width: 768px) {
@@ -604,12 +604,12 @@ const DeleteButton = styled.button`
 const Loading = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #718096;
+  color: var(--nb-ink);
 `;
 
 const NoUsers = styled.div`
   padding: 2rem;
   text-align: center;
-  color: #718096;
+  color: var(--nb-ink);
   font-style: italic;
 `;

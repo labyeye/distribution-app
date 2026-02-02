@@ -165,7 +165,7 @@ const AdvancePage = () => {
   };
 
   const getStatusColor = (status) => {
-    return status === "Open" ? "#dc3545" : "#28a745";
+    return status === "Open" ? "var(--nb-orange)" : "var(--nb-blue)";
   };
 
   const getFilteredAdvances = () => {
@@ -200,7 +200,7 @@ const AdvancePage = () => {
         </Header>
 
         <SummaryCards>
-          <SummaryCard color="#dc3545">
+          <SummaryCard color="var(--nb-orange)">
             <SummaryLabel>Open Advances</SummaryLabel>
             <SummaryValue>₹ {getOpenAdvancesTotal().toFixed(2)}</SummaryValue>
             <SummaryCount>
@@ -208,7 +208,7 @@ const AdvancePage = () => {
             </SummaryCount>
           </SummaryCard>
 
-          <SummaryCard color="#28a745">
+          <SummaryCard color="var(--nb-blue)">
             <SummaryLabel>Adjusted Advances</SummaryLabel>
             <SummaryValue>
               ₹{" "}
@@ -223,7 +223,7 @@ const AdvancePage = () => {
             </SummaryCount>
           </SummaryCard>
 
-          <SummaryCard color="#4e73df">
+          <SummaryCard color="var(--nb-blue)">
             <SummaryLabel>Total Advances</SummaryLabel>
             <SummaryValue>
               ₹{" "}
@@ -373,7 +373,7 @@ const AdvancePage = () => {
                       {new Date(advance.advanceDate).toLocaleDateString()}
                     </Td>
                     <Td>{advance.staffName}</Td>
-                    <Td style={{ fontWeight: "600", color: "#dc3545" }}>
+                    <Td style={{ fontWeight: "600", color: "var(--nb-orange)" }}>
                       ₹ {advance.advanceAmount.toFixed(2)}
                     </Td>
                     <Td>{advance.reason || "-"}</Td>
@@ -449,14 +449,14 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 28px;
-  color: #2c3e50;
+  color: var(--nb-ink);
   margin: 0;
   font-weight: 600;
 `;
 
 const AddButton = styled.button`
-  background: #4e73df;
-  color: white;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   padding: 12px 24px;
   border-radius: 6px;
@@ -466,9 +466,9 @@ const AddButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background: #2e59d9;
+    background: var(--nb-blue);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(78, 115, 223, 0.3);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
@@ -480,16 +480,16 @@ const SummaryCards = styled.div`
 `;
 
 const SummaryCard = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--nb-shadow-md);
   border-left: 4px solid ${(props) => props.color};
 `;
 
 const SummaryLabel = styled.div`
   font-size: 13px;
-  color: #858796;
+  color: var(--nb-ink);
   font-weight: 600;
   text-transform: uppercase;
   margin-bottom: 8px;
@@ -497,28 +497,28 @@ const SummaryLabel = styled.div`
 
 const SummaryValue = styled.div`
   font-size: 24px;
-  color: #2c3e50;
+  color: var(--nb-ink);
   font-weight: 700;
   margin-bottom: 5px;
 `;
 
 const SummaryCount = styled.div`
   font-size: 12px;
-  color: #858796;
+  color: var(--nb-ink);
 `;
 
 const FormCard = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 8px;
   padding: 25px;
   margin-bottom: 25px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e3e6f0;
+  box-shadow: var(--nb-shadow-md);
+  border: 1px solid var(--nb-border);
 `;
 
 const FormTitle = styled.h2`
   font-size: 20px;
-  color: #2c3e50;
+  color: var(--nb-ink);
   margin: 0 0 20px 0;
   font-weight: 600;
 `;
@@ -540,42 +540,42 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   font-size: 13px;
-  color: #5a5c69;
+  color: var(--nb-ink);
   margin-bottom: 6px;
   font-weight: 500;
 `;
 
 const Input = styled.input`
   padding: 10px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 14px;
   transition: border-color 0.3s;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
 const Select = styled.select`
   padding: 10px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 14px;
-  background: white;
+  background: var(--nb-white);
   cursor: pointer;
   transition: border-color 0.3s;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
 const TextArea = styled.textarea`
   padding: 10px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 14px;
   font-family: inherit;
@@ -584,7 +584,7 @@ const TextArea = styled.textarea`
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
@@ -595,8 +595,8 @@ const ButtonGroup = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  background: #28a745;
-  color: white;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   padding: 12px 30px;
   border-radius: 6px;
@@ -606,15 +606,15 @@ const SubmitButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background: #218838;
+    background: var(--nb-blue);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+    box-shadow: var(--nb-shadow-md);
   }
 `;
 
 const CancelButton = styled.button`
-  background: #6c757d;
-  color: white;
+  background: var(--nb-ink);
+  color: var(--nb-white);
   border: none;
   padding: 12px 30px;
   border-radius: 6px;
@@ -624,16 +624,16 @@ const CancelButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background: #5a6268;
+    background: var(--nb-ink);
   }
 `;
 
 const TableCard = styled.div`
-  background: white;
+  background: var(--nb-white);
   border-radius: 8px;
   padding: 25px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e3e6f0;
+  box-shadow: var(--nb-shadow-md);
+  border: 1px solid var(--nb-border);
   overflow-x: auto;
 `;
 
@@ -648,7 +648,7 @@ const TableHeader = styled.div`
 
 const TableTitle = styled.h2`
   font-size: 18px;
-  color: #2c3e50;
+  color: var(--nb-ink);
   margin: 0;
   font-weight: 600;
 `;
@@ -661,27 +661,27 @@ const FilterGroup = styled.div`
 
 const FilterLabel = styled.span`
   font-size: 13px;
-  color: #5a5c69;
+  color: var(--nb-ink);
   font-weight: 500;
 `;
 
 const FilterSelect = styled.select`
   padding: 8px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 13px;
-  background: white;
+  background: var(--nb-white);
   cursor: pointer;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
 const FilterInfo = styled.span`
   font-size: 12px;
-  color: #858796;
+  color: var(--nb-ink);
   margin-left: 10px;
 `;
 
@@ -692,19 +692,19 @@ const Table = styled.table`
 `;
 
 const Th = styled.th`
-  background: #f8f9fc;
+  background: var(--nb-muted);
   padding: 12px;
   text-align: left;
   font-weight: 600;
-  color: #5a5c69;
-  border-bottom: 2px solid #e3e6f0;
-  white-space: nowrap;
+  color: var(--nb-ink);
+  border-bottom: 2px solid var(--nb-border);
+  var(--nb-white)-space: nowrap;
 `;
 
 const Td = styled.td`
   padding: 12px;
-  border-bottom: 1px solid #e3e6f0;
-  color: #5a5c69;
+  border-bottom: 1px solid var(--nb-border);
+  color: var(--nb-ink);
 `;
 
 const StatusBadge = styled.span`
@@ -713,13 +713,13 @@ const StatusBadge = styled.span`
   border-radius: 12px;
   font-size: 12px;
   font-weight: 600;
-  color: white;
+  color: var(--nb-white);
   background: ${(props) => props.color};
 `;
 
 const ActionButton = styled.button`
-  background: #4e73df;
-  color: white;
+  background: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   padding: 6px 12px;
   border-radius: 4px;
@@ -729,18 +729,18 @@ const ActionButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background: #2e59d9;
+    background: var(--nb-blue);
   }
 
   &:disabled {
-    background: #d1d3e2;
+    background: var(--nb-border);
     cursor: not-allowed;
   }
 `;
 
 const DeleteButton = styled.button`
-  background: #dc3545;
-  color: white;
+  background: var(--nb-orange);
+  color: var(--nb-white);
   border: none;
   padding: 6px 12px;
   border-radius: 4px;
@@ -749,7 +749,7 @@ const DeleteButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background: #c82333;
+    background: var(--nb-orange);
   }
 `;
 

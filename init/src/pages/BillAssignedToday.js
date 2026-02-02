@@ -860,7 +860,7 @@ const BillAssignedToday = () => {
 const DashboardLayout = styled.div`
   display: flex;
   min-height: 100vh;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
   flex-direction: column;
 
   @media (min-width: 768px) {
@@ -870,8 +870,8 @@ const DashboardLayout = styled.div`
 
 const Sidebar = styled.div`
   width: 100%;
-  background-color: #fff;
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  background-color: var(--nb-white);
+  box-shadow: var(--nb-shadow-md);
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -903,8 +903,8 @@ const TopBar = styled.div`
   flex-direction: column;
   gap: 15px;
   padding: 15px;
-  background-color: #fff;
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  background-color: var(--nb-white);
+  box-shadow: var(--nb-shadow-md);
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -918,7 +918,7 @@ const TopBar = styled.div`
 const PageTitle = styled.h1`
   font-size: 1.25rem;
   font-weight: 600;
-  color: #2e3a59;
+  color: var(--nb-ink);
   margin: 0;
 
   @media (min-width: 768px) {
@@ -929,8 +929,8 @@ const PaidBadge = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #1cc88a;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.75rem;
@@ -938,7 +938,7 @@ const PaidBadge = styled.div`
 `;
 
 const PaidText = styled.span`
-  color: #1cc88a;
+  color: var(--nb-blue);
   font-weight: bold;
 `;
 
@@ -968,10 +968,10 @@ const SummaryCard = styled.div`
   grid-template-columns: 1fr;
   gap: 15px;
   margin-bottom: 20px;
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 8px;
   padding: 15px;
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  box-shadow: var(--nb-shadow-md);
 
   @media (min-width: 576px) {
     grid-template-columns: repeat(2, 1fr);
@@ -1030,17 +1030,17 @@ const BillsList = styled.div`
 `;
 
 const BillCard = styled.div`
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 8px;
   padding: 15px;
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  box-shadow: var(--nb-shadow-md);
   position: relative;
   overflow: hidden;
   transition: all 0.3s;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--nb-shadow-md);
   }
 
   @media (min-width: 768px) {
@@ -1049,13 +1049,13 @@ const BillCard = styled.div`
 `;
 
 const Modal = styled.div`
-  background-color: white;
+  background-color: var(--nb-white);
   border-radius: 8px;
   width: 95%;
   max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--nb-shadow-md);
   margin: 20px auto;
 
   @media (min-width: 576px) {
@@ -1087,7 +1087,7 @@ const CustomerBillsContainer = styled.div`
   max-height: 300px;
   overflow-y: auto;
   margin-bottom: 15px;
-  border: 1px solid #eee;
+  border: 1px solid var(--nb-border);
   border-radius: 8px;
   padding: 10px;
 
@@ -1114,9 +1114,9 @@ const EmptyState = styled.div`
   justify-content: center;
   padding: 40px 20px;
   text-align: center;
-  background-color: #fff;
+  background-color: var(--nb-white);
   border-radius: 8px;
-  box-shadow: 0 0 28px 0 rgba(82, 63, 105, 0.08);
+  box-shadow: var(--nb-shadow-md);
 
   @media (min-width: 768px) {
     padding: 60px 20px;
@@ -1129,8 +1129,8 @@ const NewCollectionButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #1cc88a;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 4px;
   padding: 8px 12px;
@@ -1141,7 +1141,7 @@ const NewCollectionButton = styled.button`
   width: 100%;
 
   &:hover {
-    background-color: #17a673;
+    background-color: var(--nb-blue);
   }
 
   @media (min-width: 576px) {
@@ -1155,8 +1155,8 @@ const RefreshButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #4e73df;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 4px;
   padding: 8px 12px;
@@ -1167,11 +1167,11 @@ const RefreshButton = styled.button`
   width: 100%;
 
   &:hover {
-    background-color: #3a5bc7;
+    background-color: var(--nb-blue);
   }
 
   &:disabled {
-    background-color: #b0b7d4;
+    background-color: var(--nb-border);
     cursor: not-allowed;
   }
 
@@ -1187,20 +1187,20 @@ const RefreshButton = styled.button`
 
 const DayButton = styled.button`
   padding: 6px 10px;
-  border: 1px solid ${(props) => (props.active ? "#4e73df" : "#ddd")};
+  border: 1px solid ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-border)")};
   border-radius: 20px;
-  background-color: ${(props) => (props.active ? "#4e73df" : "white")};
-  color: ${(props) => (props.active ? "white" : "#6c757d")};
+  background-color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-white)")};
+  color: ${(props) => (props.active ? "var(--nb-white)" : "var(--nb-ink)")};
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
   transition: all 0.2s;
   flex-shrink: 0;
 
   &:hover {
-    background-color: ${(props) => (props.active ? "#3a5bc7" : "#f8f9fc")};
-    border-color: ${(props) => (props.active ? "#3a5bc7" : "#4e73df")};
+    background-color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-muted)")};
+    border-color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-blue)")};
   }
 
   @media (min-width: 576px) {
@@ -1212,14 +1212,14 @@ const DayButton = styled.button`
 const Select = styled.select`
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 0.9rem;
-  background-color: white;
+  background-color: var(--nb-white);
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 
   @media (min-width: 576px) {
@@ -1231,32 +1231,32 @@ const Select = styled.select`
 const Input = styled.input`
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 0.9rem;
 
   &:focus {
     outline: none;
-    border-color: #4e73df;
+    border-color: var(--nb-blue);
   }
 `;
 
 const SubmitButton = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: #4e73df;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s;
 
   &:hover {
-    background-color: #3a5bc7;
+    background-color: var(--nb-blue);
   }
 
   &:disabled {
-    background-color: #b0b7d4;
+    background-color: var(--nb-border);
     cursor: not-allowed;
   }
 
@@ -1269,15 +1269,15 @@ const SubmitButton = styled.button`
 const BackButton = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: #f8f9fc;
-  color: #6c757d;
-  border: 1px solid #ddd;
+  background-color: var(--nb-muted);
+  color: var(--nb-ink);
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s;
 
   &:hover {
-    background-color: #e9ecef;
+    background-color: var(--nb-muted);
   }
 
   @media (min-width: 576px) {
@@ -1292,7 +1292,7 @@ const LoadingContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
   padding: 20px;
   text-align: center;
 `;
@@ -1300,9 +1300,9 @@ const LoadingContainer = styled.div`
 const Spinner = styled.div`
   width: 40px;
   height: 40px;
-  border: 4px solid rgba(78, 115, 223, 0.1);
+  border: 4px solid var(--nb-muted);
   border-radius: 50%;
-  border-top-color: #4e73df;
+  border-top-color: var(--nb-blue);
   animation: ${spin} 1s linear infinite;
   margin-bottom: 20px;
 
@@ -1319,24 +1319,24 @@ const SidebarHeader = styled.div`
   align-items: center;
   padding: 0 20px;
   height: 70px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--nb-border);
 `;
 
 const MaxButton = styled.button`
   padding: 0 12px;
-  background-color: #f8f9fc;
-  color: #4e73df;
-  border: 1px solid #4e73df;
+  background-color: var(--nb-muted);
+  color: var(--nb-blue);
+  border: 1px solid var(--nb-blue);
   border-radius: 4px;
   font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
 
   &:hover {
-    background-color: #4e73df;
-    color: white;
+    background-color: var(--nb-blue);
+    color: var(--nb-white);
   }
 
   &:active {
@@ -1344,8 +1344,8 @@ const MaxButton = styled.button`
   }
 `;
 const OverdueBadge = styled.span`
-  background-color: #e74a3b;
-  color: white;
+  background-color: var(--nb-orange);
+  color: var(--nb-white);
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 0.75rem;
@@ -1355,14 +1355,14 @@ const OverdueBadge = styled.span`
 const Logo = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
-  color: #4e73df;
-  white-space: nowrap;
+  color: var(--nb-blue);
+  var(--nb-white)-space: nowrap;
 `;
 
 const ToggleButton = styled.button`
   background: none;
   border: none;
-  color: #6c757d;
+  color: var(--nb-ink);
   cursor: pointer;
   font-size: 1rem;
   padding: 5px;
@@ -1372,11 +1372,11 @@ const UserProfile = styled.div`
   display: flex;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--nb-border);
 `;
 
 const UserAvatar = styled.div`
-  color: #4e73df;
+  color: var(--nb-blue);
   margin-right: ${(props) => (props.collapsed ? "0" : "15px")};
 `;
 
@@ -1391,7 +1391,7 @@ const ModalOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--nb-muted);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1403,13 +1403,13 @@ const ModalHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--nb-border);
 `;
 
 const ModalTitle = styled.h2`
   margin: 0;
   font-size: 1.25rem;
-  color: #2e3a59;
+  color: var(--nb-ink);
 `;
 
 const CloseButton = styled.button`
@@ -1417,12 +1417,12 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #6c757d;
+  color: var(--nb-ink);
   padding: 0;
   line-height: 1;
 
   &:hover {
-    color: #2e3a59;
+    color: var(--nb-ink);
   }
 `;
 
@@ -1434,19 +1434,19 @@ const ModalSubtitle = styled.h3`
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 1rem;
-  color: #4e73df;
+  color: var(--nb-blue);
 `;
 
 const BillOption = styled.div`
   padding: 15px;
-  border: 1px solid #eee;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
 
   &:hover {
-    background-color: #f8f9fc;
-    border-color: #4e73df;
+    background-color: var(--nb-muted);
+    border-color: var(--nb-blue);
   }
 
   & > div {
@@ -1455,13 +1455,13 @@ const BillOption = styled.div`
 
   & > div:last-child {
     margin-bottom: 0;
-    color: #e74a3b;
+    color: var(--nb-orange);
     font-weight: 500;
   }
 `;
 
 const SelectedBillInfo = styled.div`
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
   padding: 15px;
   border-radius: 4px;
   margin-bottom: 20px;
@@ -1472,7 +1472,7 @@ const SelectedBillInfo = styled.div`
 
   & > div:last-child {
     margin-bottom: 0;
-    color: #e74a3b;
+    color: var(--nb-orange);
     font-weight: 500;
   }
 `;
@@ -1481,12 +1481,12 @@ const Label = styled.label`
   display: block;
   margin-bottom: 8px;
   font-size: 0.9rem;
-  color: #6c757d;
+  color: var(--nb-ink);
   font-weight: 500;
 `;
 
 const ErrorText = styled.div`
-  color: #e74a3b;
+  color: var(--nb-orange);
   font-size: 0.9rem;
   margin-bottom: 20px;
 `;
@@ -1494,12 +1494,12 @@ const ErrorText = styled.div`
 const UserName = styled.div`
   font-weight: 600;
   font-size: 0.9rem;
-  color: #343a40;
+  color: var(--nb-ink);
 `;
 
 const UserRole = styled.div`
   font-size: 0.75rem;
-  color: #6c757d;
+  color: var(--nb-ink);
 `;
 
 const NavMenu = styled.div`
@@ -1512,17 +1512,17 @@ const NavItem = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: ${(props) => (props.active ? "#4e73df" : "#6c757d")};
+  color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-ink)")};
   background-color: ${(props) =>
-    props.active ? "rgba(78, 115, 223, 0.1)" : "transparent"};
+    props.active ? "var(--nb-muted)" : "transparent"};
   cursor: pointer;
   transition: all 0.3s;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
 
   &:hover {
-    background-color: rgba(78, 115, 223, 0.1);
-    color: #4e73df;
+    background-color: var(--nb-muted);
+    color: var(--nb-blue);
   }
 `;
 
@@ -1535,15 +1535,15 @@ const NavItemMain = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: #6c757d;
+  color: var(--nb-ink);
   cursor: pointer;
   transition: all 0.3s;
-  white-space: nowrap;
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
 
   &:hover {
-    background-color: rgba(78, 115, 223, 0.1);
-    color: #4e73df;
+    background-color: var(--nb-muted);
+    color: var(--nb-blue);
   }
 `;
 
@@ -1566,7 +1566,7 @@ const NavArrow = styled.div`
 const NavCheckmark = styled.span`
   margin-left: auto;
   font-size: 0.9rem;
-  color: ${(props) => (props.active ? "#4e73df" : "#6c757d")};
+  color: ${(props) => (props.active ? "var(--nb-blue)" : "var(--nb-ink)")};
 `;
 
 const Submenu = styled.div`
@@ -1577,13 +1577,13 @@ const SubmenuItem = styled.div`
   display: flex;
   align-items: center;
   padding: 8px 20px 8px 40px;
-  color: #6c757d;
+  color: var(--nb-ink);
   cursor: pointer;
   font-size: 0.85rem;
   transition: all 0.3s;
 
   &:hover {
-    color: #4e73df;
+    color: var(--nb-blue);
   }
 `;
 
@@ -1591,22 +1591,22 @@ const LogoutButton = styled.div`
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: #6c757d;
+  color: var(--nb-ink);
   cursor: pointer;
   transition: all 0.3s;
-  border-top: 1px solid #f0f0f0;
-  white-space: nowrap;
+  border-top: 1px solid var(--nb-border);
+  var(--nb-white)-space: nowrap;
   overflow: hidden;
 
   &:hover {
-    color: #e74a3b;
-    background-color: rgba(231, 74, 59, 0.1);
+    color: var(--nb-orange);
+    background-color: var(--nb-muted);
   }
 `;
 
 const ErrorAlert = styled.div`
-  background-color: #fff5f5;
-  border: 1px solid #ffd6d6;
+  background-color: var(--nb-muted);
+  border: 1px solid var(--nb-border);
   border-radius: 8px;
   padding: 20px;
   display: flex;
@@ -1618,20 +1618,20 @@ const ErrorAlert = styled.div`
 `;
 
 const ErrorIcon = styled.div`
-  color: #e74a3b;
+  color: var(--nb-orange);
   font-size: 2rem;
   margin-bottom: 15px;
 `;
 
 const ErrorMessage = styled.div`
   font-size: 1rem;
-  color: #e74a3b;
+  color: var(--nb-orange);
   margin-bottom: 20px;
 `;
 
 const RetryButton = styled.button`
-  background-color: #e74a3b;
-  color: white;
+  background-color: var(--nb-orange);
+  color: var(--nb-white);
   border: none;
   border-radius: 4px;
   padding: 8px 20px;
@@ -1641,11 +1641,11 @@ const RetryButton = styled.button`
   transition: all 0.3s;
 
   &:hover {
-    background-color: #d62c1a;
+    background-color: var(--nb-orange);
   }
 
   &:disabled {
-    background-color: #ee9b95;
+    background-color: var(--nb-orange);
     cursor: not-allowed;
   }
 `;
@@ -1659,14 +1659,14 @@ const SummaryItem = styled.div`
 
 const SummaryLabel = styled.div`
   font-size: 0.9rem;
-  color: #6c757d;
+  color: var(--nb-ink);
   margin-bottom: 8px;
 `;
 
 const SummaryValue = styled.div`
   font-size: 1.5rem;
   font-weight: 600;
-  color: #4e73df;
+  color: var(--nb-blue);
 `;
 
 const BillHeader = styled.div`
@@ -1678,7 +1678,7 @@ const BillHeader = styled.div`
 
 const BillNumber = styled.div`
   font-weight: 600;
-  color: #2e3a59;
+  color: var(--nb-ink);
   font-size: 0.9rem;
 `;
 
@@ -1689,16 +1689,16 @@ const BillStatus = styled.div`
   font-weight: 600;
   background-color: ${(props) =>
     props.status === "Paid"
-      ? "#1cc88a20"
+      ? "var(--nb-blue)20"
       : props.status === "Pending"
-      ? "#f6c23e20"
-      : "#e74a3b20"};
+      ? "var(--nb-orange)20"
+      : "var(--nb-orange)20"};
   color: ${(props) =>
     props.status === "Paid"
-      ? "#1cc88a"
+      ? "var(--nb-blue)"
       : props.status === "Pending"
-      ? "#f6c23e"
-      : "#e74a3b"};
+      ? "var(--nb-orange)"
+      : "var(--nb-orange)"};
 `;
 
 const BillRetailer = styled.div`
@@ -1720,27 +1720,27 @@ const DetailItem = styled.div`
 
 const DetailLabel = styled.div`
   font-size: 0.85rem;
-  color: #6c757d;
+  color: var(--nb-ink);
 `;
 
 const DetailValue = styled.div`
   font-size: 0.9rem;
   font-weight: 500;
-  color: #2e3a59;
+  color: var(--nb-ink);
 `;
 
 const BillIcon = styled.div`
   position: absolute;
   top: 20px;
   right: 20px;
-  color: rgba(78, 115, 223, 0.1);
+  color: var(--nb-muted);
   font-size: 3rem;
   z-index: 0;
 `;
 
 const EmptyMessage = styled.p`
   font-size: 1rem;
-  color: #6c757d;
+  color: var(--nb-ink);
   margin: 20px 0;
 `;
 

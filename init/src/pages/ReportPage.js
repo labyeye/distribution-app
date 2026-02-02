@@ -452,7 +452,7 @@ const DateNavigation = styled.div`
   align-items: center;
   margin-bottom: 20px;
   padding: 10px;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
   border-radius: 4px;
 `;
 const DateRangeContainer = styled.div`
@@ -461,7 +461,7 @@ const DateRangeContainer = styled.div`
   gap: 15px;
   margin-bottom: 20px;
   padding: 10px;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
   border-radius: 4px;
   flex-wrap: wrap;
 `;
@@ -474,12 +474,12 @@ const DateRangeGroup = styled.div`
 
 const DateLabel = styled.span`
   font-weight: 500;
-  color: #6e707e;
+  color: var(--nb-ink);
 `;
 
 const DateInput = styled.input`
   padding: 8px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   border-radius: 4px;
   font-size: 0.9rem;
 `;
@@ -489,8 +489,8 @@ const SearchButton = styled.button`
   align-items: center;
   gap: 8px;
   padding: 8px 15px;
-  background-color: #4e73df;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -498,7 +498,7 @@ const SearchButton = styled.button`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #3a5bc7;
+    background-color: var(--nb-blue);
   }
 `;
 
@@ -507,8 +507,8 @@ const DateNavButton = styled.button`
   align-items: center;
   gap: 8px;
   padding: 8px 15px;
-  background-color: #4e73df;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -516,18 +516,18 @@ const DateNavButton = styled.button`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #3a5bc7;
+    background-color: var(--nb-blue);
   }
 
   &:disabled {
-    background-color: #b7b9cc;
+    background-color: var(--nb-border);
     cursor: not-allowed;
   }
 `;
 
 const DateDisplay = styled.div`
   font-weight: 600;
-  color: #2e3a59;
+  color: var(--nb-ink);
 `;
 
 const PaginationContainer = styled.div`
@@ -542,8 +542,8 @@ const PaginationButton = styled.button`
   align-items: center;
   justify-content: center;
   padding: 8px 12px;
-  background-color: #4e73df;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -552,18 +552,18 @@ const PaginationButton = styled.button`
   min-width: 80px;
 
   &:hover {
-    background-color: #3a5bc7;
+    background-color: var(--nb-blue);
   }
 
   &:disabled {
-    background-color: #b7b9cc;
+    background-color: var(--nb-border);
     cursor: not-allowed;
   }
 `;
 
 const PageInfo = styled.span`
   font-size: 0.9rem;
-  color: #6e707e;
+  color: var(--nb-ink);
   padding: 0 10px;
 `;
 
@@ -595,7 +595,7 @@ const Header = styled.header`
   }
 
   h1 {
-    color: #2e3a59;
+    color: var(--nb-ink);
     font-size: 1.5rem;
     margin: 0;
     font-weight: 600;
@@ -625,8 +625,8 @@ const HistoryButton = styled.button`
   justify-content: center;
   gap: 8px;
   padding: 10px 15px;
-  background-color: #6c757d;
-  color: white;
+  background-color: var(--nb-ink);
+  color: var(--nb-white);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -635,7 +635,7 @@ const HistoryButton = styled.button`
   font-size: 0.9rem;
 
   &:hover {
-    background-color: #5a6268;
+    background-color: var(--nb-ink);
   }
 
   @media (min-width: 576px) {
@@ -650,8 +650,8 @@ const ExportButton = styled.button`
   justify-content: center;
   gap: 8px;
   padding: 10px 15px;
-  background-color: #4e73df;
-  color: white;
+  background-color: var(--nb-blue);
+  color: var(--nb-white);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -660,7 +660,7 @@ const ExportButton = styled.button`
   font-size: 0.9rem;
 
   &:hover {
-    background-color: #3a5bc7;
+    background-color: var(--nb-blue);
   }
 
   @media (min-width: 576px) {
@@ -683,10 +683,10 @@ const ControlsContainer = styled.div`
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: #f8f9fc;
+  background-color: var(--nb-muted);
   border-radius: 4px;
   padding: 8px 12px;
-  border: 1px solid #d1d3e2;
+  border: 1px solid var(--nb-border);
   width: 100%;
 
   @media (min-width: 576px) {
@@ -694,7 +694,7 @@ const SearchContainer = styled.div`
   }
 
   svg {
-    color: #b7b9cc;
+    color: var(--nb-border);
     margin-right: 8px;
   }
 `;
@@ -704,11 +704,11 @@ const SearchInput = styled.input`
   background: transparent;
   width: 100%;
   outline: none;
-  color: #6e707e;
+  color: var(--nb-ink);
   font-size: 0.9rem;
 
   &::placeholder {
-    color: #b7b9cc;
+    color: var(--nb-border);
   }
 `;
 
@@ -726,7 +726,7 @@ const ReportTable = styled.table`
   td {
     padding: 8px 10px;
     text-align: left;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--nb-border);
 
     @media (min-width: 768px) {
       padding: 12px 15px;
@@ -734,11 +734,11 @@ const ReportTable = styled.table`
   }
 
   th {
-    color: #6e707e;
+    color: var(--nb-ink);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    background-color: #f8f9fc;
+    background-color: var(--nb-muted);
     position: sticky;
     top: 0;
     font-size: 0.7rem;
@@ -749,22 +749,22 @@ const ReportTable = styled.table`
   }
 
   td {
-    color: #2e3a59;
+    color: var(--nb-ink);
     vertical-align: top;
   }
 
   tr:hover {
-    background-color: #f9f9f9;
+    background-color: var(--nb-muted);
   }
 `;
 
 const PaymentDetails = styled.div`
   margin-top: 5px;
   padding: 6px;
-  background-color: #f8f9fa;
+  background-color: var(--nb-muted);
   border-radius: 4px;
   font-size: 0.7rem;
-  border-left: 3px solid #4e73df;
+  border-left: 3px solid var(--nb-blue);
 
   @media (min-width: 768px) {
     padding: 8px;
@@ -785,7 +785,7 @@ const PaymentDetails = styled.div`
     strong {
       min-width: 80px;
       display: inline-block;
-      color: #6e707e;
+      color: var(--nb-ink);
 
       @media (min-width: 768px) {
         min-width: 120px;
@@ -801,7 +801,7 @@ const PaymentDetails = styled.div`
 const LoadingIndicator = styled.div`
   padding: 20px;
   text-align: center;
-  color: #6e707e;
+  color: var(--nb-ink);
   font-size: 0.9rem;
 
   @media (min-width: 768px) {
@@ -812,8 +812,8 @@ const LoadingIndicator = styled.div`
 
 const ErrorMessage = styled.div`
   padding: 15px;
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: var(--nb-muted);
+  color: var(--nb-orange);
   border-radius: 4px;
   margin: 15px 0;
   text-align: center;
