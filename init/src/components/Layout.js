@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { useModules } from "../contexts/ModuleContext";
 import {
   FaTachometerAlt,
   FaHistory,
@@ -25,6 +26,7 @@ import {
 const Layout = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const location = useLocation();
+  const { getModuleName } = useModules();
 
   // State for dropdown toggles
   const [openDropdowns, setOpenDropdowns] = useState({
@@ -60,7 +62,7 @@ const Layout = ({ children }) => {
           {/* Dashboard */}
           <NavItem active={location.pathname === "/admin"}>
             <FaTachometerAlt />
-            <span>Dashboard</span>
+            <span>{getModuleName('dashboard')}</span>
             <Link to="/admin" />
           </NavItem>
 
@@ -69,7 +71,7 @@ const Layout = ({ children }) => {
             <CategoryHeader>
               <CategoryIcon>
                 <FaStore />
-                <span>Retailers</span>
+                <span>{getModuleName('retailer', 'plural')}</span>
               </CategoryIcon>
               <ChevronIcon>
                 {openDropdowns.retailers ? (
@@ -80,15 +82,15 @@ const Layout = ({ children }) => {
               </ChevronIcon>
             </CategoryHeader>
           </NavCategory>
-          <DropdownMenu isOpen={openDropdowns.retailers}>
+          <DropdownMenu $isOpen={openDropdowns.retailers}>
             <NavItem active={location.pathname === "/admin/add-retailer"}>
               <FaPlusCircle />
-              <span>Add Retailer</span>
+              <span>Add {getModuleName('retailer')}</span>
               <Link to="/admin/add-retailer" />
             </NavItem>
             <NavItem active={location.pathname === "/admin/view-retailer"}>
               <FaList />
-              <span>Retailer Details</span>
+              <span>{getModuleName('retailer')} Details</span>
               <Link to="/admin/view-retailer" />
             </NavItem>
           </DropdownMenu>
@@ -98,7 +100,7 @@ const Layout = ({ children }) => {
             <CategoryHeader>
               <CategoryIcon>
                 <FaBoxes />
-                <span>Products</span>
+                <span>{getModuleName('product', 'plural')}</span>
               </CategoryIcon>
               <ChevronIcon>
                 {openDropdowns.products ? (
@@ -109,15 +111,15 @@ const Layout = ({ children }) => {
               </ChevronIcon>
             </CategoryHeader>
           </NavCategory>
-          <DropdownMenu isOpen={openDropdowns.products}>
+          <DropdownMenu $isOpen={openDropdowns.products}>
             <NavItem active={location.pathname === "/admin/add-product"}>
               <FaPlusCircle />
-              <span>Add Product</span>
+              <span>Add {getModuleName('product')}</span>
               <Link to="/admin/add-product" />
             </NavItem>
             <NavItem active={location.pathname === "/admin/view-product"}>
               <FaList />
-              <span>Product Details</span>
+              <span>{getModuleName('product')} Details</span>
               <Link to="/admin/view-product" />
             </NavItem>
           </DropdownMenu>
@@ -127,17 +129,17 @@ const Layout = ({ children }) => {
             <CategoryHeader>
               <CategoryIcon>
                 <FaShoppingCart />
-                <span>Orders</span>
+                <span>{getModuleName('order', 'plural')}</span>
               </CategoryIcon>
               <ChevronIcon>
                 {openDropdowns.orders ? <FaChevronDown /> : <FaChevronRight />}
               </ChevronIcon>
             </CategoryHeader>
           </NavCategory>
-          <DropdownMenu isOpen={openDropdowns.orders}>
+          <DropdownMenu $isOpen={openDropdowns.orders}>
             <NavItem active={location.pathname === "/admin/order-list"}>
               <FaList />
-              <span>Order Details</span>
+              <span>{getModuleName('order')} Details</span>
               <Link to="/admin/order-list" />
             </NavItem>
           </DropdownMenu>
@@ -147,7 +149,7 @@ const Layout = ({ children }) => {
             <CategoryHeader>
               <CategoryIcon>
                 <FaFileInvoiceDollar />
-                <span>Collections</span>
+                <span>{getModuleName('collection', 'plural')}</span>
               </CategoryIcon>
               <ChevronIcon>
                 {openDropdowns.collections ? (
@@ -158,7 +160,7 @@ const Layout = ({ children }) => {
               </ChevronIcon>
             </CategoryHeader>
           </NavCategory>
-          <DropdownMenu isOpen={openDropdowns.collections}>
+          <DropdownMenu $isOpen={openDropdowns.collections}>
             <NavItem
               active={location.pathname === "/admin/bill-collection-history"}
             >
@@ -168,17 +170,17 @@ const Layout = ({ children }) => {
             </NavItem>
             <NavItem active={location.pathname === "/admin/bills-add"}>
               <FaPlusCircle />
-              <span>Add Bills</span>
+              <span>Add {getModuleName('bill', 'plural')}</span>
               <Link to="/admin/bills-add" />
             </NavItem>
             <NavItem active={location.pathname === "/admin/bills"}>
               <FaFileInvoiceDollar />
-              <span>Bills</span>
+              <span>{getModuleName('bill', 'plural')}</span>
               <Link to="/admin/bills" />
             </NavItem>
             <NavItem active={location.pathname === "/admin/reports"}>
               <FaChartBar />
-              <span>Reports</span>
+              <span>{getModuleName('report', 'plural')}</span>
               <Link to="/admin/reports" />
             </NavItem>
           </DropdownMenu>
@@ -195,15 +197,15 @@ const Layout = ({ children }) => {
               </ChevronIcon>
             </CategoryHeader>
           </NavCategory>
-          <DropdownMenu isOpen={openDropdowns.salary}>
+          <DropdownMenu $isOpen={openDropdowns.salary}>
             <NavItem active={location.pathname === "/admin/salary"}>
               <FaMoneyBillWave />
-              <span>Salary</span>
+              <span>{getModuleName('salary')}</span>
               <Link to="/admin/salary" />
             </NavItem>
             <NavItem active={location.pathname === "/admin/advances"}>
               <FaPlusCircle />
-              <span>Advances</span>
+              <span>{getModuleName('advance', 'plural')}</span>
               <Link to="/admin/advances" />
             </NavItem>
             <NavItem active={location.pathname === "/admin/salary-ledger"}>
@@ -216,7 +218,7 @@ const Layout = ({ children }) => {
           {/* Attendance */}
           <NavItem active={location.pathname === "/admin/attendance"}>
             <FaCalendarCheck />
-            <span>Attendance</span>
+            <span>{getModuleName('attendance')}</span>
             <Link to="/admin/attendance" />
           </NavItem>
 
@@ -236,7 +238,7 @@ const Layout = ({ children }) => {
               </ChevronIcon>
             </CategoryHeader>
           </NavCategory>
-          <DropdownMenu isOpen={openDropdowns.logistics}>
+          <DropdownMenu $isOpen={openDropdowns.logistics}>
             <NavItem active={location.pathname === "/admin/delivery-tracking"}>
               <FaTruck />
               <span>Delivery Tracking</span>
@@ -257,17 +259,17 @@ const Layout = ({ children }) => {
           {/* Users */}
           <NavItem active={location.pathname === "/admin/users"}>
             <FaUsers />
-            <span>Users</span>
+            <span>{getModuleName('user', 'plural')}</span>
             <Link to="/admin/users" />
           </NavItem>
 
           {/* Settings */}
           <NavItem
-            active={location.pathname === "/admin/settings/modules"}
+            active={location.pathname === "/admin/settings"}
           >
             <FaCogs />
             <span>Settings</span>
-            <Link to="/admin/settings/modules" />
+            <Link to="/admin/settings" />
           </NavItem>
 
           {/* Logout */}
@@ -360,7 +362,7 @@ const ChevronIcon = styled.div`
 `;
 
 const DropdownMenu = styled.div`
-  max-height: ${(props) => (props.isOpen ? "500px" : "0")};
+  max-height: ${(props) => (props.$isOpen ? "500px" : "0")};
   overflow: hidden;
   transition: max-height var(--nb-transition);
   padding-left: 15px;
@@ -451,7 +453,7 @@ const NavItem = styled.li`
   cursor: pointer;
   transition: background-color var(--nb-transition), color var(--nb-transition);
   border-left: 4px solid
-    ${(props) => (props.active ? "var(--nb-orange)" : "transparent")};
+    ${(props) => (props.active ? "var(--nb-blue-medium)" : "transparent")};
   background: ${(props) => (props.active ? "var(--nb-blue)" : "transparent")};
   margin: 2px 0;
 
@@ -483,7 +485,7 @@ const NavItem = styled.li`
   }
 
   &:hover {
-    background: var(--nb-muted);
+    background: var(--nb-cream);
     color: var(--nb-ink);
 
     svg {
@@ -502,7 +504,7 @@ const UserProfile = styled.div`
   padding: 20px;
   border-top: 2px solid var(--nb-border);
   margin-top: auto;
-  background: var(--nb-muted);
+  background: var(--nb-cream);
 
   img {
     width: 40px;
@@ -527,7 +529,7 @@ const UserName = styled.div`
 
 const UserRole = styled.div`
   font-size: 0.75rem;
-  color: #333333;
+  color: var(--nb-blue-medium);
   margin-top: 2px;
 `;
 

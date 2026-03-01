@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
+import { useModules } from "../contexts/ModuleContext";
 import { motion } from "framer-motion";
 import {
   Chart as ChartJS,
@@ -47,6 +48,7 @@ const AdminDashboard = () => {
   const [timeRange, setTimeRange] = useState("week");
   const [billTimeRange, setBillTimeRange] = useState("week");
   const navigate = useNavigate();
+  const { getModuleName } = useModules();
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -148,11 +150,11 @@ const AdminDashboard = () => {
         {
           label: "Collection Amount (₹)",
           data,
-          backgroundColor: "var(--nb-orange)",
-          borderColor: "var(--nb-orange)",
+          backgroundColor: "var(--nb-blue-light)",
+          borderColor: "var(--nb-blue-light)",
           borderWidth: 2,
           borderRadius: 8,
-          hoverBackgroundColor: "var(--nb-orange)",
+          hoverBackgroundColor: "var(--nb-blue-light)",
           hoverBorderColor: "var(--nb-ink)",
         },
       ],
@@ -203,7 +205,7 @@ const AdminDashboard = () => {
           pointBorderWidth: 2,
           pointRadius: 5,
           pointHoverRadius: 7,
-          pointHoverBackgroundColor: "var(--nb-orange)",
+          pointHoverBackgroundColor: "var(--nb-blue-medium)",
           pointHoverBorderColor: "var(--nb-ink)",
         },
       ],
@@ -245,7 +247,7 @@ const AdminDashboard = () => {
             ? "Weekly"
             : "Monthly"
         })`,
-        color: "var(--nb-orange)",
+        color: "var(--nb-blue-medium)",
         font: {
           size: 16,
           weight: "600",
@@ -259,7 +261,7 @@ const AdminDashboard = () => {
         anchor: "end",
         align: "top",
         formatter: (value) => value > 0 ? "₹" + formatIndianNumber(value) : "",
-        color: "var(--nb-orange)",
+        color: "var(--nb-blue-medium)",
         font: {
           weight: "bold",
           size: 11,
@@ -416,7 +418,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-orange)">
+              <MetricCard color="var(--nb-blue-light)">
                 <div className="icon-container">
                   <FaMoneyBillWave size={20} />
                 </div>
@@ -426,7 +428,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-orange)">
+              <MetricCard color="var(--nb-blue-medium)">
                 <div className="icon-container">
                   <FaListAlt size={20} />
                 </div>
@@ -466,7 +468,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-orange)">
+              <MetricCard color="var(--nb-blue-light)">
                 <div className="icon-container">
                   <FaHourglassHalf size={20} />
                 </div>
@@ -476,12 +478,12 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-orange)">
+              <MetricCard color="var(--nb-blue-medium)">
                 <div className="icon-container">
                   <FaBoxes size={20} />
                 </div>
                 <div className="metric-content">
-                  <h3>Total Products</h3>
+                  <h3>Total {getModuleName('product', 'plural')}</h3>
                   <p>{formatIndianNumber(dashboardData?.totalProducts)}</p>
                 </div>
               </MetricCard>
@@ -683,7 +685,7 @@ const ChartContainer = styled.div`
   height: 400px;
   margin-top: 1rem;
   padding: 1.5rem;
-  background: var(--nb-muted);
+  background: var(--nb-cream);
   border-radius: 1rem;
   border: 1px solid var(--nb-border);
   backdrop-filter: blur(10px);
@@ -753,10 +755,10 @@ const TimeRangeSelector = styled.div`
 const TimeRangeButton = styled.button`
   padding: 0.5rem 1rem;
   border: 1px solid
-    ${(props) => (props.active ? "var(--nb-orange)" : "var(--nb-border)")};
+    ${(props) => (props.active ? "var(--nb-blue-medium)" : "var(--nb-border)")};
   border-radius: 20px;
   background: ${(props) =>
-    props.active ? "var(--nb-orange)" : "var(--nb-blue)"};
+    props.active ? "var(--nb-blue-medium)" : "var(--nb-blue)"};
   color: var(--nb-white);
   font-size: 0.85rem;
   font-weight: 600;
@@ -770,7 +772,7 @@ const TimeRangeButton = styled.button`
 
   &:hover {
     transform: scale(1.05);
-    border-color: var(--nb-orange);
+    border-color: var(--nb-blue-medium);
     box-shadow: var(--nb-shadow-lg);
   }
 
@@ -825,7 +827,7 @@ const DSRPerformanceGrid = styled.div`
 `;
 
 const DSRPerformanceCard = styled.div`
-  background: var(--nb-muted);
+  background: var(--nb-cream);
   border-radius: 0.75rem;
   padding: 1.25rem;
   box-shadow: var(--nb-shadow-md);
@@ -836,11 +838,11 @@ const DSRPerformanceCard = styled.div`
   &:hover {
     transform: translateY(-3px);
     box-shadow: var(--nb-shadow-md);
-    border-color: var(--nb-orange);
+    border-color: var(--nb-blue-medium);
   }
 
   h3 {
-    color: var(--nb-orange);
+    color: var(--nb-blue-medium);
     font-size: 1rem;
     margin: 0 0 1rem 0;
     font-weight: 600;
@@ -866,7 +868,7 @@ const DSRItem = styled.div`
   transition: all 0.3s ease;
 
   &:hover {
-    background: var(--nb-muted);
+    background: var(--nb-cream);
     transform: translateX(5px);
   }
 
@@ -891,7 +893,7 @@ const DSRItem = styled.div`
   }
 
   .amount {
-    color: var(--nb-orange);
+    color: var(--nb-blue-medium);
     font-weight: 700;
     font-size: 1.05rem;
   }
@@ -901,7 +903,7 @@ const UserProfile = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: var(--nb-muted);
+  background: var(--nb-cream);
   padding: 0.5rem 1rem;
   border-radius: 2rem;
   box-shadow: var(--nb-shadow-md);
@@ -924,14 +926,14 @@ const UserProfile = styled.div`
   &:hover {
     transform: scale(1.05);
     box-shadow: var(--nb-shadow-md);
-    border-color: var(--nb-orange);
+    border-color: var(--nb-blue-medium);
   }
 
   img {
     width: 2.25rem;
     height: 2.25rem;
     border-radius: 50%;
-    border: 2px solid var(--nb-orange);
+    border: 2px solid var(--nb-blue-medium);
     box-shadow: var(--nb-shadow-md);
   }
 
@@ -1006,7 +1008,7 @@ const MetricsGrid = styled.div`
 `;
 
 const MetricCard = styled.div`
-  background: var(--nb-muted);
+  background: var(--nb-cream);
   border-radius: 0.75rem;
   padding: 1.25rem;
   box-shadow: var(--nb-shadow-md);
@@ -1133,7 +1135,7 @@ const MetricCard = styled.div`
 `;
 
 const ContentSection = styled.section`
-  background: var(--nb-muted);
+  background: var(--nb-cream);
   border-radius: 0.75rem;
   padding: 1.25rem;
   box-shadow: var(--nb-shadow-md);
@@ -1156,7 +1158,7 @@ const ContentSection = styled.section`
   }
 
   &:hover {
-    border-color: var(--nb-orange);
+    border-color: var(--nb-blue-medium);
     box-shadow: var(--nb-shadow-md);
   }
 
@@ -1191,7 +1193,7 @@ const SectionHeader = styled.div`
 `;
 
 const ViewAllLink = styled(Link)`
-  color: var(--nb-orange);
+  color: var(--nb-blue-medium);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
@@ -1202,12 +1204,12 @@ const ViewAllLink = styled(Link)`
   transition: all 0.3s ease;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  background: var(--nb-muted);
+  background: var(--nb-cream);
 
   &:hover {
     color: var(--nb-ink);
     text-decoration: none;
-    background: var(--nb-muted);
+    background: var(--nb-cream);
     transform: translateX(5px);
     box-shadow: var(--nb-shadow-md);
   }
@@ -1229,7 +1231,7 @@ const TableContainer = styled.div`
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: 0.5rem;
-  background: var(--nb-muted);
+  background: var(--nb-cream);
   box-shadow: var(--nb-shadow-md);
   border: 1px solid var(--nb-border);
 `;
@@ -1253,13 +1255,13 @@ const DataTable = styled.table`
   }
 
   th {
-    color: var(--nb-orange);
+    color: var(--nb-blue-medium);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-size: 0.75rem;
     var(--nb-white)-space: nowrap;
-    background: var(--nb-muted);
+    background: var(--nb-cream);
 
     @media (min-width: 768px) {
       font-size: 0.8rem;
@@ -1282,7 +1284,7 @@ const DataTable = styled.table`
     cursor: pointer;
 
     &:hover {
-      background: var(--nb-muted);
+      background: var(--nb-cream);
       transform: scale(1.01);
     }
   }
@@ -1301,7 +1303,7 @@ const DataTable = styled.table`
       border-radius: 0.5rem;
       padding: 0.5rem;
       position: relative;
-      background: var(--nb-muted);
+      background: var(--nb-cream);
     }
 
     td {
@@ -1321,7 +1323,7 @@ const DataTable = styled.table`
         content: attr(data-label);
         float: left;
         font-weight: 600;
-        color: var(--nb-orange);
+        color: var(--nb-blue-medium);
         margin-right: 1rem;
         font-size: 0.8rem;
       }
@@ -1337,23 +1339,23 @@ const PaymentBadge = styled.span`
   font-weight: 600;
   background: ${(props) =>
     props.mode === "Cash"
-      ? "var(--nb-orange)"
+      ? "var(--nb-blue-light)"
       : props.mode === "Card"
       ? "var(--nb-border)"
-      : "var(--nb-orange)"};
+      : "var(--nb-blue-medium)"};
   color: ${(props) =>
     props.mode === "Cash"
-      ? "var(--nb-orange)"
+      ? "var(--nb-blue)"
       : props.mode === "Card"
       ? "var(--nb-blue)"
-      : "var(--nb-orange)"};
+      : "var(--nb-blue)"};
   text-transform: capitalize;
   border: 1px solid ${(props) =>
     props.mode === "Cash"
-      ? "var(--nb-orange)"
+      ? "var(--nb-blue-light)"
       : props.mode === "Card"
       ? "var(--nb-border)"
-      : "var(--nb-orange)"};
+      : "var(--nb-blue-medium)"};
   transition: all 0.3s ease;
 
   &:hover {
@@ -1386,7 +1388,7 @@ const LoadingIndicator = styled.div`
     height: 50px;
     border: 4px solid var(--nb-border);
     border-radius: 50%;
-    border-top-color: var(--nb-orange);
+    border-top-color: var(--nb-blue-medium);
     animation: spin 1s ease-in-out infinite;
     box-shadow: var(--nb-shadow-md);
   }
@@ -1416,8 +1418,8 @@ const LoadingIndicator = styled.div`
 
 const ErrorMessage = styled.div`
   padding: 1.5rem;
-  background: var(--nb-muted);
-  color: var(--nb-orange);
+  background: var(--nb-cream);
+  color: var(--nb-blue-medium);
   border-radius: 0.75rem;
   margin: 1rem 0;
   text-align: center;
@@ -1425,7 +1427,7 @@ const ErrorMessage = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  border: 1px solid var(--nb-orange);
+  border: 1px solid var(--nb-blue-medium);
   backdrop-filter: blur(10px);
   animation: shake 0.5s ease;
 

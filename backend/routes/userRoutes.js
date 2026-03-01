@@ -60,12 +60,13 @@ router.delete("/:id", protect, adminOnly, async (req, res) => {
 
 router.put("/:id", protect, adminOnly, async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, permissions } = req.body;
     const updateData = {};
 
     if (name) updateData.name = name;
     if (email) updateData.email = email;
     if (role) updateData.role = role;
+    if (permissions) updateData.permissions = permissions;
 
     if (password) {
       const salt = await bcrypt.genSalt(10);
@@ -87,6 +88,27 @@ router.put("/:id", protect, adminOnly, async (req, res) => {
     res
       .status(400)
       .json({ message: "Error updating user", error: err.message });
+  }
+});
+
+// Update user permissions
+router.patch("/:id/permissions", protect, adminOnly, async (req, res) => {
+  try {
+    const { permissions } = req.body;
+    
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: { permissions } },
+      { new: true }
+    ).select("-password");
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(400).json({ message: "Error updating permissions", error: err.message });
   }
 });
 // Add this to userRoutes.js

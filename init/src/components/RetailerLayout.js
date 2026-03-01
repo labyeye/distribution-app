@@ -8,6 +8,7 @@ import {
   FaShoppingCart,
   FaUser,
   FaSignOutAlt,
+  FaCog,
 } from "react-icons/fa";
 
 const RetailerLayout = ({ children }) => {
@@ -61,6 +62,13 @@ const RetailerLayout = ({ children }) => {
             <FaUser />
             <span>Profile</span>
             <Link to="/retailer/profile" />
+          </NavItem>
+
+          {/* Settings */}
+          <NavItem active={location.pathname === "/retailer/settings"}>
+            <FaCog />
+            <span>Settings</span>
+            <Link to="/retailer/settings" />
           </NavItem>
 
           {/* Logout */}
@@ -234,7 +242,7 @@ const UserName = styled.div`
 
 const UserRole = styled.div`
   font-size: 0.75rem;
-  color: #333333;
+  color: var(--nb-blue-medium);
   margin-top: 2px;
 `;
 

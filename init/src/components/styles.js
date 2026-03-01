@@ -447,8 +447,12 @@ export const Table = styled.table`
     color: var(--nb-ink);
   }
 
-  tr:hover td {
+  tbody tr:nth-child(even) {
     background-color: var(--nb-muted);
+  }
+
+  tr:hover td {
+    background-color: var(--nb-blue-light);
   }
 `;
 

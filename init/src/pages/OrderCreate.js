@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled, { keyframes } from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
+import { useModules } from "../contexts/ModuleContext";
 import {
   FaHome,
   FaUserCircle,
@@ -16,6 +17,7 @@ import {
 } from "react-icons/fa";
 
 const OrderCreate = () => {
+  const { getModuleName } = useModules();
   const [retailerSearch, setRetailerSearch] = useState("");
   const [retailers, setRetailers] = useState([]);
   const [products, setProducts] = useState([]);
@@ -274,7 +276,7 @@ const OrderCreate = () => {
             <NavIcon>
               <FaMoneyBillWave />
             </NavIcon>
-            {!sidebarCollapsed && <NavText>Order Create</NavText>}
+            {!sidebarCollapsed && <NavText>{getModuleName('order')} Create</NavText>}
             <NavCheckmark>☑</NavCheckmark>
           </NavItem>
 
@@ -329,7 +331,7 @@ const OrderCreate = () => {
 
       <MainContent>
         <ContentContainer>
-          <PageHeader>Create New Order</PageHeader>
+          <PageHeader>Create New {getModuleName('order')}</PageHeader>
 
           <FiltersContainer>
             <FilterGroup>

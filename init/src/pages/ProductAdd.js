@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import * as xlsx from "xlsx";
 import styled from "styled-components";
 import Layout from "../components/Layout";
+import { useModules } from "../contexts/ModuleContext";
 import DynamicForm from "../components/DynamicForm";
 import {
   createRecord,
@@ -10,6 +11,7 @@ import {
 } from "../utils/dynamicApi";
 
 const ProductAdd = () => {
+  const { getModuleName } = useModules();
   const [manualProduct, setManualProduct] = useState({});
   const [moduleDefinition, setModuleDefinition] = useState(null);
   const [file, setFile] = useState(null);
@@ -185,10 +187,10 @@ const ProductAdd = () => {
 
   return (
     <Layout>
-      <PageHeader>Add Products</PageHeader>
+      <PageHeader>Add {getModuleName('product', 'plural')}</PageHeader>
 
       <FormContainer>
-        <SectionHeader>Manual Product Entry</SectionHeader>
+        <SectionHeader>Manual {getModuleName('product')} Entry</SectionHeader>
         {moduleDefinition ? (
           <DynamicForm
             moduleDefinition={moduleDefinition}
@@ -198,7 +200,7 @@ const ProductAdd = () => {
             }
             onSubmit={handleManualSubmit}
             errors={fieldErrors}
-            submitLabel="Add Product"
+            submitLabel={`Add ${getModuleName('product')}`}
           />
         ) : (
           <LoadingMessage>Loading fields...</LoadingMessage>
@@ -206,7 +208,7 @@ const ProductAdd = () => {
       </FormContainer>
 
       <UploadForm onSubmit={handleImport}>
-        <SectionHeader>Upload Products (Excel)</SectionHeader>
+        <SectionHeader>Upload {getModuleName('product', 'plural')} (Excel)</SectionHeader>
         <FileUploadContainer>
           <FileInputLabel>
             <FileInput
@@ -222,7 +224,7 @@ const ProductAdd = () => {
 
         <ButtonContainer>
           <Button type="submit" disabled={loading || !file}>
-            {loading ? "Processing..." : "Upload Products"}
+            {loading ? "Processing..." : `Upload ${getModuleName('product', 'plural')}`}
           </Button>
         </ButtonContainer>
 

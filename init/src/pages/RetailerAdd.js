@@ -4,6 +4,7 @@ import * as xlsx from "xlsx";
 import styled from "styled-components";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
+import { useModules } from "../contexts/ModuleContext";
 import DynamicForm from "../components/DynamicForm";
 import {
   createRecord,
@@ -11,6 +12,7 @@ import {
 } from "../utils/dynamicApi";
 const RetailerAdd = () => {
   const navigate = useNavigate();
+  const { getModuleName } = useModules();
   const [manualRetailer, setManualRetailer] = useState({});
   const [moduleDefinition, setModuleDefinition] = useState(null);
   const [file, setFile] = useState(null);
@@ -217,17 +219,17 @@ const RetailerAdd = () => {
 
   return (
     <Layout>
-      <PageHeader>Add Retailers</PageHeader>
+      <PageHeader>Add {getModuleName('retailer', 'plural')}</PageHeader>
 
       <ButtonContainer>
         <BackButton onClick={handleBackToList}>
-          Back to Retailer List
+          Back to {getModuleName('retailer')} List
         </BackButton>
       </ButtonContainer>
 
       {/* Manual Retailer Entry Form */}
       <FormContainer>
-        <SectionHeader>Manual Retailer Entry</SectionHeader>
+        <SectionHeader>Manual {getModuleName('retailer')} Entry</SectionHeader>
         {moduleDefinition ? (
           <DynamicForm
             moduleDefinition={moduleDefinition}
@@ -237,7 +239,7 @@ const RetailerAdd = () => {
             }
             onSubmit={handleManualSubmit}
             errors={fieldErrors}
-            submitLabel="Add Retailer"
+            submitLabel={`Add ${getModuleName('retailer')}`}
           />
         ) : (
           <LoadingMessage>Loading fields...</LoadingMessage>
@@ -254,7 +256,7 @@ const RetailerAdd = () => {
 
       {/* Excel File Upload Form */}
       <UploadForm onSubmit={handleImport}>
-        <SectionHeader>Upload Retailers (Excel)</SectionHeader>
+        <SectionHeader>Upload {getModuleName('retailer', 'plural')} (Excel)</SectionHeader>
         <FileUploadContainer>
           <FileInputLabel>
             <FileInput

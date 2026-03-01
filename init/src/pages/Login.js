@@ -65,12 +65,36 @@ const LoginWrapper = styled.div`
 
 const ImageSection = styled.div`
   flex: 1;
-  background: var(--nb-var(--nb-white));
+  background: linear-gradient(135deg, var(--nb-blue) 0%, var(--nb-orange) 100%);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 40px;
   position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    bottom: -50px;
+    left: -50px;
+  }
 
   @media (max-width: 768px) {
     padding: 20px;
@@ -78,24 +102,43 @@ const ImageSection = styled.div`
   }
 `;
 
-const LoginImage = styled.div`
-  width: 100%;
-  height: 400px;
-  background-image: url("https://www.reuters.com/resizer/v2/EU6AFEL2QFP7ZGPN3E6AWXE5LI.jpg?auth=8486956e1d4a506b94571daa93fc60a33e9ed951b6c61e218ad9f52cab631a2a&width=6324&quality=80");
-  background-size: cover;
-  background-position: center;
-  border-radius: 15px;
-  position: relative;
-  border: 2px solid var(--nb-orange);
-  box-shadow: var(--nb-shadow-md);
+const BrandSection = styled.div`
+  text-align: center;
+  z-index: 1;
+  color: white;
+`;
 
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--nb-var(--nb-white));
-    border-radius: 15px;
+const LargeBrandName = styled.h1`
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: white;
+  margin: 0;
+  letter-spacing: -1px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  line-height: 1.2;
+  
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
   }
+`;
+
+const LargeBrandTagline = styled.p`
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 1rem 0 0 0;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const BrandDescription = styled.p`
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 2rem 0 0 0;
+  font-weight: 400;
+  max-width: 350px;
+  line-height: 1.6;
 `;
 
 const LoginFormSection = styled.div`
@@ -122,11 +165,33 @@ const FormTitle = styled.h2`
 const Logo = styled.div`
   text-align: center;
   margin-bottom: 2rem;
+`;
 
-  img {
-    max-width: 150px;
-    height: auto;
+const BrandName = styled.h1`
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--nb-blue) 0%, var(--nb-orange) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  letter-spacing: -0.5px;
+  text-align: center;
+  
+  @media (max-width: 480px) {
+    font-size: 1.8rem;
   }
+`;
+
+const BrandTagline = styled.p`
+  font-size: 0.85rem;
+  color: var(--nb-ink);
+  opacity: 0.7;
+  margin: 0.5rem 0 0 0;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 `;
 
 const InputGroup = styled.div`
@@ -270,26 +335,19 @@ const Login = () => {
     <LoginContainer>
       <LoginWrapper>
         <ImageSection>
-          <LoginImage />
+          <BrandSection>
+            <LargeBrandName>Distribution CRM</LargeBrandName>
+            <LargeBrandTagline>Business Management</LargeBrandTagline>
+            <BrandDescription>
+              Streamline your distribution operations with powerful tools for order management, inventory tracking, and customer relationships.
+            </BrandDescription>
+          </BrandSection>
         </ImageSection>
 
         <LoginFormSection>
           <Logo>
-            {/* Replace with your actual logo */}
-            <div
-              style={{
-                fontSize: "2rem",
-                fontWeight: "bold",
-                background: "var(--nb-blue) 0%, var(--nb-blue) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                marginBottom: "10px",
-                
-              }}
-            >
-              Business Distribution CRM
-            </div>
+            <BrandName>Distribution CRM</BrandName>
+            <BrandTagline>Business Management</BrandTagline>
           </Logo>
 
           <FormTitle>Welcome Back</FormTitle>

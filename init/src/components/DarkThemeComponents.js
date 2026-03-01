@@ -89,7 +89,7 @@ export const CardTitle = styled.h3`
 `;
 
 export const BodyText = styled.p`
-  color: ${(props) => (props.muted ? "#333333" : "var(--nb-ink)")};
+  color: ${(props) => (props.muted ? "var(--nb-blue-medium)" : "var(--nb-ink)")};
   font-size: ${(props) => props.size || "0.95rem"};
   line-height: 1.6;
   margin: ${(props) => props.margin || "0"};
@@ -197,7 +197,7 @@ export const Input = styled.input`
   }
 
   &::placeholder {
-    color: #666666;
+    color: var(--nb-blue-medium);
   }
 
   &:disabled {
@@ -226,7 +226,7 @@ export const TextArea = styled.textarea`
   }
 
   &::placeholder {
-    color: #666666;
+    color: var(--nb-blue-medium);
   }
 `;
 
@@ -291,8 +291,12 @@ export const DarkTable = styled.table`
   tbody tr {
     cursor: ${(props) => (props.clickable ? "pointer" : "default")};
 
-    &:hover {
+    &:nth-child(even) {
       background: var(--nb-muted);
+    }
+
+    &:hover {
+      background: var(--nb-blue-light);
     }
 
     &:last-child td {
@@ -362,7 +366,7 @@ export const Spinner = styled.div`
 export const EmptyState = styled.div`
   padding: 3rem;
   text-align: center;
-  color: #333333;
+  color: var(--nb-blue-medium);
   
   svg {
     color: var(--nb-blue);
@@ -376,7 +380,7 @@ export const EmptyState = styled.div`
   }
 
   p {
-    color: #333333;
+    color: var(--nb-blue-medium);
   }
 `;
 
@@ -447,7 +451,7 @@ export const MetricCard = styled.div`
   position: relative;
 
   .metric-label {
-    color: #333333;
+    color: var(--nb-blue-medium);
     font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;

@@ -1,21 +1,31 @@
 /* ====================================
-   NEOBRUTALISM THEME VARIABLES & CORE STYLES
-   White / Blue / Orange
+   CUSTOM COLOR THEME
+   Nature-Inspired Green Palette
    ==================================== */
 
 :root {
-  --nb-white: #ffffff;
-  --nb-ink: #111111;
-  --nb-blue: #1f5eff;
-  --nb-orange: #ff7a00;
-  --nb-muted: #f3f3f3;
-  --nb-border: #111111;
-  --nb-shadow-sm: 2px 2px 0 #111111;
-  --nb-shadow-md: 4px 4px 0 #111111;
-  --nb-shadow-lg: 8px 8px 0 #111111;
+  /* Primary Color Palette */
+  --nb-white: #F1F3E0;        /* Lightest - Main backgrounds */
+  --nb-cream: #D2DCB6;         /* Light - Cards, panels, sidebars */
+  --nb-muted: #D2DCB6;         /* Light - Secondary backgrounds */
+  --nb-blue: #A1BC98;          /* Medium - Buttons, interactive elements */
+  --nb-blue-light: #D2DCB6;    /* Light - Lighter accents */
+  --nb-blue-medium: #A1BC98;   /* Medium - Active states, highlights */
+  --nb-orange: #A1BC98;        /* Medium - Accent color */
+  --nb-ink: #778873;           /* Dark - Primary text */
+  --nb-border: #778873;        /* Dark - Borders and dividers */
+  
+  /* Shadows using the dark color */
+  --nb-shadow-sm: 2px 2px 0 #778873;
+  --nb-shadow-md: 4px 4px 0 #778873;
+  --nb-shadow-lg: 8px 8px 0 #778873;
+  
+  /* Border Radius */
   --nb-radius-sm: 4px;
   --nb-radius: 6px;
   --nb-radius-lg: 10px;
+  
+  /* Transition */
   --nb-transition: 120ms ease;
 }
 

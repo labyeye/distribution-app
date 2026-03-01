@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { ModuleProvider } from "./contexts/ModuleContext";
 import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import StaffDashboard from "./pages/StaffDashboard";
@@ -34,7 +35,10 @@ import RetailerDashboard from "./pages/RetailerDashboard";
 import RetailerBilling from "./pages/RetailerBilling";
 import RetailerCollectionHistory from "./pages/RetailerCollectionHistory";
 import RetailerOrders from "./pages/RetailerOrders";
+import RetailerSettings from "./pages/RetailerSettings";
 import ModuleSettings from "./pages/ModuleSettings";
+import ModuleNameCustomization from "./pages/ModuleNameCustomization";
+import Settings from "./pages/Settings";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -81,10 +85,11 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <Routes>
-        {/* Login Route */}
-        <Route path="/login" element={<Login />} />
+    <ModuleProvider>
+      <Router>
+        <Routes>
+          {/* Login Route */}
+          <Route path="/login" element={<Login />} />
 
         {/* Redirect after login based on user role */}
         <Route
@@ -160,6 +165,18 @@ const App = () => {
           element={
             user?.role === "retailer" ? (
               <RetailerOrders />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        {/* Retailer Settings Route */}
+        <Route
+          path="/retailer/settings"
+          element={
+            user?.role === "retailer" ? (
+              <RetailerSettings />
             ) : (
               <Navigate to="/login" />
             )
@@ -342,12 +359,36 @@ const App = () => {
         {/* Logout Route */}
         <Route path="/logout" element={<Logout />} />
 
-        {/* Admin Settings - Modules */}
+        {/* Admin Settings - Combined */}
+        <Route
+          path="/admin/settings"
+          element={
+            user?.role === "admin" ? (
+              <Settings />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        {/* Admin Settings - Modules (Legacy Route) */}
         <Route
           path="/admin/settings/modules"
           element={
             user?.role === "admin" ? (
-              <ModuleSettings />
+              <Settings />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        {/* Admin Module Name Customization (Legacy Route) */}
+        <Route
+          path="/admin/settings/customize-modules"
+          element={
+            user?.role === "admin" ? (
+              <Settings />
             ) : (
               <Navigate to="/login" />
             )
@@ -355,6 +396,7 @@ const App = () => {
         />
       </Routes>
     </Router>
+    </ModuleProvider>
   );
 };
 

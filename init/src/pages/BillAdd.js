@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
+import { useModules } from "../contexts/ModuleContext";
 import * as xlsx from "xlsx";
 import DynamicForm from "../components/DynamicForm";
 import { createRecord, hydrateModuleDefinition } from "../utils/dynamicApi";
@@ -18,6 +19,7 @@ const BillsAdd = () => {
     total: 0,
   });
   const API_URL = "http://localhost:2500/api";
+  const { getModuleName } = useModules();
 
   useEffect(() => {
     const loadModule = async () => {
@@ -199,10 +201,10 @@ const BillsAdd = () => {
 
   return (
     <Layout>
-      <PageHeader>Add Bills</PageHeader>
+      <PageHeader>Add {getModuleName('bill', 'plural')}</PageHeader>
 
       <FormContainer>
-        <SectionHeader>Manual Bill Entry</SectionHeader>
+        <SectionHeader>Manual {getModuleName('bill')} Entry</SectionHeader>
         {moduleDefinition ? (
           <DynamicForm
             moduleDefinition={moduleDefinition}
@@ -212,7 +214,7 @@ const BillsAdd = () => {
             }
             onSubmit={handleManualSubmit}
             errors={fieldErrors}
-            submitLabel="Add Bill"
+            submitLabel={`Add ${getModuleName('bill')}`}
           />
         ) : (
           <LoadingMessage>Loading fields...</LoadingMessage>
@@ -223,7 +225,7 @@ const BillsAdd = () => {
       </FormContainer>
 
       <UploadForm onSubmit={handleImport}>
-        <SectionHeader>Upload Bills (Excel)</SectionHeader>
+        <SectionHeader>Upload {getModuleName('bill', 'plural')} (Excel)</SectionHeader>
         <FileUploadContainer>
           <FileInputLabel>
             <FileInput
@@ -243,7 +245,7 @@ const BillsAdd = () => {
               ? importProgress.total > 0
                 ? `Importing ${importProgress.current} of ${importProgress.total} rows`
                 : "Processing..."
-              : "Upload Bills"}
+              : `Upload ${getModuleName('bill', 'plural')}`}
           </Button>
           {loading && importProgress.total > 0 && (
             <ProgressBar>

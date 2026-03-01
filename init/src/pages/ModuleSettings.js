@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import Layout from "../components/Layout";
 import DynamicForm from "../components/DynamicForm";
 
 const emptyField = {
@@ -290,7 +289,7 @@ const ModuleSettings = () => {
   );
 
   return (
-    <Layout>
+    <>
       <PageHeader>Settings · Modules</PageHeader>
 
       <SettingsGrid>
@@ -377,7 +376,7 @@ const ModuleSettings = () => {
           {success && <SuccessMessage>{success}</SuccessMessage>}
         </ModulePanel>
       </SettingsGrid>
-    </Layout>
+    </>
   );
 };
 

@@ -43,4 +43,28 @@ const retailerOnly = (req, res, next) => {
   }
 };
 
-module.exports = { protect, adminOnly, staffOnly, retailerOnly };
+// Permission checking middleware
+const checkPermission = (module, action) => {
+  return (req, res, next) => {
+    // Admins have full access
+    if (req.user && req.user.role === "admin") {
+      return next();
+    }
+
+    // Check if user has specific permission
+    if (
+      req.user &&
+      req.user.permissions &&
+      req.user.permissions[module] &&
+      req.user.permissions[module][action] === true
+    ) {
+      return next();
+    }
+
+    res.status(403).json({ 
+      message: `Access denied. You don't have permission to ${action} ${module}` 
+    });
+  };
+};
+
+module.exports = { protect, adminOnly, staffOnly, retailerOnly, checkPermission };

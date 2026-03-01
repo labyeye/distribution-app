@@ -1703,7 +1703,7 @@ const BillStatus = styled.div`
 
 const BillRetailer = styled.div`
   font-size: 1.2rem;
-  color: rgb(16, 16, 236);
+  color: var(--nb-blue);
   margin-bottom: 15px;
 `;
 
