@@ -1,24 +1,24 @@
 /* ====================================
    CUSTOM COLOR THEME
-   Nature-Inspired Green Palette
+   Warm & Bold Palette
    ==================================== */
 
 :root {
   /* Primary Color Palette */
-  --nb-white: #F1F3E0;        /* Lightest - Main backgrounds */
-  --nb-cream: #D2DCB6;         /* Light - Cards, panels, sidebars */
-  --nb-muted: #D2DCB6;         /* Light - Secondary backgrounds */
-  --nb-blue: #A1BC98;          /* Medium - Buttons, interactive elements */
-  --nb-blue-light: #D2DCB6;    /* Light - Lighter accents */
-  --nb-blue-medium: #A1BC98;   /* Medium - Active states, highlights */
-  --nb-orange: #A1BC98;        /* Medium - Accent color */
-  --nb-ink: #778873;           /* Dark - Primary text */
-  --nb-border: #778873;        /* Dark - Borders and dividers */
+  --nb-white: #E9E3DF;        /* Lightest - Main backgrounds */
+  --nb-cream: #E9E3DF;         /* Light - Cards, panels, sidebars */
+  --nb-muted: #E9E3DF;         /* Light - Secondary backgrounds */
+  --nb-blue: #465C88;          /* Medium - Buttons, interactive elements */
+  --nb-blue-light: #E9E3DF;    /* Light - Lighter accents */
+  --nb-blue-medium: #465C88;   /* Medium - Active states, highlights */
+  --nb-orange: #FF7A30;        /* Accent - Highlights, CTAs */
+  --nb-ink: #000000;           /* Dark - Primary text */
+  --nb-border: #000000;        /* Dark - Borders and dividers */
   
   /* Shadows using the dark color */
-  --nb-shadow-sm: 2px 2px 0 #778873;
-  --nb-shadow-md: 4px 4px 0 #778873;
-  --nb-shadow-lg: 8px 8px 0 #778873;
+  --nb-shadow-sm: 2px 2px 0 #000000;
+  --nb-shadow-md: 4px 4px 0 #000000;
+  --nb-shadow-lg: 8px 8px 0 #000000;
   
   /* Border Radius */
   --nb-radius-sm: 4px;

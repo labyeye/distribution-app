@@ -23,6 +23,49 @@ const legacyModels = {
   bill: Bill,
 };
 
+const toIsoIfDate = (value) => {
+  if (!value) return value;
+  if (value instanceof Date) return value.toISOString();
+  return value;
+};
+
+const buildDataFromLegacyDoc = (moduleDef, doc) => {
+  const data = {};
+  const source = doc.toObject ? doc.toObject() : doc;
+  for (const field of moduleDef.fields || []) {
+    const value = source[field.key];
+    if (value !== undefined) {
+      data[field.key] = toIsoIfDate(value);
+    }
+  }
+  return data;
+};
+
+// Auto-migrate legacy documents into Record collection if none exist yet
+const autoMigrateLegacy = async (moduleKey, moduleDef) => {
+  const LegacyModel = legacyModels[moduleKey];
+  if (!LegacyModel) return;
+
+  const existingCount = await Record.countDocuments({ module: moduleKey });
+  if (existingCount > 0) return;
+
+  const docs = await LegacyModel.find({});
+  if (docs.length === 0) return;
+
+  const records = docs.map((doc) => ({
+    module: moduleKey,
+    data: buildDataFromLegacyDoc(moduleDef, doc),
+    status: "active",
+    legacyId: doc._id,
+    createdBy: doc.createdBy || undefined,
+    updatedBy: doc.updatedBy || undefined,
+    createdAt: doc.createdAt || undefined,
+    updatedAt: doc.updatedAt || undefined,
+  }));
+
+  await Record.insertMany(records);
+};
+
 const legacyFieldMap = {
   retailer: [
     "name",
@@ -70,6 +113,9 @@ router.get("/:moduleKey", protect, async (req, res) => {
     if (!hasPermission(moduleDef, "read", req.user.role)) {
       return res.status(403).json({ message: "Access denied" });
     }
+
+    // Auto-migrate legacy data (Product, Retailer, Bill) into Records on first access
+    await autoMigrateLegacy(moduleKey, moduleDef);
 
     const records = await Record.find({
       module: moduleKey,

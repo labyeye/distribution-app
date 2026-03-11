@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the implementation of a new **Retailer** role in the Distribution CRM, transforming it from an Admin + Staff system into a scalable, role-based distribution management platform.
+This document outlines the implementation of a new **Retailer** role in the DistributeX, transforming it from an Admin + Staff system into a scalable, role-based distribution management platform.
 
 ## Implementation Phases
 

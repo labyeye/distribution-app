@@ -2,7 +2,7 @@
 
 ## ✅ Completed Implementation
 
-This document summarizes the comprehensive implementation of the **Retailer Role** feature in the Distribution CRM system.
+This document summarizes the comprehensive implementation of the **Retailer Role** feature in the DistributeX system.
 
 ---
 

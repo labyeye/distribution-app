@@ -218,23 +218,11 @@ const BillAssignedToday = () => {
             : paymentDetails,
       };
 
-      // First create the collection record
+      // Create the collection record — the backend automatically updates the bill's
+      // dueAmount and status, so no separate PUT to /api/bills is needed.
       await axios.post(
         "http://localhost:2500/api/collections",
         collectionPayload,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-
-      // Then update the bill status
-      const newDueAmount = dueAmount - paidAmount;
-      await axios.put(
-        `http://localhost:2500/api/bills/${selectedBill._id}`,
-        {
-          dueAmount: newDueAmount,
-          status: newDueAmount <= 0 ? "Paid" : "Partially Paid",
-        },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

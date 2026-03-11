@@ -336,7 +336,7 @@ const Login = () => {
       <LoginWrapper>
         <ImageSection>
           <BrandSection>
-            <LargeBrandName>Distribution CRM</LargeBrandName>
+            <LargeBrandName>DistributeX</LargeBrandName>
             <LargeBrandTagline>Business Management</LargeBrandTagline>
             <BrandDescription>
               Streamline your distribution operations with powerful tools for order management, inventory tracking, and customer relationships.
@@ -346,7 +346,7 @@ const Login = () => {
 
         <LoginFormSection>
           <Logo>
-            <BrandName>Distribution CRM</BrandName>
+            <BrandName>DistributeX</BrandName>
             <BrandTagline>Business Management</BrandTagline>
           </Logo>
 

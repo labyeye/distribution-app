@@ -21,14 +21,16 @@ import {
   FaCalendarCheck,
   FaTruck,
   FaCogs,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 
 const Layout = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const location = useLocation();
   const { getModuleName } = useModules();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // State for dropdown toggles
   const [openDropdowns, setOpenDropdowns] = useState({
     retailers: false,
     products: false,
@@ -52,17 +54,33 @@ const Layout = ({ children }) => {
     }));
   };
 
+  const closeSidebar = () => setSidebarOpen(false);
+
   return (
     <Container>
-      <Sidebar>
+      {/* Mobile top bar */}
+      <MobileTopBar>
+        <HamburgerBtn onClick={() => setSidebarOpen(true)}>
+          <FaBars />
+        </HamburgerBtn>
+        <MobileTitle>DistributeX</MobileTitle>
+      </MobileTopBar>
+
+      {/* Overlay for mobile */}
+      {sidebarOpen && <Overlay onClick={closeSidebar} />}
+
+      <Sidebar $open={sidebarOpen}>
         <LogoContainer>
-          <h2>Distribution CRM</h2>
+          <h2>DistributeX</h2>
+          <CloseBtn onClick={closeSidebar}>
+            <FaTimes />
+          </CloseBtn>
         </LogoContainer>
         <NavMenu>
           {/* Dashboard */}
-          <NavItem active={location.pathname === "/admin"}>
+          <NavItem active={location.pathname === "/admin"} onClick={closeSidebar}>
             <FaTachometerAlt />
-            <span>{getModuleName('dashboard')}</span>
+            <span>{getModuleName("dashboard")}</span>
             <Link to="/admin" />
           </NavItem>
 
@@ -71,26 +89,22 @@ const Layout = ({ children }) => {
             <CategoryHeader>
               <CategoryIcon>
                 <FaStore />
-                <span>{getModuleName('retailer', 'plural')}</span>
+                <span>{getModuleName("retailer", "plural")}</span>
               </CategoryIcon>
               <ChevronIcon>
-                {openDropdowns.retailers ? (
-                  <FaChevronDown />
-                ) : (
-                  <FaChevronRight />
-                )}
+                {openDropdowns.retailers ? <FaChevronDown /> : <FaChevronRight />}
               </ChevronIcon>
             </CategoryHeader>
           </NavCategory>
           <DropdownMenu $isOpen={openDropdowns.retailers}>
-            <NavItem active={location.pathname === "/admin/add-retailer"}>
+            <NavItem active={location.pathname === "/admin/add-retailer"} onClick={closeSidebar}>
               <FaPlusCircle />
-              <span>Add {getModuleName('retailer')}</span>
+              <span>Add {getModuleName("retailer")}</span>
               <Link to="/admin/add-retailer" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/view-retailer"}>
+            <NavItem active={location.pathname === "/admin/view-retailer"} onClick={closeSidebar}>
               <FaList />
-              <span>{getModuleName('retailer')} Details</span>
+              <span>{getModuleName("retailer")} Details</span>
               <Link to="/admin/view-retailer" />
             </NavItem>
           </DropdownMenu>
@@ -100,26 +114,22 @@ const Layout = ({ children }) => {
             <CategoryHeader>
               <CategoryIcon>
                 <FaBoxes />
-                <span>{getModuleName('product', 'plural')}</span>
+                <span>{getModuleName("product", "plural")}</span>
               </CategoryIcon>
               <ChevronIcon>
-                {openDropdowns.products ? (
-                  <FaChevronDown />
-                ) : (
-                  <FaChevronRight />
-                )}
+                {openDropdowns.products ? <FaChevronDown /> : <FaChevronRight />}
               </ChevronIcon>
             </CategoryHeader>
           </NavCategory>
           <DropdownMenu $isOpen={openDropdowns.products}>
-            <NavItem active={location.pathname === "/admin/add-product"}>
+            <NavItem active={location.pathname === "/admin/add-product"} onClick={closeSidebar}>
               <FaPlusCircle />
-              <span>Add {getModuleName('product')}</span>
+              <span>Add {getModuleName("product")}</span>
               <Link to="/admin/add-product" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/view-product"}>
+            <NavItem active={location.pathname === "/admin/view-product"} onClick={closeSidebar}>
               <FaList />
-              <span>{getModuleName('product')} Details</span>
+              <span>{getModuleName("product")} Details</span>
               <Link to="/admin/view-product" />
             </NavItem>
           </DropdownMenu>
@@ -129,7 +139,7 @@ const Layout = ({ children }) => {
             <CategoryHeader>
               <CategoryIcon>
                 <FaShoppingCart />
-                <span>{getModuleName('order', 'plural')}</span>
+                <span>{getModuleName("order", "plural")}</span>
               </CategoryIcon>
               <ChevronIcon>
                 {openDropdowns.orders ? <FaChevronDown /> : <FaChevronRight />}
@@ -137,9 +147,9 @@ const Layout = ({ children }) => {
             </CategoryHeader>
           </NavCategory>
           <DropdownMenu $isOpen={openDropdowns.orders}>
-            <NavItem active={location.pathname === "/admin/order-list"}>
+            <NavItem active={location.pathname === "/admin/order-list"} onClick={closeSidebar}>
               <FaList />
-              <span>{getModuleName('order')} Details</span>
+              <span>{getModuleName("order")} Details</span>
               <Link to="/admin/order-list" />
             </NavItem>
           </DropdownMenu>
@@ -149,38 +159,32 @@ const Layout = ({ children }) => {
             <CategoryHeader>
               <CategoryIcon>
                 <FaFileInvoiceDollar />
-                <span>{getModuleName('collection', 'plural')}</span>
+                <span>{getModuleName("collection", "plural")}</span>
               </CategoryIcon>
               <ChevronIcon>
-                {openDropdowns.collections ? (
-                  <FaChevronDown />
-                ) : (
-                  <FaChevronRight />
-                )}
+                {openDropdowns.collections ? <FaChevronDown /> : <FaChevronRight />}
               </ChevronIcon>
             </CategoryHeader>
           </NavCategory>
           <DropdownMenu $isOpen={openDropdowns.collections}>
-            <NavItem
-              active={location.pathname === "/admin/bill-collection-history"}
-            >
+            <NavItem active={location.pathname === "/admin/bill-collection-history"} onClick={closeSidebar}>
               <FaHistory />
               <span>DSR Summary</span>
               <Link to="/admin/bill-collection-history" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/bills-add"}>
+            <NavItem active={location.pathname === "/admin/bills-add"} onClick={closeSidebar}>
               <FaPlusCircle />
-              <span>Add {getModuleName('bill', 'plural')}</span>
+              <span>Add {getModuleName("bill", "plural")}</span>
               <Link to="/admin/bills-add" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/bills"}>
+            <NavItem active={location.pathname === "/admin/bills"} onClick={closeSidebar}>
               <FaFileInvoiceDollar />
-              <span>{getModuleName('bill', 'plural')}</span>
+              <span>{getModuleName("bill", "plural")}</span>
               <Link to="/admin/bills" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/reports"}>
+            <NavItem active={location.pathname === "/admin/reports"} onClick={closeSidebar}>
               <FaChartBar />
-              <span>{getModuleName('report', 'plural')}</span>
+              <span>{getModuleName("report", "plural")}</span>
               <Link to="/admin/reports" />
             </NavItem>
           </DropdownMenu>
@@ -190,7 +194,7 @@ const Layout = ({ children }) => {
             <CategoryHeader>
               <CategoryIcon>
                 <FaMoneyBillWave />
-                <span>Salary & Advance</span>
+                <span>Salary &amp; Advance</span>
               </CategoryIcon>
               <ChevronIcon>
                 {openDropdowns.salary ? <FaChevronDown /> : <FaChevronRight />}
@@ -198,17 +202,17 @@ const Layout = ({ children }) => {
             </CategoryHeader>
           </NavCategory>
           <DropdownMenu $isOpen={openDropdowns.salary}>
-            <NavItem active={location.pathname === "/admin/salary"}>
+            <NavItem active={location.pathname === "/admin/salary"} onClick={closeSidebar}>
               <FaMoneyBillWave />
-              <span>{getModuleName('salary')}</span>
+              <span>{getModuleName("salary")}</span>
               <Link to="/admin/salary" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/advances"}>
+            <NavItem active={location.pathname === "/admin/advances"} onClick={closeSidebar}>
               <FaPlusCircle />
-              <span>{getModuleName('advance', 'plural')}</span>
+              <span>{getModuleName("advance", "plural")}</span>
               <Link to="/admin/advances" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/salary-ledger"}>
+            <NavItem active={location.pathname === "/admin/salary-ledger"} onClick={closeSidebar}>
               <FaBook />
               <span>Salary Ledger</span>
               <Link to="/admin/salary-ledger" />
@@ -216,9 +220,9 @@ const Layout = ({ children }) => {
           </DropdownMenu>
 
           {/* Attendance */}
-          <NavItem active={location.pathname === "/admin/attendance"}>
+          <NavItem active={location.pathname === "/admin/attendance"} onClick={closeSidebar}>
             <FaCalendarCheck />
-            <span>{getModuleName('attendance')}</span>
+            <span>{getModuleName("attendance")}</span>
             <Link to="/admin/attendance" />
           </NavItem>
 
@@ -227,29 +231,25 @@ const Layout = ({ children }) => {
             <CategoryHeader>
               <CategoryIcon>
                 <FaTruck />
-                <span>Logistics & Distribution</span>
+                <span>Logistics &amp; Distribution</span>
               </CategoryIcon>
               <ChevronIcon>
-                {openDropdowns.logistics ? (
-                  <FaChevronDown />
-                ) : (
-                  <FaChevronRight />
-                )}
+                {openDropdowns.logistics ? <FaChevronDown /> : <FaChevronRight />}
               </ChevronIcon>
             </CategoryHeader>
           </NavCategory>
           <DropdownMenu $isOpen={openDropdowns.logistics}>
-            <NavItem active={location.pathname === "/admin/delivery-tracking"}>
+            <NavItem active={location.pathname === "/admin/delivery-tracking"} onClick={closeSidebar}>
               <FaTruck />
               <span>Delivery Tracking</span>
               <Link to="/admin/delivery-tracking" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/delivery-create"}>
+            <NavItem active={location.pathname === "/admin/delivery-create"} onClick={closeSidebar}>
               <FaPlusCircle />
               <span>Create Delivery</span>
               <Link to="/admin/delivery-create" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/delivery-history"}>
+            <NavItem active={location.pathname === "/admin/delivery-history"} onClick={closeSidebar}>
               <FaHistory />
               <span>Delivery History</span>
               <Link to="/admin/delivery-history" />
@@ -257,16 +257,14 @@ const Layout = ({ children }) => {
           </DropdownMenu>
 
           {/* Users */}
-          <NavItem active={location.pathname === "/admin/users"}>
+          <NavItem active={location.pathname === "/admin/users"} onClick={closeSidebar}>
             <FaUsers />
-            <span>{getModuleName('user', 'plural')}</span>
+            <span>{getModuleName("user", "plural")}</span>
             <Link to="/admin/users" />
           </NavItem>
 
           {/* Settings */}
-          <NavItem
-            active={location.pathname === "/admin/settings"}
-          >
+          <NavItem active={location.pathname === "/admin/settings"} onClick={closeSidebar}>
             <FaCogs />
             <span>Settings</span>
             <Link to="/admin/settings" />
@@ -282,7 +280,7 @@ const Layout = ({ children }) => {
           <img
             src={`https://ui-avatars.com/api/?name=${
               user?.name || "Admin"
-            }&background=1f5eff&color=ffffff`}
+            }&background=465c88&color=ffffff`}
             alt="User"
           />
           <div>
@@ -296,7 +294,166 @@ const Layout = ({ children }) => {
   );
 };
 
-// Styled Components for Dropdowns
+// ── Styled Components ──────────────────────────────────────────────────────────
+
+const MobileTopBar = styled.div`
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--nb-white);
+  border-bottom: 2px solid var(--nb-border);
+  box-shadow: var(--nb-shadow-sm);
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  z-index: 100;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+`;
+
+const MobileTitle = styled.span`
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--nb-ink);
+`;
+
+const HamburgerBtn = styled.button`
+  background: none;
+  border: 2px solid var(--nb-border);
+  border-radius: 6px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--nb-ink);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--nb-blue);
+    color: var(--nb-white);
+    border-color: var(--nb-blue);
+  }
+`;
+
+const Overlay = styled.div`
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 150;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  min-height: 100vh;
+  background: var(--nb-white);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const Sidebar = styled.div`
+  width: 280px;
+  background: var(--nb-white);
+  border-right: 2px solid var(--nb-border);
+  box-shadow: var(--nb-shadow-md);
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    z-index: 200;
+    transform: translateX(${(p) => (p.$open ? "0" : "-100%")});
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+  }
+`;
+
+const LogoContainer = styled.div`
+  padding: 20px 20px;
+  border-bottom: 2px solid var(--nb-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--nb-white);
+
+  h2 {
+    color: var(--nb-ink);
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+`;
+
+const CloseBtn = styled.button`
+  display: none;
+  background: none;
+  border: 2px solid var(--nb-border);
+  border-radius: 6px;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--nb-ink);
+  font-size: 1rem;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--nb-orange);
+    color: var(--nb-white);
+    border-color: var(--nb-orange);
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+`;
+
+const NavMenu = styled.ul`
+  list-style: none;
+  padding: 20px 0;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--nb-ink);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--nb-blue);
+  }
+`;
+
 const NavCategory = styled.div`
   cursor: pointer;
   user-select: none;
@@ -320,14 +477,6 @@ const CategoryHeader = styled.div`
 
     svg {
       color: var(--nb-white);
-    }
-  }
-
-  @media (max-width: 768px) {
-    justify-content: center;
-
-    span {
-      display: none;
     }
   }
 `;
@@ -355,10 +504,6 @@ const ChevronIcon = styled.div`
     color: var(--nb-ink);
     transition: color var(--nb-transition);
   }
-
-  @media (max-width: 768px) {
-    display: none;
-  }
 `;
 
 const DropdownMenu = styled.div`
@@ -366,82 +511,6 @@ const DropdownMenu = styled.div`
   overflow: hidden;
   transition: max-height var(--nb-transition);
   padding-left: 15px;
-
-  @media (max-width: 768px) {
-    padding-left: 0;
-  }
-`;
-
-// Styled Components
-const Container = styled.div`
-  display: flex;
-  min-height: 100vh;
-  background: var(--nb-white);
-`;
-
-const Sidebar = styled.div`
-  width: 280px;
-  background: var(--nb-white);
-  border-right: 2px solid var(--nb-border);
-  box-shadow: var(--nb-shadow-md);
-  display: flex;
-  flex-direction: column;
-  z-index: 10;
-  transition: width var(--nb-transition);
-
-  @media (max-width: 768px) {
-    width: 80px;
-
-    span {
-      display: none;
-    }
-  }
-`;
-
-const LogoContainer = styled.div`
-  padding: 25px 20px;
-  border-bottom: 2px solid var(--nb-border);
-  text-align: center;
-  background: var(--nb-white);
-
-  h2 {
-    color: var(--nb-ink);
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-
-  @media (max-width: 768px) {
-    h2 {
-      display: none;
-    }
-  }
-`;
-
-const NavMenu = styled.ul`
-  list-style: none;
-  padding: 20px 0;
-  margin: 0;
-  flex-grow: 1;
-  overflow-y: auto;
-
-  /* Custom scrollbar */
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--nb-ink);
-    border-radius: 3px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: var(--nb-blue);
-  }
 `;
 
 const NavItem = styled.li`
@@ -453,7 +522,7 @@ const NavItem = styled.li`
   cursor: pointer;
   transition: background-color var(--nb-transition), color var(--nb-transition);
   border-left: 4px solid
-    ${(props) => (props.active ? "var(--nb-blue-medium)" : "transparent")};
+    ${(props) => (props.active ? "var(--nb-blue)" : "transparent")};
   background: ${(props) => (props.active ? "var(--nb-blue)" : "transparent")};
   margin: 2px 0;
 
@@ -469,10 +538,6 @@ const NavItem = styled.li`
     font-size: 0.95rem;
     font-weight: 600;
     transition: color var(--nb-transition);
-
-    @media (max-width: 768px) {
-      display: none;
-    }
   }
 
   a {
@@ -512,12 +577,7 @@ const UserProfile = styled.div`
     border-radius: 50%;
     margin-right: 12px;
     border: 2px solid var(--nb-border);
-  }
-
-  div {
-    @media (max-width: 768px) {
-      display: none;
-    }
+    flex-shrink: 0;
   }
 `;
 
@@ -529,8 +589,9 @@ const UserName = styled.div`
 
 const UserRole = styled.div`
   font-size: 0.75rem;
-  color: var(--nb-blue-medium);
+  color: var(--nb-blue);
   margin-top: 2px;
+  text-transform: capitalize;
 `;
 
 const MainContent = styled.div`
@@ -539,13 +600,15 @@ const MainContent = styled.div`
   padding: 30px;
   overflow-x: hidden;
   position: relative;
+  min-width: 0;
 
   @media (max-width: 768px) {
-    padding: 20px;
+    padding: 72px 16px 24px;
   }
 
   @media (min-width: 1200px) {
     padding: 40px;
   }
 `;
+
 export default Layout;

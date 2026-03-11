@@ -40,27 +40,43 @@ import ModuleSettings from "./pages/ModuleSettings";
 import ModuleNameCustomization from "./pages/ModuleNameCustomization";
 import Settings from "./pages/Settings";
 
-const App = () => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+// Helper: parse user/token from localStorage safely
+const getStoredAuth = () => {
+  try {
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
 
-  // Read from localStorage on mount and listen for changes
+    if (!storedToken || !storedUser) return { user: null, token: null };
+
+    // Check expiry
+    const payload = JSON.parse(atob(storedToken.split(".")[1]));
+    if (Date.now() > payload.exp * 1000) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      return { user: null, token: null };
+    }
+
+    return { user: JSON.parse(storedUser), token: storedToken };
+  } catch {
+    return { user: null, token: null };
+  }
+};
+
+const App = () => {
+  // Initialize directly from localStorage so refresh doesn't flash to /login
+  const initial = getStoredAuth();
+  const [user, setUser] = useState(initial.user);
+  const [token, setToken] = useState(initial.token);
+
+  // Keep in sync with storage changes (cross-tab / same-tab login)
   useEffect(() => {
     const loadUserData = () => {
-      const storedUser = localStorage.getItem("user");
-      const storedToken = localStorage.getItem("token");
-
-      setUser(storedUser ? JSON.parse(storedUser) : null);
-      setToken(storedToken);
+      const { user: u, token: t } = getStoredAuth();
+      setUser(u);
+      setToken(t);
     };
 
-    // Load initial data
-    loadUserData();
-
-    // Listen for storage events (for cross-tab sync)
     window.addEventListener("storage", loadUserData);
-
-    // Custom event for same-tab updates
     window.addEventListener("userLogin", loadUserData);
 
     return () => {
@@ -68,21 +84,6 @@ const App = () => {
       window.removeEventListener("userLogin", loadUserData);
     };
   }, []);
-
-  // Log to verify the token and user
-  console.log("Current User:", user); // Debugging log
-  console.log("Current Token:", token); // Debugging log
-
-  // Check if token exists and if it has expired
-  const isTokenExpired =
-    token && Date.now() > JSON.parse(atob(token.split(".")[1])).exp * 1000;
-
-  if (isTokenExpired) {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
-    setToken(null);
-  }
 
   return (
     <ModuleProvider>

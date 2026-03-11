@@ -6,42 +6,31 @@ import {
   FaSync, FaStore, FaCheckCircle, FaTimesCircle, FaUserPlus,
   FaSortUp, FaSortDown, FaSort,
 } from "react-icons/fa";
-import RetailerForm from "./RetailerForm";
-import DynamicTable from "../components/DynamicTable";
-import { fetchRecords, hydrateModuleDefinition } from "../utils/dynamicApi";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const STATUS_OPTIONS = ["all", "active", "inactive", "pending"];
+const API_BASE = "http://localhost:2500/api";
+const getAuthHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem("token")}` });
+
+const STATUS_OPTIONS = ["all", "active", "pending", "rejected"];
 
 const RetailerList = () => {
+  const navigate = useNavigate();
   const [records, setRecords] = useState([]);
-  const [moduleDefinition, setModuleDefinition] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [editingRecord, setEditingRecord] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [viewMode, setViewMode] = useState("table"); // table | cards | compact
+  const [viewMode, setViewMode] = useState("table");
   const [filterStatus, setFilterStatus] = useState("all");
   const [sortField, setSortField] = useState("");
   const [sortDir, setSortDir] = useState("asc");
 
-  useEffect(() => {
-    const loadModule = async () => {
-      try {
-        const definition = await hydrateModuleDefinition("retailer");
-        setModuleDefinition(definition);
-      } catch (err) {
-        setError("Failed to load retailer module");
-      }
-    };
-    loadModule();
-  }, []);
-
   const fetchRetailers = async () => {
     try {
       setLoading(true);
-      const data = await fetchRecords("retailer");
-      setRecords(Array.isArray(data) ? data : []);
+      setError("");
+      const res = await axios.get(`${API_BASE}/retailers`, { headers: getAuthHeaders() });
+      setRecords(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       setError("Failed to fetch retailers. Please try again.");
     } finally {
@@ -57,10 +46,10 @@ const RetailerList = () => {
     const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
     return {
       total: records.length,
-      active: records.filter((r) => (r.data?.status || r.status) !== "inactive").length,
-      inactive: records.filter((r) => (r.data?.status || r.status) === "inactive").length,
+      active: records.filter((r) => r.status === "ACTIVE").length,
+      pending: records.filter((r) => r.status === "PENDING").length,
       recent: records.filter((r) => {
-        const d = new Date(r.createdAt || r.data?.createdAt);
+        const d = new Date(r.createdAt);
         return !isNaN(d) && d >= oneMonthAgo;
       }).length,
     };
@@ -70,22 +59,19 @@ const RetailerList = () => {
     let list = [...records];
     if (searchTerm) {
       const query = searchTerm.toLowerCase();
-      list = list.filter((record) =>
-        Object.values(record.data || {}).some((value) =>
-          String(value || "").toLowerCase().includes(query)
-        ) || String(record._id || "").toLowerCase().includes(query)
+      list = list.filter((r) =>
+        [r.name, r.address1, r.address2, r.dayAssigned, r.assignedTo?.name]
+          .filter(Boolean)
+          .some((v) => String(v).toLowerCase().includes(query))
       );
     }
     if (filterStatus !== "all") {
-      list = list.filter((r) => {
-        const s = (r.data?.status || r.status || "active").toLowerCase();
-        return s === filterStatus;
-      });
+      list = list.filter((r) => (r.status || "ACTIVE").toLowerCase() === filterStatus.toLowerCase());
     }
     if (sortField) {
       list.sort((a, b) => {
-        const av = String(a.data?.[sortField] || a[sortField] || "").toLowerCase();
-        const bv = String(b.data?.[sortField] || b[sortField] || "").toLowerCase();
+        const av = String(a[sortField] || "").toLowerCase();
+        const bv = String(b[sortField] || "").toLowerCase();
         return sortDir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
       });
     }
@@ -97,22 +83,14 @@ const RetailerList = () => {
     else { setSortField(field); setSortDir("asc"); }
   };
 
-  const handleEdit = (record) => { setEditingRecord(record); setShowForm(true); };
-  const handleAddNew = () => { setEditingRecord(null); setShowForm(true); };
-  const handleFormClose = () => { setShowForm(false); setEditingRecord(null); };
-  const handleFormSuccess = () => { setShowForm(false); setEditingRecord(null); fetchRetailers(); };
-
-  // Get visible list fields from module definition
-  const listFields = useMemo(() => {
-    if (!moduleDefinition?.fields) return [];
-    return moduleDefinition.fields
-      .filter((f) => f.showInList !== false && f.status !== "disabled" && f.visible !== false)
-      .sort((a, b) => (a.order || 0) - (b.order || 0));
-  }, [moduleDefinition]);
+  const handleAddNew = () => navigate("/admin/add-retailer");
 
   const exportCSV = () => {
-    const headers = listFields.map((f) => f.label);
-    const rows = filteredRecords.map((r) => listFields.map((f) => r.data?.[f.key] || ""));
+    const headers = ["Name", "Address 1", "Address 2", "Day Assigned", "Assigned To", "Status"];
+    const rows = filteredRecords.map((r) => [
+      r.name || "", r.address1 || "", r.address2 || "",
+      r.dayAssigned || "", r.assignedTo?.name || "", r.status || "",
+    ]);
     const csv = [headers, ...rows].map((row) => row.map((v) => `"${v}"`).join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
@@ -121,40 +99,41 @@ const RetailerList = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Card grid view for records
+  // Card view
   const RecordCard = ({ record }) => {
-    const name = record.data?.name || record.data?.businessName || record.data?.companyName || record._id;
-    const phone = record.data?.phone || record.data?.mobile || record.data?.contact || "";
-    const area = record.data?.area || record.data?.city || record.data?.location || "";
-    const status = record.data?.status || record.status || "active";
+    const name = record.name || record._id;
+    const address = [record.address1, record.address2].filter(Boolean).join(", ");
+    const status = record.status || "ACTIVE";
     const initials = (name || "?").split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
+    const isActive = status === "ACTIVE";
     return (
-      <RCard onClick={() => handleEdit(record)}>
+      <RCard>
         <RCardAvatar>{initials}</RCardAvatar>
         <RCardName>{name}</RCardName>
-        {phone && <RCardSub>{phone}</RCardSub>}
-        {area && <RCardSub>{area}</RCardSub>}
-        <RCardStatus active={status !== "inactive"}>
-          {status !== "inactive" ? <><FaCheckCircle /> Active</> : <><FaTimesCircle /> Inactive</>}
+        {address && <RCardSub>{address}</RCardSub>}
+        {record.dayAssigned && <RCardSub>📅 {record.dayAssigned}</RCardSub>}
+        {record.assignedTo?.name && <RCardSub>👤 {record.assignedTo.name}</RCardSub>}
+        <RCardStatus active={isActive}>
+          {isActive ? <><FaCheckCircle /> Active</> : status === "PENDING" ? <><FaTimesCircle /> Pending</> : <><FaTimesCircle /> {status}</>}
         </RCardStatus>
       </RCard>
     );
   };
 
-  // Compact list view
+  // Compact row
   const CompactRow = ({ record, idx }) => {
-    const name = record.data?.name || record.data?.businessName || record._id;
-    const phone = record.data?.phone || record.data?.mobile || "";
-    const area = record.data?.area || record.data?.city || "";
-    const status = record.data?.status || record.status || "active";
+    const name = record.name || record._id;
+    const address = [record.address1, record.address2].filter(Boolean).join(", ");
+    const status = record.status || "ACTIVE";
     return (
-      <CRow alt={idx % 2 === 1} onClick={() => handleEdit(record)}>
+      <CRow alt={idx % 2 === 1}>
         <CCell bold>{name}</CCell>
-        <CCell>{phone}</CCell>
-        <CCell>{area}</CCell>
-        <CCell><RCardStatus active={status !== "inactive"} compact>
-          {status !== "inactive" ? "Active" : "Inactive"}
-        </RCardStatus></CCell>
+        <CCell>{address}</CCell>
+        <CCell>{record.dayAssigned || "—"}</CCell>
+        <CCell>{record.assignedTo?.name || "—"}</CCell>
+        <CCell>
+          <RCardStatus active={status === "ACTIVE"} compact>{status}</RCardStatus>
+        </CCell>
       </CRow>
     );
   };
@@ -181,7 +160,7 @@ const RetailerList = () => {
         <StatsGrid>
           <StatCard accent="var(--nb-blue)"><div className="val">{stats.total}</div><div className="lbl">Total Retailers</div></StatCard>
           <StatCard accent="var(--nb-blue-medium)"><div className="val">{stats.active}</div><div className="lbl">Active</div></StatCard>
-          <StatCard accent="var(--nb-border)"><div className="val">{stats.inactive}</div><div className="lbl">Inactive</div></StatCard>
+          <StatCard accent="var(--nb-orange)"><div className="val">{stats.pending}</div><div className="lbl">Pending</div></StatCard>
           <StatCard accent="var(--nb-blue)"><div className="val">{stats.recent}</div><div className="lbl">Added This Month</div></StatCard>
         </StatsGrid>
 
@@ -220,45 +199,63 @@ const RetailerList = () => {
             <p>{searchTerm || filterStatus !== "all" ? "No retailers match your search/filter" : "No retailers yet"}</p>
             <AddBtn onClick={handleAddNew} style={{ marginTop: "0.5rem" }}><FaUserPlus /> Add First Retailer</AddBtn>
           </EmptyState>
-        ) : viewMode === "table" ? (
-          <DynamicTable
-            moduleDefinition={moduleDefinition}
-            records={filteredRecords}
-            onRowClick={handleEdit}
-          />
         ) : viewMode === "cards" ? (
           <CardsGrid>
             {filteredRecords.map((r) => <RecordCard key={r._id} record={r} />)}
           </CardsGrid>
+        ) : viewMode === "compact" ? (
+          <TableWrapper>
+            <CompactTable>
+              <CHead>
+                <tr>
+                  <CTh onClick={() => handleSort("name")} style={{ cursor: "pointer" }}>
+                    Name {sortField === "name" ? (sortDir === "asc" ? <FaSortUp /> : <FaSortDown />) : <FaSort style={{ opacity: 0.3 }} />}
+                  </CTh>
+                  <CTh>Address</CTh>
+                  <CTh>Day</CTh>
+                  <CTh>Assigned To</CTh>
+                  <CTh>Status</CTh>
+                </tr>
+              </CHead>
+              <tbody>
+                {filteredRecords.map((r, i) => <CompactRow key={r._id} record={r} idx={i} />)}
+              </tbody>
+            </CompactTable>
+          </TableWrapper>
         ) : (
-          <CompactTable>
-            <CHead>
-              <tr>
-                <CTh onClick={() => handleSort("name")} style={{ cursor: "pointer" }}>
-                  Name {sortField === "name" ? (sortDir === "asc" ? <FaSortUp /> : <FaSortDown />) : <FaSort style={{ opacity: 0.3 }} />}
-                </CTh>
-                <CTh>Phone</CTh>
-                <CTh>Area</CTh>
-                <CTh>Status</CTh>
-              </tr>
-            </CHead>
-            <tbody>
-              {filteredRecords.map((r, i) => <CompactRow key={r._id} record={r} idx={i} />)}
-            </tbody>
-          </CompactTable>
-        )}
-
-        {/* Modal */}
-        {showForm && (
-          <ModalOverlay>
-            <ModalContent>
-              <RetailerForm
-                record={editingRecord}
-                onClose={handleFormClose}
-                onSuccess={handleFormSuccess}
-              />
-            </ModalContent>
-          </ModalOverlay>
+          /* Default table view */
+          <TableWrapper>
+            <CompactTable>
+              <CHead>
+                <tr>
+                  <CTh onClick={() => handleSort("name")} style={{ cursor: "pointer" }}>
+                    Name {sortField === "name" ? (sortDir === "asc" ? <FaSortUp /> : <FaSortDown />) : <FaSort style={{ opacity: 0.3 }} />}
+                  </CTh>
+                  <CTh>Address 1</CTh>
+                  <CTh>Address 2</CTh>
+                  <CTh>Collection Day</CTh>
+                  <CTh>Assigned To</CTh>
+                  <CTh>Status</CTh>
+                </tr>
+              </CHead>
+              <tbody>
+                {filteredRecords.map((r, i) => (
+                  <CRow key={r._id} alt={i % 2 === 1}>
+                    <CCell bold>{r.name || "—"}</CCell>
+                    <CCell>{r.address1 || "—"}</CCell>
+                    <CCell>{r.address2 || "—"}</CCell>
+                    <CCell>{r.dayAssigned || "—"}</CCell>
+                    <CCell>{r.assignedTo?.name || "—"}</CCell>
+                    <CCell>
+                      <RCardStatus active={r.status === "ACTIVE"} compact>
+                        {r.status || "ACTIVE"}
+                      </RCardStatus>
+                    </CCell>
+                  </CRow>
+                ))}
+              </tbody>
+            </CompactTable>
+          </TableWrapper>
         )}
       </PageWrapper>
     </Layout>
@@ -267,7 +264,12 @@ const RetailerList = () => {
 
 /* ================================================================ STYLED COMPONENTS ================================================================ */
 
-const PageWrapper = styled.div`padding: 1.5rem 2rem; min-height: 100vh; background: var(--nb-white);`;
+const PageWrapper = styled.div`
+  padding: 1rem;
+  min-height: 100vh;
+  background: var(--nb-white);
+  @media (min-width: 768px) { padding: 1.5rem 2rem; }
+`;
 
 const PageHeaderBar = styled.div`
   display: flex; align-items: center; flex-wrap: wrap; gap: 1rem;
@@ -395,10 +397,20 @@ const RCardStatus = styled.span`
 `;
 
 /* Compact table */
+const TableWrapper = styled.div`
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 2px solid var(--nb-border);
+  border-radius: var(--nb-radius);
+  box-shadow: var(--nb-shadow-md);
+`;
+
 const CompactTable = styled.table`
-  width: 100%; border-collapse: collapse;
-  background: var(--nb-white); border: 2px solid var(--nb-border); border-radius: var(--nb-radius);
-  box-shadow: var(--nb-shadow-md); overflow: hidden;
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  background: var(--nb-white);
+  overflow: hidden;
 `;
 
 const CHead = styled.thead``;
@@ -420,18 +432,6 @@ const CRow = styled.tr`
 const CCell = styled.td`
   font-size: 0.875rem; color: var(--nb-ink);
   font-weight: ${(p) => (p.bold ? "600" : "400")};
-`;
-
-/* Modal */
-const ModalOverlay = styled.div`
-  position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-  display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 1rem;
-`;
-
-const ModalContent = styled.div`
-  background: var(--nb-white); padding: 2rem; border-radius: var(--nb-radius);
-  border: 2px solid var(--nb-border); box-shadow: var(--nb-shadow-lg);
-  width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;
 `;
 
 const LoadingState = styled.div`

@@ -11,9 +11,9 @@ const moment = require('moment');
 
 router.get('/dashboard', protect, adminOnly, async (req, res) => {
   try {
-    const today = new Date();
-    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
-    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+    // Use UTC day boundaries so they align with collectedOn dates stored as UTC midnight
+    const startOfDay = moment.utc().startOf('day').toDate();
+    const endOfDay = moment.utc().endOf('day').toDate();
 
     // Get unpaid or partially paid bills (dueDate removed from model)
     const billsDueToday = await Bill.find({
@@ -112,13 +112,14 @@ router.get('/dashboard', protect, adminOnly, async (req, res) => {
 // Helper functions for collection trends
 async function getDailyCollectionTrends() {
   const hours = [8, 10, 12, 14, 16, 18]; // 8AM to 6PM in 2-hour intervals
-  const today = moment().startOf('day');
+  // Use UTC startOf day to match how collectedOn is stored
+  const todayBase = moment.utc().startOf('day');
   const labels = [];
   const data = [];
 
   for (const hour of hours) {
-    const start = moment(today).add(hour, 'hours');
-    const end = moment(start).add(2, 'hours');
+    const start = todayBase.clone().add(hour, 'hours');
+    const end = start.clone().add(2, 'hours');
     
     const collections = await Collection.find({
       collectedOn: {
@@ -141,13 +142,14 @@ async function getWeeklyCollectionTrends() {
   const data = [];
   const days = 7;
 
-  // Start from beginning of current week (Sunday)
-  const weekStart = moment().startOf('week');
+  // Use UTC week start to match collectedOn stored as UTC midnight
+  const weekStart = moment.utc().startOf('week');
   
   for (let i = 0; i < days; i++) {
-    const day = moment(weekStart).add(i, 'days');
-    const start = day.startOf('day');
-    const end = day.endOf('day');
+    const dayBase = weekStart.clone().add(i, 'days');
+    // Clone before calling startOf/endOf to avoid mutating dayBase
+    const start = dayBase.clone().startOf('day');
+    const end = dayBase.clone().endOf('day');
     
     const collections = await Collection.find({
       collectedOn: {
@@ -158,7 +160,7 @@ async function getWeeklyCollectionTrends() {
 
     const total = collections.reduce((sum, collection) => sum + collection.amountCollected, 0);
     
-    labels.push(day.format('ddd'));
+    labels.push(dayBase.format('ddd'));
     data.push(total);
   }
 
@@ -171,8 +173,9 @@ async function getMonthlyCollectionTrends() {
   const weeks = 4;
 
   for (let i = weeks - 1; i >= 0; i--) {
-    const weekStart = moment().subtract(i, 'weeks').startOf('week');
-    const weekEnd = moment(weekStart).endOf('week');
+    // Clone before startOf/endOf to avoid mutation
+    const weekStart = moment.utc().subtract(i, 'weeks').startOf('week');
+    const weekEnd = weekStart.clone().endOf('week');
     
     const collections = await Collection.find({
       collectedOn: {
@@ -278,13 +281,13 @@ async function getOutstandingDSRs() {
 // Helper functions for bill trends
 async function getDailyBillTrends() {
   const hours = [8, 10, 12, 14, 16, 18]; // 8AM to 6PM in 2-hour intervals
-  const today = moment().startOf('day');
+  const todayBase = moment.utc().startOf('day');
   const labels = [];
   const data = [];
 
   for (const hour of hours) {
-    const start = moment(today).add(hour, 'hours');
-    const end = moment(start).add(2, 'hours');
+    const start = todayBase.clone().add(hour, 'hours');
+    const end = start.clone().add(2, 'hours');
     
     const bills = await Bill.find({
       createdAt: {
@@ -308,13 +311,13 @@ async function getWeeklyBillTrends() {
   const data = [];
   const days = 7;
 
-  // Start from beginning of current week (Sunday)
-  const weekStart = moment().startOf('week');
+  // Use UTC week start
+  const weekStart = moment.utc().startOf('week');
   
   for (let i = 0; i < days; i++) {
-    const day = moment(weekStart).add(i, 'days');
-    const start = day.startOf('day');
-    const end = day.endOf('day');
+    const dayBase = weekStart.clone().add(i, 'days');
+    const start = dayBase.clone().startOf('day');
+    const end = dayBase.clone().endOf('day');
     
     const bills = await Bill.find({
       createdAt: {
@@ -326,7 +329,7 @@ async function getWeeklyBillTrends() {
 
     const total = bills.reduce((sum, bill) => sum + bill.amount, 0);
     
-    labels.push(day.format('ddd'));
+    labels.push(dayBase.format('ddd'));
     data.push(total);
   }
 
@@ -339,8 +342,8 @@ async function getMonthlyBillTrends() {
   const weeks = 4;
 
   for (let i = weeks - 1; i >= 0; i--) {
-    const weekStart = moment().subtract(i, 'weeks').startOf('week');
-    const weekEnd = moment(weekStart).endOf('week');
+    const weekStart = moment.utc().subtract(i, 'weeks').startOf('week');
+    const weekEnd = weekStart.clone().endOf('week');
     
     const bills = await Bill.find({
       createdAt: {

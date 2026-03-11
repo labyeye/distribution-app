@@ -408,7 +408,7 @@ const AdminDashboard = () => {
         ) : (
           <>
             <MetricsGrid>
-              <MetricCard color="var(--nb-blue)">
+              <MetricCard>
                 <div className="icon-container">
                   <FaFileInvoiceDollar size={20} />
                 </div>
@@ -418,7 +418,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-blue-light)">
+              <MetricCard >
                 <div className="icon-container">
                   <FaMoneyBillWave size={20} />
                 </div>
@@ -428,7 +428,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-blue-medium)">
+              <MetricCard >
                 <div className="icon-container">
                   <FaListAlt size={20} />
                 </div>
@@ -438,7 +438,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-blue)">
+              <MetricCard >
                 <div className="icon-container">
                   <FaUserTie size={20} />
                 </div>
@@ -448,7 +448,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-blue)">
+              <MetricCard >
                 <div className="icon-container">
                   <FaStore size={20} />
                 </div>
@@ -458,7 +458,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-blue)">
+              <MetricCard >
                 <div className="icon-container">
                   <FaTruck size={20} />
                 </div>
@@ -468,7 +468,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-blue-light)">
+              <MetricCard >
                 <div className="icon-container">
                   <FaHourglassHalf size={20} />
                 </div>
@@ -478,7 +478,7 @@ const AdminDashboard = () => {
                 </div>
               </MetricCard>
 
-              <MetricCard color="var(--nb-blue-medium)">
+              <MetricCard >
                 <div className="icon-container">
                   <FaBoxes size={20} />
                 </div>
@@ -1015,9 +1015,6 @@ const MetricCard = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  border-left: 4px solid ${(props) => props.color};
-  border: 1px solid var(--nb-border);
-  border-left: 4px solid ${(props) => props.color};
   transition: all 0.3s ease;
   min-height: 90px;
   backdrop-filter: blur(10px);
