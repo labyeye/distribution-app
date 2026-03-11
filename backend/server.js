@@ -1,3 +1,11 @@
+// Node 20+ removed `SlowBuffer`, but some deep deps (e.g. buffer-equal-constant-time
+// via jsonwebtoken/jwa) still expect `require('buffer').SlowBuffer` to exist.
+// Patch the built-in buffer module before anything else is required.
+const nodeBuffer = require("buffer");
+if (!nodeBuffer.SlowBuffer) {
+  nodeBuffer.SlowBuffer = nodeBuffer.Buffer;
+}
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
