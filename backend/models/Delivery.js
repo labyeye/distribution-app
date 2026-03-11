@@ -65,7 +65,7 @@ const DeliverySchema = new mongoose.Schema(
           ref: "Order",
         },
         orderNumber: {
-          type: String, // We can store the display ID here (e.g. last 6 chars) or full ID
+          type: String,
           required: true,
           trim: true,
         },
@@ -74,6 +74,18 @@ const DeliverySchema = new mongoose.Schema(
           required: true,
           min: 0,
         },
+        // Partial delivery: item-wise quantities to deliver
+        deliveredItems: [
+          {
+            productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+            name: { type: String },
+            code: { type: String },
+            orderedQty: { type: Number, default: 0 },
+            deliverQty: { type: Number, default: 0 },
+            netPrice: { type: Number, default: 0 },
+            totalSale: { type: Number, default: 0 },
+          },
+        ],
       },
     ],
 

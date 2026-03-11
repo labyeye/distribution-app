@@ -772,7 +772,7 @@ const TimeRangeButton = styled.button`
 
   &:hover {
     transform: scale(1.05);
-    border-color: var(--nb-blue-medium);
+    border-color: var(--nb-orange);
     box-shadow: var(--nb-shadow-lg);
   }
 
@@ -1008,7 +1008,7 @@ const MetricsGrid = styled.div`
 `;
 
 const MetricCard = styled.div`
-  background: var(--nb-cream);
+  background: #ffffff;
   border-radius: 0.75rem;
   padding: 1.25rem;
   box-shadow: var(--nb-shadow-md);
@@ -1021,49 +1021,21 @@ const MetricCard = styled.div`
   position: relative;
   overflow: hidden;
 
-  /* Glow effect on left border */
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 4px;
-    height: 100%;
-    background: ${(props) => props.color};
-    box-shadow: var(--nb-shadow-md);
-  }
-
-  &:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: var(--nb-shadow-md);
-    border-color: ${(props) => props.color};
-  }
 
   .icon-container {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: ${(props) => `${props.color}25`};
+    background: ${(props) => `${props.color || 'var(--nb-blue)'}25`};
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     transition: all 0.3s ease;
 
-    /* Icon glow */
-    &::after {
-      content: '';
-      position: absolute;
-      inset: -5px;
-      border-radius: 50%;
-      background: ${(props) => props.color};
-      opacity: 0;
-      filter: blur(10px);
-      transition: opacity 0.3s ease;
-    }
 
     svg {
-      color: ${(props) => props.color};
+      color: ${(props) => props.color || 'var(--nb-blue)'};
       position: relative;
       z-index: 1;
       transition: all 0.3s ease;

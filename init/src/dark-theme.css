@@ -4,16 +4,16 @@
    ==================================== */
 
 :root {
-  /* Primary Color Palette */
-  --nb-white: #E9E3DF;        /* Lightest - Main backgrounds */
-  --nb-cream: #E9E3DF;         /* Light - Cards, panels, sidebars */
-  --nb-muted: #E9E3DF;         /* Light - Secondary backgrounds */
-  --nb-blue: #465C88;          /* Medium - Buttons, interactive elements */
-  --nb-blue-light: #E9E3DF;    /* Light - Lighter accents */
-  --nb-blue-medium: #465C88;   /* Medium - Active states, highlights */
-  --nb-orange: #FF7A30;        /* Accent - Highlights, CTAs */
-  --nb-ink: #000000;           /* Dark - Primary text */
-  --nb-border: #000000;        /* Dark - Borders and dividers */
+  /* Primary Color Palette — #000000 | #14213d | #fca311 | #e5e5e5 | #ffffff */
+  --nb-white: #ffffff;         /* Lightest - Main backgrounds */
+  --nb-cream: #ffffff;         /* Light - Cards, panels, sidebars */
+  --nb-muted: #e5e5e5;         /* Light - Secondary backgrounds */
+  --nb-blue: #14213d;          /* Navy - Buttons, interactive elements */
+  --nb-blue-light: #e5e5e5;    /* Light - Lighter accents */
+  --nb-blue-medium: #14213d;   /* Navy - Active states, highlights */
+  --nb-orange: #fca311;        /* Amber - Highlights, CTAs */
+  --nb-ink: #000000;           /* Black - Primary text */
+  --nb-border: #000000;        /* Black - Borders and dividers */
   
   /* Shadows using the dark color */
   --nb-shadow-sm: 2px 2px 0 #000000;

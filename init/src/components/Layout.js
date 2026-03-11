@@ -23,6 +23,16 @@ import {
   FaCogs,
   FaBars,
   FaTimes,
+  FaFileAlt,
+  FaWallet,
+  FaClipboardList,
+  FaUserTie,
+  FaRoute,
+  FaLayerGroup,
+  FaReceipt,
+  FaChartLine,
+  FaUsersCog,
+  FaIdBadge,
 } from "react-icons/fa";
 
 const Layout = ({ children }) => {
@@ -39,6 +49,9 @@ const Layout = ({ children }) => {
     salary: false,
     attendance: false,
     logistics: false,
+    reports: false,
+    hrstaff: false,
+    finance: false,
   });
 
   const handleLogout = () => {
@@ -77,210 +90,175 @@ const Layout = ({ children }) => {
           </CloseBtn>
         </LogoContainer>
         <NavMenu>
-          {/* Dashboard */}
+
+          {/* ── DASHBOARD ─────────────────────────────────── */}
           <NavItem active={location.pathname === "/admin"} onClick={closeSidebar}>
             <FaTachometerAlt />
-            <span>{getModuleName("dashboard")}</span>
+            <span>Dashboard</span>
             <Link to="/admin" />
           </NavItem>
 
-          {/* Retailers Category */}
+          {/* ── SALES ─────────────────────────────────────── */}
+          <SectionLabel>Sales</SectionLabel>
+
           <NavCategory onClick={() => toggleDropdown("retailers")}>
             <CategoryHeader>
-              <CategoryIcon>
-                <FaStore />
-                <span>{getModuleName("retailer", "plural")}</span>
-              </CategoryIcon>
-              <ChevronIcon>
-                {openDropdowns.retailers ? <FaChevronDown /> : <FaChevronRight />}
-              </ChevronIcon>
+              <CategoryIcon><FaStore /><span>Retailers</span></CategoryIcon>
+              <ChevronIcon>{openDropdowns.retailers ? <FaChevronDown /> : <FaChevronRight />}</ChevronIcon>
             </CategoryHeader>
           </NavCategory>
           <DropdownMenu $isOpen={openDropdowns.retailers}>
             <NavItem active={location.pathname === "/admin/add-retailer"} onClick={closeSidebar}>
-              <FaPlusCircle />
-              <span>Add {getModuleName("retailer")}</span>
-              <Link to="/admin/add-retailer" />
+              <FaPlusCircle /><span>Add Retailer</span><Link to="/admin/add-retailer" />
             </NavItem>
             <NavItem active={location.pathname === "/admin/view-retailer"} onClick={closeSidebar}>
-              <FaList />
-              <span>{getModuleName("retailer")} Details</span>
-              <Link to="/admin/view-retailer" />
+              <FaList /><span>Retailer Directory</span><Link to="/admin/view-retailer" />
             </NavItem>
           </DropdownMenu>
 
-          {/* Products Category */}
-          <NavCategory onClick={() => toggleDropdown("products")}>
-            <CategoryHeader>
-              <CategoryIcon>
-                <FaBoxes />
-                <span>{getModuleName("product", "plural")}</span>
-              </CategoryIcon>
-              <ChevronIcon>
-                {openDropdowns.products ? <FaChevronDown /> : <FaChevronRight />}
-              </ChevronIcon>
-            </CategoryHeader>
-          </NavCategory>
-          <DropdownMenu $isOpen={openDropdowns.products}>
-            <NavItem active={location.pathname === "/admin/add-product"} onClick={closeSidebar}>
-              <FaPlusCircle />
-              <span>Add {getModuleName("product")}</span>
-              <Link to="/admin/add-product" />
-            </NavItem>
-            <NavItem active={location.pathname === "/admin/view-product"} onClick={closeSidebar}>
-              <FaList />
-              <span>{getModuleName("product")} Details</span>
-              <Link to="/admin/view-product" />
-            </NavItem>
-          </DropdownMenu>
-
-          {/* Orders Category */}
           <NavCategory onClick={() => toggleDropdown("orders")}>
             <CategoryHeader>
-              <CategoryIcon>
-                <FaShoppingCart />
-                <span>{getModuleName("order", "plural")}</span>
-              </CategoryIcon>
-              <ChevronIcon>
-                {openDropdowns.orders ? <FaChevronDown /> : <FaChevronRight />}
-              </ChevronIcon>
+              <CategoryIcon><FaShoppingCart /><span>Orders</span></CategoryIcon>
+              <ChevronIcon>{openDropdowns.orders ? <FaChevronDown /> : <FaChevronRight />}</ChevronIcon>
             </CategoryHeader>
           </NavCategory>
           <DropdownMenu $isOpen={openDropdowns.orders}>
             <NavItem active={location.pathname === "/admin/order-list"} onClick={closeSidebar}>
-              <FaList />
-              <span>{getModuleName("order")} Details</span>
-              <Link to="/admin/order-list" />
+              <FaClipboardList /><span>Order Register</span><Link to="/admin/order-list" />
             </NavItem>
           </DropdownMenu>
 
-          {/* Collections Category */}
           <NavCategory onClick={() => toggleDropdown("collections")}>
             <CategoryHeader>
-              <CategoryIcon>
-                <FaFileInvoiceDollar />
-                <span>{getModuleName("collection", "plural")}</span>
-              </CategoryIcon>
-              <ChevronIcon>
-                {openDropdowns.collections ? <FaChevronDown /> : <FaChevronRight />}
-              </ChevronIcon>
+              <CategoryIcon><FaFileInvoiceDollar /><span>Billing &amp; Collections</span></CategoryIcon>
+              <ChevronIcon>{openDropdowns.collections ? <FaChevronDown /> : <FaChevronRight />}</ChevronIcon>
             </CategoryHeader>
           </NavCategory>
           <DropdownMenu $isOpen={openDropdowns.collections}>
-            <NavItem active={location.pathname === "/admin/bill-collection-history"} onClick={closeSidebar}>
-              <FaHistory />
-              <span>DSR Summary</span>
-              <Link to="/admin/bill-collection-history" />
-            </NavItem>
             <NavItem active={location.pathname === "/admin/bills-add"} onClick={closeSidebar}>
-              <FaPlusCircle />
-              <span>Add {getModuleName("bill", "plural")}</span>
-              <Link to="/admin/bills-add" />
+              <FaPlusCircle /><span>Raise Invoice</span><Link to="/admin/bills-add" />
             </NavItem>
             <NavItem active={location.pathname === "/admin/bills"} onClick={closeSidebar}>
-              <FaFileInvoiceDollar />
-              <span>{getModuleName("bill", "plural")}</span>
-              <Link to="/admin/bills" />
+              <FaReceipt /><span>Invoice Register</span><Link to="/admin/bills" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/reports"} onClick={closeSidebar}>
-              <FaChartBar />
-              <span>{getModuleName("report", "plural")}</span>
-              <Link to="/admin/reports" />
+            <NavItem active={location.pathname === "/admin/bill-collection-history"} onClick={closeSidebar}>
+              <FaChartBar /><span>DSR Summary</span><Link to="/admin/bill-collection-history" />
             </NavItem>
           </DropdownMenu>
 
-          {/* Salary & Advance Category */}
-          <NavCategory onClick={() => toggleDropdown("salary")}>
+          {/* ── INVENTORY ─────────────────────────────────── */}
+          <SectionLabel>Inventory</SectionLabel>
+
+          <NavCategory onClick={() => toggleDropdown("products")}>
             <CategoryHeader>
-              <CategoryIcon>
-                <FaMoneyBillWave />
-                <span>Salary &amp; Advance</span>
-              </CategoryIcon>
-              <ChevronIcon>
-                {openDropdowns.salary ? <FaChevronDown /> : <FaChevronRight />}
-              </ChevronIcon>
+              <CategoryIcon><FaBoxes /><span>Products</span></CategoryIcon>
+              <ChevronIcon>{openDropdowns.products ? <FaChevronDown /> : <FaChevronRight />}</ChevronIcon>
             </CategoryHeader>
           </NavCategory>
-          <DropdownMenu $isOpen={openDropdowns.salary}>
-            <NavItem active={location.pathname === "/admin/salary"} onClick={closeSidebar}>
-              <FaMoneyBillWave />
-              <span>{getModuleName("salary")}</span>
-              <Link to="/admin/salary" />
+          <DropdownMenu $isOpen={openDropdowns.products}>
+            <NavItem active={location.pathname === "/admin/add-product"} onClick={closeSidebar}>
+              <FaPlusCircle /><span>Add Product</span><Link to="/admin/add-product" />
             </NavItem>
-            <NavItem active={location.pathname === "/admin/advances"} onClick={closeSidebar}>
-              <FaPlusCircle />
-              <span>{getModuleName("advance", "plural")}</span>
-              <Link to="/admin/advances" />
-            </NavItem>
-            <NavItem active={location.pathname === "/admin/salary-ledger"} onClick={closeSidebar}>
-              <FaBook />
-              <span>Salary Ledger</span>
-              <Link to="/admin/salary-ledger" />
+            <NavItem active={location.pathname === "/admin/view-product"} onClick={closeSidebar}>
+              <FaList /><span>Product Catalogue</span><Link to="/admin/view-product" />
             </NavItem>
           </DropdownMenu>
 
-          {/* Attendance */}
-          <NavItem active={location.pathname === "/admin/attendance"} onClick={closeSidebar}>
-            <FaCalendarCheck />
-            <span>{getModuleName("attendance")}</span>
-            <Link to="/admin/attendance" />
-          </NavItem>
+          {/* ── LOGISTICS ─────────────────────────────────── */}
+          <SectionLabel>Logistics</SectionLabel>
 
-          {/* Logistics & Distribution */}
           <NavCategory onClick={() => toggleDropdown("logistics")}>
             <CategoryHeader>
-              <CategoryIcon>
-                <FaTruck />
-                <span>Logistics &amp; Distribution</span>
-              </CategoryIcon>
-              <ChevronIcon>
-                {openDropdowns.logistics ? <FaChevronDown /> : <FaChevronRight />}
-              </ChevronIcon>
+              <CategoryIcon><FaTruck /><span>Distribution</span></CategoryIcon>
+              <ChevronIcon>{openDropdowns.logistics ? <FaChevronDown /> : <FaChevronRight />}</ChevronIcon>
             </CategoryHeader>
           </NavCategory>
           <DropdownMenu $isOpen={openDropdowns.logistics}>
-            <NavItem active={location.pathname === "/admin/delivery-tracking"} onClick={closeSidebar}>
-              <FaTruck />
-              <span>Delivery Tracking</span>
-              <Link to="/admin/delivery-tracking" />
-            </NavItem>
             <NavItem active={location.pathname === "/admin/delivery-create"} onClick={closeSidebar}>
-              <FaPlusCircle />
-              <span>Create Delivery</span>
-              <Link to="/admin/delivery-create" />
+              <FaPlusCircle /><span>New Dispatch</span><Link to="/admin/delivery-create" />
+            </NavItem>
+            <NavItem active={location.pathname === "/admin/delivery-tracking"} onClick={closeSidebar}>
+              <FaRoute /><span>Live Tracking</span><Link to="/admin/delivery-tracking" />
             </NavItem>
             <NavItem active={location.pathname === "/admin/delivery-history"} onClick={closeSidebar}>
-              <FaHistory />
-              <span>Delivery History</span>
-              <Link to="/admin/delivery-history" />
+              <FaHistory /><span>Dispatch History</span><Link to="/admin/delivery-history" />
             </NavItem>
           </DropdownMenu>
 
-          {/* Users */}
-          <NavItem active={location.pathname === "/admin/users"} onClick={closeSidebar}>
-            <FaUsers />
-            <span>{getModuleName("user", "plural")}</span>
-            <Link to="/admin/users" />
-          </NavItem>
+          {/* ── FINANCE ───────────────────────────────────── */}
+          <SectionLabel>Finance</SectionLabel>
 
-          {/* Settings */}
+          <NavCategory onClick={() => toggleDropdown("finance")}>
+            <CategoryHeader>
+              <CategoryIcon><FaMoneyBillWave /><span>Payroll</span></CategoryIcon>
+              <ChevronIcon>{openDropdowns.finance ? <FaChevronDown /> : <FaChevronRight />}</ChevronIcon>
+            </CategoryHeader>
+          </NavCategory>
+          <DropdownMenu $isOpen={openDropdowns.finance}>
+            <NavItem active={location.pathname === "/admin/salary"} onClick={closeSidebar}>
+              <FaMoneyBillWave /><span>Process Salary</span><Link to="/admin/salary" />
+            </NavItem>
+            <NavItem active={location.pathname === "/admin/advances"} onClick={closeSidebar}>
+              <FaWallet /><span>Advance Register</span><Link to="/admin/advances" />
+            </NavItem>
+            <NavItem active={location.pathname === "/admin/salary-ledger"} onClick={closeSidebar}>
+              <FaBook /><span>Salary Ledger</span><Link to="/admin/salary-ledger" />
+            </NavItem>
+          </DropdownMenu>
+
+          {/* ── HR / STAFF ────────────────────────────────── */}
+          <SectionLabel>HR &amp; Staff</SectionLabel>
+
+          <NavCategory onClick={() => toggleDropdown("hrstaff")}>
+            <CategoryHeader>
+              <CategoryIcon><FaUserTie /><span>Staff Management</span></CategoryIcon>
+              <ChevronIcon>{openDropdowns.hrstaff ? <FaChevronDown /> : <FaChevronRight />}</ChevronIcon>
+            </CategoryHeader>
+          </NavCategory>
+          <DropdownMenu $isOpen={openDropdowns.hrstaff}>
+            <NavItem active={location.pathname === "/admin/attendance"} onClick={closeSidebar}>
+              <FaCalendarCheck /><span>Attendance</span><Link to="/admin/attendance" />
+            </NavItem>
+            <NavItem active={location.pathname === "/admin/users"} onClick={closeSidebar}>
+              <FaIdBadge /><span>Staff Directory</span><Link to="/admin/users" />
+            </NavItem>
+          </DropdownMenu>
+
+          {/* ── REPORTS ───────────────────────────────────── */}
+          <SectionLabel>Reports</SectionLabel>
+
+          <NavCategory onClick={() => toggleDropdown("reports")}>
+            <CategoryHeader>
+              <CategoryIcon><FaChartLine /><span>Analytics &amp; Reports</span></CategoryIcon>
+              <ChevronIcon>{openDropdowns.reports ? <FaChevronDown /> : <FaChevronRight />}</ChevronIcon>
+            </CategoryHeader>
+          </NavCategory>
+          <DropdownMenu $isOpen={openDropdowns.reports}>
+            <NavItem active={location.pathname === "/admin/tally-reports"} onClick={closeSidebar}>
+              <FaLayerGroup /><span>Tally Reports</span><Link to="/admin/tally-reports" />
+            </NavItem>
+            <NavItem active={location.pathname === "/admin/reports"} onClick={closeSidebar}>
+              <FaFileAlt /><span>Collection Reports</span><Link to="/admin/reports" />
+            </NavItem>
+          </DropdownMenu>
+
+          {/* ── ADMINISTRATION ────────────────────────────── */}
+          <SectionLabel>Administration</SectionLabel>
+
           <NavItem active={location.pathname === "/admin/settings"} onClick={closeSidebar}>
-            <FaCogs />
-            <span>Settings</span>
-            <Link to="/admin/settings" />
+            <FaCogs /><span>Settings</span><Link to="/admin/settings" />
           </NavItem>
 
-          {/* Logout */}
           <NavItem onClick={handleLogout}>
-            <FaSignOutAlt />
-            <span>Logout</span>
+            <FaSignOutAlt /><span>Logout</span>
           </NavItem>
+
         </NavMenu>
         <UserProfile>
           <img
             src={`https://ui-avatars.com/api/?name=${
               user?.name || "Admin"
-            }&background=465c88&color=ffffff`}
+            }&background=14213d&color=ffffff`}
             alt="User"
           />
           <div>
@@ -426,6 +404,25 @@ const CloseBtn = styled.button`
 
   @media (max-width: 768px) {
     display: flex;
+  }
+`;
+
+const SectionLabel = styled.li`
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--nb-ink, #8b949e);
+  padding: 18px 20px 5px 20px;
+  margin-top: 4px;
+  opacity: 0.55;
+  list-style: none;
+  pointer-events: none;
+  user-select: none;
+
+  &:first-child {
+    padding-top: 8px;
+    margin-top: 0;
   }
 `;
 

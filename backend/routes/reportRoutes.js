@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Bill = require("../models/Bill");
 const Collection = require("../models/Collection");
+const Delivery = require("../models/Delivery");
+const Retailer = require("../models/Retailer");
+const User = require("../models/User");
+const Attendance = require("../models/Attendance");
+const Salary = require("../models/Salary");
+const Advance = require("../models/Advance");
 const { protect, adminOnly } = require("../middleware/authMiddleware");
 const exceljs = require("exceljs");
 const PDFDocument = require("pdfkit");
@@ -1167,6 +1173,448 @@ router.get("/export/excel", protect, adminOnly, async (req, res) => {
       message: "Error exporting to Excel",
       error: err.message,
     });
+  }
+});
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TALLY-STYLE REPORT ROUTES
+// ─────────────────────────────────────────────────────────────────────────────
+
+// GET /api/reports/tally/retailers  – list all retailers for selector
+router.get("/tally/retailers", protect, adminOnly, async (req, res) => {
+  try {
+    const retailers = await Retailer.find({ status: "ACTIVE" })
+      .select("_id name address1")
+      .sort({ name: 1 });
+    res.json({ success: true, data: retailers });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/reports/tally/staff  – list all staff for selector
+router.get("/tally/staff", protect, adminOnly, async (req, res) => {
+  try {
+    const staff = await User.find({ role: "staff", isActive: true })
+      .select("_id name email")
+      .sort({ name: 1 });
+    res.json({ success: true, data: staff });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/reports/tally/retailer-report?retailerId=&startDate=&endDate=
+router.get("/tally/retailer-report", protect, adminOnly, async (req, res) => {
+  try {
+    const { retailerId, startDate, endDate } = req.query;
+    if (!retailerId) return res.status(400).json({ success: false, message: "retailerId required" });
+
+    const start = startDate ? startOfDay(new Date(startDate)) : startOfDay(new Date());
+    const end = endDate ? endOfDay(new Date(endDate)) : endOfDay(new Date());
+
+    const retailer = await Retailer.findById(retailerId).lean();
+    if (!retailer) return res.status(404).json({ success: false, message: "Retailer not found" });
+
+    const bills = await Bill.find({
+      retailer: retailer.name,
+      billDate: { $gte: start, $lte: end },
+    })
+      .populate("assignedTo", "name")
+      .populate({
+        path: "collections",
+        populate: { path: "collectedBy", select: "name" },
+      })
+      .sort({ billDate: 1 })
+      .lean();
+
+    let totalBillAmount = 0;
+    let totalCollected = 0;
+    let totalDue = 0;
+
+    const rows = bills.map((bill) => {
+      const collected = (bill.collections || []).reduce((s, c) => s + (c.amountCollected || 0), 0);
+      totalBillAmount += bill.amount || 0;
+      totalCollected += collected;
+      totalDue += bill.dueAmount || 0;
+      return {
+        billNumber: bill.billNumber,
+        billDate: bill.billDate,
+        amount: bill.amount || 0,
+        collected,
+        dueAmount: bill.dueAmount || 0,
+        status: bill.status,
+        assignedTo: bill.assignedTo?.name || "N/A",
+        collections: (bill.collections || []).map((c) => ({
+          date: c.collectedOn,
+          amount: c.amountCollected,
+          mode: c.paymentMode,
+          collectedBy: c.collectedBy?.name || "N/A",
+        })),
+      };
+    });
+
+    res.json({
+      success: true,
+      retailer: { name: retailer.name, address: retailer.address1 },
+      period: { start, end },
+      summary: { totalBillAmount, totalCollected, totalDue },
+      data: rows,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/reports/tally/staff-report?staffId=&startDate=&endDate=
+router.get("/tally/staff-report", protect, adminOnly, async (req, res) => {
+  try {
+    const { staffId, startDate, endDate } = req.query;
+    if (!staffId) return res.status(400).json({ success: false, message: "staffId required" });
+
+    const start = startDate ? startOfDay(new Date(startDate)) : startOfDay(new Date());
+    const end = endDate ? endOfDay(new Date(endDate)) : endOfDay(new Date());
+
+    const staff = await User.findById(staffId).select("name email").lean();
+    if (!staff) return res.status(404).json({ success: false, message: "Staff not found" });
+
+    // Bills assigned to this staff
+    const bills = await Bill.find({
+      assignedTo: staffId,
+      billDate: { $gte: start, $lte: end },
+    })
+      .populate({
+        path: "collections",
+        populate: { path: "collectedBy", select: "name" },
+      })
+      .sort({ billDate: 1 })
+      .lean();
+
+    // Collections made by this staff
+    const collections = await Collection.find({
+      collectedBy: staffId,
+      collectedOn: { $gte: start, $lte: end },
+    })
+      .populate({ path: "bill", select: "billNumber retailer amount dueAmount billDate" })
+      .sort({ collectedOn: 1 })
+      .lean();
+
+    let totalAssigned = bills.length;
+    let totalCollectedAmount = 0;
+    let cash = 0, upi = 0, cheque = 0, bankTransfer = 0;
+
+    const collectionRows = collections.map((c) => {
+      totalCollectedAmount += c.amountCollected || 0;
+      const mode = (c.paymentMode || "").toLowerCase();
+      if (mode === "cash") cash += c.amountCollected || 0;
+      else if (mode === "upi") upi += c.amountCollected || 0;
+      else if (mode === "cheque") cheque += c.amountCollected || 0;
+      else if (mode === "bank_transfer") bankTransfer += c.amountCollected || 0;
+      return {
+        date: c.collectedOn,
+        retailer: c.bill?.retailer || "N/A",
+        billNumber: c.bill?.billNumber || "N/A",
+        amount: c.amountCollected,
+        mode: c.paymentMode,
+        paymentDetails: c.paymentDetails,
+      };
+    });
+
+    const billRows = bills.map((b) => ({
+      billNumber: b.billNumber,
+      retailer: b.retailer,
+      billDate: b.billDate,
+      amount: b.amount || 0,
+      dueAmount: b.dueAmount || 0,
+      status: b.status,
+    }));
+
+    res.json({
+      success: true,
+      staff: { name: staff.name, email: staff.email },
+      period: { start, end },
+      summary: {
+        totalAssigned,
+        totalCollectedAmount,
+        cash,
+        upi,
+        cheque,
+        bankTransfer,
+      },
+      collections: collectionRows,
+      bills: billRows,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/reports/tally/collection-report?startDate=&endDate=
+router.get("/tally/collection-report", protect, adminOnly, async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    const start = startDate ? startOfDay(new Date(startDate)) : startOfDay(new Date());
+    const end = endDate ? endOfDay(new Date(endDate)) : endOfDay(new Date());
+
+    const collections = await Collection.find({
+      collectedOn: { $gte: start, $lte: end },
+    })
+      .populate({ path: "bill", select: "billNumber retailer amount dueAmount billDate assignedTo" })
+      .populate("collectedBy", "name")
+      .sort({ collectedOn: 1 })
+      .lean();
+
+    let totalAmount = 0, cash = 0, upi = 0, cheque = 0, bankTransfer = 0;
+
+    const rows = collections.map((c) => {
+      const amt = c.amountCollected || 0;
+      totalAmount += amt;
+      const mode = (c.paymentMode || "").toLowerCase();
+      if (mode === "cash") cash += amt;
+      else if (mode === "upi") upi += amt;
+      else if (mode === "cheque") cheque += amt;
+      else if (mode === "bank_transfer") bankTransfer += amt;
+      return {
+        date: c.collectedOn,
+        retailer: c.bill?.retailer || "N/A",
+        billNumber: c.bill?.billNumber || "N/A",
+        amount: amt,
+        mode: c.paymentMode || "N/A",
+        collectedBy: c.collectedBy?.name || "System",
+        paymentDetails: c.paymentDetails || {},
+      };
+    });
+
+    res.json({
+      success: true,
+      period: { start, end },
+      summary: { totalAmount, cash, upi, cheque, bankTransfer, count: rows.length },
+      data: rows,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/reports/tally/delivery-report?startDate=&endDate=
+router.get("/tally/delivery-report", protect, adminOnly, async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    const start = startDate ? startOfDay(new Date(startDate)) : startOfDay(new Date());
+    const end = endDate ? endOfDay(new Date(endDate)) : endOfDay(new Date());
+
+    const deliveries = await Delivery.find({
+      dispatchDateTime: { $gte: start, $lte: end },
+    })
+      .sort({ dispatchDateTime: 1 })
+      .lean();
+
+    let totalDeliveries = deliveries.length;
+    let delivered = 0, inTransit = 0, pending = 0, cancelled = 0;
+    let totalOrderAmount = 0;
+
+    const rows = deliveries.map((d) => {
+      const orderAmt = (d.orders || []).reduce((s, o) => s + (o.orderAmount || 0), 0);
+      totalOrderAmount += orderAmt;
+      const status = d.deliveryStatus || "Pending";
+      if (status === "Delivered") delivered++;
+      else if (status === "In Transit") inTransit++;
+      else if (status === "Cancelled") cancelled++;
+      else pending++;
+      return {
+        dispatchDate: d.dispatchDateTime,
+        expectedDate: d.expectedDeliveryDate,
+        actualDate: d.actualDeliveryDateTime,
+        retailer: d.retailerName,
+        retailerAddress: d.retailerAddress,
+        driverName: d.driverName,
+        vehicleNumber: d.vehicleNumber,
+        vehicleType: d.vehicleType,
+        orders: (d.orders || []).map((o) => ({
+          orderNumber: o.orderNumber,
+          amount: o.orderAmount,
+          orderAmount: o.orderAmount,
+          deliveredItems: o.deliveredItems || [],
+        })),
+        totalOrderAmount: orderAmt,
+        status,
+        remarks: d.remarks,
+      };
+    });
+
+    res.json({
+      success: true,
+      period: { start, end },
+      summary: { totalDeliveries, delivered, inTransit, pending, cancelled, totalOrderAmount },
+      data: rows,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ─── GET /api/reports/tally/attendance-report ────────────────────────────────
+router.get("/tally/attendance-report", protect, adminOnly, async (req, res) => {
+  try {
+    const { staffId, startDate, endDate } = req.query;
+    const start = startDate ? new Date(startDate) : new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = endDate ? new Date(endDate) : new Date();
+    end.setHours(23, 59, 59, 999);
+
+    const query = { attendanceDate: { $gte: start, $lte: end } };
+    if (staffId) query.staffId = staffId;
+
+    const records = await Attendance.find(query).sort({ attendanceDate: 1, staffName: 1 }).lean();
+
+    const totals = { Present: 0, Absent: 0, "Half Day": 0, Leave: 0, totalHours: 0 };
+    records.forEach((r) => {
+      if (totals[r.status] !== undefined) totals[r.status]++;
+      totals.totalHours += r.workingHours || 0;
+    });
+
+    // group by staff if no staffId filter
+    const staffMap = {};
+    records.forEach((r) => {
+      if (!staffMap[r.staffName]) staffMap[r.staffName] = { name: r.staffName, records: [] };
+      staffMap[r.staffName].records.push({
+        date: r.attendanceDate,
+        status: r.status,
+        inTime: r.inTime,
+        outTime: r.outTime,
+        workingHours: r.workingHours,
+        remarks: r.remarks,
+      });
+    });
+
+    res.json({
+      success: true,
+      period: { start, end },
+      summary: totals,
+      data: Object.values(staffMap),
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ─── GET /api/reports/tally/salary-report ────────────────────────────────────
+router.get("/tally/salary-report", protect, adminOnly, async (req, res) => {
+  try {
+    const { staffId, month, year } = req.query;
+    const query = {};
+    if (staffId) query.staffId = staffId;
+    if (month) query.salaryMonth = Number(month);
+    if (year) query.salaryYear = Number(year);
+
+    const salaries = await Salary.find(query).sort({ salaryYear: -1, salaryMonth: -1, staffName: 1 }).lean();
+    const advances = staffId
+      ? await Advance.find({ staffId }).sort({ advanceDate: -1 }).lean()
+      : await Advance.find(month && year ? { adjustedMonth: Number(month), adjustedYear: Number(year) } : {}).sort({ advanceDate: -1 }).lean();
+
+    const totals = { basicSalary: 0, advanceDeducted: 0, netPayable: 0, paidAmount: 0, pending: 0 };
+    salaries.forEach((s) => {
+      totals.basicSalary += s.basicSalary || 0;
+      totals.advanceDeducted += s.advanceDeducted || 0;
+      totals.netPayable += s.netSalaryPayable || 0;
+      totals.paidAmount += s.paidAmount || 0;
+      totals.pending += (s.netSalaryPayable || 0) - (s.paidAmount || 0);
+    });
+
+    res.json({
+      success: true,
+      summary: totals,
+      data: salaries.map((s) => ({
+        staffName: s.staffName,
+        month: s.salaryMonth,
+        year: s.salaryYear,
+        basicSalary: s.basicSalary,
+        advanceDeducted: s.advanceDeducted,
+        netSalaryPayable: s.netSalaryPayable,
+        paidAmount: s.paidAmount,
+        paymentStatus: s.paymentStatus,
+        paymentMode: s.paymentMode,
+        paidDate: s.paidDate,
+        remarks: s.remarks,
+      })),
+      advances: advances.map((a) => ({
+        staffName: a.staffName,
+        date: a.advanceDate,
+        amount: a.advanceAmount,
+        reason: a.reason,
+        status: a.status,
+      })),
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ─── GET /api/reports/tally/logistics-report ─────────────────────────────────
+router.get("/tally/logistics-report", protect, adminOnly, async (req, res) => {
+  try {
+    const { startDate, endDate, vehicleType } = req.query;
+    const start = startDate ? new Date(startDate) : new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = endDate ? new Date(endDate) : new Date();
+    end.setHours(23, 59, 59, 999);
+
+    const query = { dispatchDateTime: { $gte: start, $lte: end } };
+    if (vehicleType) query.vehicleType = vehicleType;
+
+    const deliveries = await Delivery.find(query).sort({ dispatchDateTime: 1 }).lean();
+
+    const summary = { total: 0, delivered: 0, inTransit: 0, pending: 0, cancelled: 0, totalOrderValue: 0 };
+    const driverMap = {};
+
+    deliveries.forEach((d) => {
+      const orderAmt = (d.orders || []).reduce((s, o) => s + (o.orderAmount || 0), 0);
+      summary.total++;
+      summary.totalOrderValue += orderAmt;
+      const st = d.deliveryStatus || "Pending";
+      if (st === "Delivered") summary.delivered++;
+      else if (st === "In Transit") summary.inTransit++;
+      else if (st === "Cancelled") summary.cancelled++;
+      else summary.pending++;
+
+      if (!driverMap[d.driverName]) {
+        driverMap[d.driverName] = { name: d.driverName, mobile: d.driverMobile, trips: 0, value: 0, vehicles: new Set() };
+      }
+      driverMap[d.driverName].trips++;
+      driverMap[d.driverName].value += orderAmt;
+      driverMap[d.driverName].vehicles.add(d.vehicleNumber);
+    });
+
+    res.json({
+      success: true,
+      period: { start, end },
+      summary,
+      data: deliveries.map((d) => ({
+        dispatchDate: d.dispatchDateTime,
+        expectedDate: d.expectedDeliveryDate,
+        actualDate: d.actualDeliveryDateTime,
+        retailer: d.retailerName,
+        retailerAddress: d.retailerAddress,
+        driverName: d.driverName,
+        driverMobile: d.driverMobile,
+        vehicleNumber: d.vehicleNumber,
+        vehicleType: d.vehicleType,
+        orders: d.orders || [],
+        totalOrderAmount: (d.orders || []).reduce((s, o) => s + (o.orderAmount || 0), 0),
+        status: d.deliveryStatus,
+        remarks: d.remarks,
+      })),
+      driverSummary: Object.values(driverMap).map((d) => ({
+        name: d.name,
+        mobile: d.mobile,
+        trips: d.trips,
+        value: d.value,
+        vehicles: Array.from(d.vehicles).join(", "),
+      })),
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 });
 

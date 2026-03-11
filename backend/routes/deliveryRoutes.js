@@ -39,7 +39,7 @@ router.post("/", protect, async (req, res) => {
         .json({ message: "At least one order is required" });
     }
 
-    // Validate each order
+    // Validate each order and handle partial delivery quantities
     const validatedOrders = [];
     for (const orderData of orders) {
       const order = await Order.findById(orderData.orderId);
@@ -48,10 +48,44 @@ router.post("/", protect, async (req, res) => {
           .status(404)
           .json({ message: `Order ${orderData.orderNumber} not found` });
       }
+
+      // Build deliveredItems — use frontend-provided partial qtys or fall back to full order
+      let deliveredItems = [];
+      let orderAmount = 0;
+
+      if (orderData.deliveredItems && orderData.deliveredItems.length > 0) {
+        deliveredItems = orderData.deliveredItems.map((di) => {
+          const total = (di.deliverQty || 0) * (di.netPrice || 0);
+          orderAmount += total;
+          return {
+            productId: di.productId || null,
+            name: di.name,
+            code: di.code || "",
+            orderedQty: di.orderedQty,
+            deliverQty: di.deliverQty,
+            netPrice: di.netPrice,
+            totalSale: total,
+          };
+        });
+      } else {
+        // No partial info — use full order items
+        orderAmount = order.totalOrderValue;
+        deliveredItems = (order.items || []).map((item) => ({
+          productId: item.product,
+          name: item.name,
+          code: item.code || "",
+          orderedQty: item.quantity,
+          deliverQty: item.quantity,
+          netPrice: item.netPrice,
+          totalSale: item.totalSale,
+        }));
+      }
+
       validatedOrders.push({
         orderId: order._id,
-        orderNumber: order._id.toString().slice(-6), // Storing last 6 chars as display number
-        orderAmount: order.totalOrderValue,
+        orderNumber: order._id.toString().slice(-6),
+        orderAmount,
+        deliveredItems,
       });
     }
 

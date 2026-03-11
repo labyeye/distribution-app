@@ -39,6 +39,7 @@ import RetailerSettings from "./pages/RetailerSettings";
 import ModuleSettings from "./pages/ModuleSettings";
 import ModuleNameCustomization from "./pages/ModuleNameCustomization";
 import Settings from "./pages/Settings";
+import TallyReportPage from "./pages/TallyReportPage";
 
 // Helper: parse user/token from localStorage safely
 const getStoredAuth = () => {
@@ -267,6 +268,12 @@ const App = () => {
           path="/admin/reports"
           element={
             user?.role === "admin" ? <ReportPage /> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/admin/tally-reports"
+          element={
+            user?.role === "admin" ? <TallyReportPage /> : <Navigate to="/login" />
           }
         />
 

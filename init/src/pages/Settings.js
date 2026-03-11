@@ -54,7 +54,7 @@ const Container = styled.div`
 
 const Header = styled.div`
   padding: 2rem;
-  background: var(--nb-muted);
+  background: var(--nb-white);
   border-bottom: 2px solid var(--nb-border);
 `;
 
