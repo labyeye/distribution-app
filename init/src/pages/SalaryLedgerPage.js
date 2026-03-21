@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import Layout from "../components/Layout";
@@ -36,7 +36,7 @@ const SalaryLedgerPage = () => {
     }
   };
 
-  const fetchLedgerData = async () => {
+  const fetchLedgerData = useCallback(async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");

@@ -10,7 +10,6 @@ import {
   FaWallet,
   FaTruck,
   FaFileAlt,
-  FaChevronDown,
   FaPrint,
   FaSearch,
   FaSpinner,
@@ -166,7 +165,7 @@ const TallyReportPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [activeType, selectedRetailer, selectedStaff, startDate, endDate, filterMonth, filterYear, vehicleType]);
+  }, [activeType, selectedRetailer, selectedStaff, startDate, endDate, filterMonth, filterYear, vehicleType, retailers.length, staffList.length]);
 
   const handlePrint = () => window.print();
 
