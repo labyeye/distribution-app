@@ -49,7 +49,7 @@ const RetailerOrders = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [navigate]);
 
   const fetchProducts = async () => {
     try {

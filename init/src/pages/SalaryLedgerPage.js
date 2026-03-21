@@ -18,7 +18,7 @@ const SalaryLedgerPage = () => {
     if (selectedStaff) {
       fetchLedgerData();
     }
-  }, [selectedStaff, selectedYear]);
+  }, [selectedStaff, selectedYear, fetchLedgerData]);
 
   const fetchUsers = async () => {
     try {
@@ -89,7 +89,7 @@ const SalaryLedgerPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedStaff, selectedYear]);
 
   const getMonthName = (month) => {
     const months = [
