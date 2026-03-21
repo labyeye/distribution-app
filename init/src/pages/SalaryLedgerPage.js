@@ -14,12 +14,6 @@ const SalaryLedgerPage = () => {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    if (selectedStaff) {
-      fetchLedgerData();
-    }
-  }, [selectedStaff, selectedYear, fetchLedgerData]);
-
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -90,6 +84,12 @@ const SalaryLedgerPage = () => {
       setLoading(false);
     }
   }, [selectedStaff, selectedYear]);
+
+  useEffect(() => {
+    if (selectedStaff) {
+      fetchLedgerData();
+    }
+  }, [selectedStaff, selectedYear, fetchLedgerData]);
 
   const getMonthName = (month) => {
     const months = [

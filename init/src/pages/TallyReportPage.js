@@ -130,7 +130,7 @@ const TallyReportPage = () => {
     }
     setReportData(null);
     setError(null);
-  }, [activeType]);
+  }, [activeType, retailers.length, staffList.length]);
 
   const generate = useCallback(async () => {
     setLoading(true);
@@ -165,7 +165,7 @@ const TallyReportPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [activeType, selectedRetailer, selectedStaff, startDate, endDate, filterMonth, filterYear, vehicleType, retailers.length, staffList.length]);
+  }, [activeType, selectedRetailer, selectedStaff, startDate, endDate, filterMonth, filterYear, vehicleType]);
 
   const handlePrint = () => window.print();
 
@@ -184,7 +184,6 @@ const TallyReportPage = () => {
         windowHeight: element.scrollHeight,
       });
 
-      const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
       const pageW = pdf.internal.pageSize.getWidth();

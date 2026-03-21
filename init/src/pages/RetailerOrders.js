@@ -15,11 +15,6 @@ const RetailerOrders = () => {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchOrders();
-    fetchProducts();
-  }, [fetchOrders]);
-
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
@@ -62,6 +57,11 @@ const RetailerOrders = () => {
       console.error("Error fetching products:", error);
     }
   };
+
+  useEffect(() => {
+    fetchOrders();
+    fetchProducts();
+  }, [fetchOrders]);
 
   const handleAddItem = () => {
     setOrderItems([
